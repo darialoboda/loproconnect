@@ -1,0 +1,265 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@600&display=swap');
+
+/* Page Container */
+.about-page {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background-color: #000; /* Черный фон */
+}
+
+/* Main Content */
+.content {
+    max-width: 900px;
+    width: 100%;
+    background-color: #f9f9f9; /* Светло-серый фон */
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 30px;
+}
+
+/* Title */
+.title {
+    font-size: 2.8em;
+    font-family: 'Montserrat', sans-serif;
+    color: #333333; /* Темный текст для контраста */
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 1.2em;
+    color: #555555;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Profile Card */
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    transition: transform 0.3s;
+}
+
+.profile-card:hover {
+    transform: scale(1.03);
+}
+.profile-photo {
+    width: 200px; /* Увеличиваем размер */
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover; /* Подгоняет изображение по кругу, обрезая края */
+    border: 5px solid rgba(234, 218, 6, 0.9); /* Рамка вокруг фото */
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Легкая тень для объема */
+}
+
+
+.name {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #333333;
+}
+
+.description {
+    font-size: 1em;
+    color: #555555;
+    text-align: center;
+    margin: 10px 0 20px;
+    max-width: 600px;
+}
+
+/* Course Info Section */
+.course-info {
+    width: 100%;
+    padding: 30px;
+    background-color: #ffffff; /* Белый фон для блока информации о курсе */
+    border-radius: 12px;
+    margin-top: 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.course-title {
+    font-size: 1.8em;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.course-description {
+    font-size: 1em;
+    color: #555555;
+    margin-bottom: 20px;
+    max-width: 700px;
+}
+
+/* Social Icons */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.social-icons a {
+    color: #555555;
+    font-size: 1.5em;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: #ffd700; /* Желтый цвет при наведении */
+}
+
+/* Buttons */
+button {
+    background-color: #333333;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #555555;
+    transform: translateY(-3px);
+}
+
+.meet-button {
+    background-color: #ffd700; /* Желтая кнопка для контраста */
+    color: #333333;
+}
+
+.learn-more-button {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+/* Course Info Section */
+.course-info {
+    width: 100%;
+    padding: 40px;
+    background-color: #ffffff;
+    border: 2px solid #e4f404; /* Синяя рамка вокруг блока */
+    border-radius: 12px;
+    margin-top: 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.course-title {
+    font-size: 2em;
+    color: #333333;
+    font-weight: 700;
+}
+
+.feature h3 {
+    font-size: 1em;
+    color: #333333;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.feature p {
+    font-size: 0.9em;
+    color: #555555;
+}
+
+.feature {
+    text-align: left;
+}
+
+/* Основная обертка для содержимого: текст и изображение телефона */
+.content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Стиль карточек с текстом */
+.features {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    max-width: 600px;
+    gap: 20px;
+}
+
+.feature-card {
+    background: #f0c106;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: left;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.feature-card h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333333;
+}
+
+.feature-card p {
+    margin: 0;
+    color: #666666;
+    font-size: 1em;
+    line-height: 1.6;
+}
+
+/* Иконки для заголовков */
+.feature-icon {
+    font-size: 1.5em;
+    color: #4CAF50; /* Основной цвет иконок */
+    margin-bottom: 10px;
+}
+
+/* Контейнер для изображения телефона */
+.phone-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.phone-image {
+    width: 300px; /* Размер изображения телефона */
+    height: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Тень для объема */
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+.course-subtitle {
+    text-align: center;
+    color: #777777;
+    font-size: 1em;
+    margin-top: 20px;
+}
+
+
+

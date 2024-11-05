@@ -166,7 +166,7 @@ main {
 }
 
 .card {
-  background-color: #e0f7fa;
+  background-color:  #ffd700;
   padding: 20px;
   border-radius: 8px;
   flex: 1;
@@ -275,8 +275,8 @@ main {
 .step-number {
   width: 30px;
   height: 30px;
-  background-color: #05052d;
-  color: white;
+  background-color:  #ffd700;
+  color: rgb(17, 1, 1);
   border-radius: 50%;
   display: flex;
   align-items: center;
