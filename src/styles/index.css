@@ -126,6 +126,24 @@ header {
 .banner p {
   font-size: 1.2em;
 }
+.register-icon-link {
+  color: #333;
+  transition: color 0.3s;
+  display: inline-flex;
+  align-items: center; /* Aligns the icon vertically */
+  font-size: 0.9rem; /* Adjust as needed */
+}
+
+.register-icon-link:hover {
+  color: #007bff; /* Hover effect */
+}
+
+.nav-links li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+
 
 .cta-primary {
   background-color: #ffd700;

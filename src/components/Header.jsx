@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faBook, faInfoCircle, faPhone, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import "../styles/Header.css"; // Подключаем стили для Header
+import { FaUserAlt, FaLock } from "react-icons/fa";
 
 function Header() {
   return (
@@ -32,10 +33,10 @@ function Header() {
             </Link>
           </li>
           <li>
-            <a href="#login" className="cta-button">
-              <FontAwesomeIcon icon={faUser} /> Zaregistrovat sa
-            </a>
-          </li>
+              <Link to="/register" className="register-icon-link">
+                <FontAwesomeIcon icon={faUser} size="lg" /> {/* Reduced size */}
+              </Link>
+</li>
         </ul>
       </nav>
     </header>

@@ -87,4 +87,25 @@ body, html {
     border-bottom: 2px solid #ffd700; 
     padding-bottom: 2px;       
   }
+  .banner {
+  
+    background-size: cover; 
+    background-position: center; 
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/public/img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 250px;
+    text-align: center;
+    color: white;
+  }
+
+
+.banner h1 {
+  margin: 0;
+  font-size: 2.5em;
+}
+
+.banner p {
+  font-size: 1.2em;
+}
   

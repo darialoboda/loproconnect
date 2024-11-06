@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import AboutPage from "./pages/AboutPage";
 import CoursesPage from "./pages/Courses";
 import MotivationPage from "./pages/MotivationPage";
+import RegistrationPage from "./pages/RegistrationPage"; // Import the new page
 import "./styles/index.css";
 
 function MainContent() {
@@ -36,10 +37,11 @@ function MainContent() {
               </Link>
             </li>
             <li>
-              <a href="#login" className="cta-button">
-                <FontAwesomeIcon icon={faUser} /> Zaregistrovat sa
-              </a>
-            </li>
+              <Link to="/register" className="register-icon-link">
+                <FontAwesomeIcon icon={faUser} size="lg" /> {/* Reduced size */}
+              </Link>
+</li>
+
           </ul>
         </nav>
 
@@ -114,6 +116,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/motivation" element={<MotivationPage />} />
+          <Route path="/register" element={<RegistrationPage />} /> {/* Add this route */}
         </Routes>
 
         <footer className="footer">
