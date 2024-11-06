@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import AboutPage from "./pages/AboutPage";
 import CoursesPage from "./pages/Courses";
 import MotivationPage from "./pages/MotivationPage";
-import RegistrationPage from "./pages/RegistrationPage"; // Import the new page
+import RegistrationPage from "./pages/LoginPage"; // Import the new page
 import "./styles/index.css";
 
 function MainContent() {

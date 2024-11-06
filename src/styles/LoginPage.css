@@ -19,7 +19,7 @@
   }
   
   .registration-box {
-    background-color: #fff;
+    background-color: #ecce05;
     padding: 40px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     border-radius: 12px;
@@ -98,4 +98,118 @@
     font-size: 26px;
     color: #007bff;
   }
+
+  /* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure modal overlay is above other elements */
+}
+
+/* Modal Container */
+.modal {
+  background-color: #fff;
+  padding: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  animation: fadeIn 0.3s ease; /* Smooth fade-in effect */
+}
+
+/* Modal Header */
+.modal h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+/* Input Fields Inside Modal */
+.modal input {
+  width: 100%;
+  padding: 16px;
+  margin: 12px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  outline: none;
+}
+
+.modal input:focus {
+  border-color: #007bff;
+}
+
+/* Modal Button */
+.modal button {
+  width: 100%;
+  padding: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.modal button:hover {
+  background-color: #0056b3;
+}
+
+/* Close Modal Button */
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: #888;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+  color: #333;
+}
+
+/* Register Prompt and Link Styling */
+.register-prompt {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  margin-top: 15px;
+}
+
+.register-link {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.register-link:hover {
+  color: #0056b3;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: scale(0.95);
+  }
+  to {
+      opacity: 1;
+      transform: scale(1);
+  }
+}
   
