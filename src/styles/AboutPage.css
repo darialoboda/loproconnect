@@ -202,11 +202,14 @@ button:hover {
 /* Стиль карточок з текстом */
 .features {
     display: flex;
-    flex: 1;
-    flex-direction: column;
-    max-width: 600px;
-    gap: 20px;
-    order: 1; /* Ensure that the text cards appear on the left side */
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px 100px;
+    position: relative;
+    z-index: 2;
+    min-height: 490px;
 }
 
 /* Праві картки */
@@ -220,6 +223,7 @@ button:hover {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 32%;
 }
 
 .feature-card h3 {

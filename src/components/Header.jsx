@@ -6,11 +6,11 @@ import { Link } from "react-router-dom";
 import "../styles/Header.css"; // Подключаем стили для Header
 import { FaUserAlt, FaLock } from "react-icons/fa";
 
-function Header() {
+export default function Header() {
   return (
     <header className="header">
       <nav className="navbar">
-        <div className="logo">LoProConnect</div>
+        <Link to="/" className="logo">LoProConnect</Link>
         <ul className="nav-links">
           <li>
             <Link to="/">
@@ -33,14 +33,12 @@ function Header() {
             </Link>
           </li>
           <li>
-              <Link to="/register" className="register-icon-link">
-                <FontAwesomeIcon icon={faUser} size="lg" /> {/* Reduced size */}
-              </Link>
-</li>
+            <Link to="/register" className="register-icon-link">
+              <FontAwesomeIcon icon={faUser} size="lg" /> {/* Reduced size */}
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>
   );
 }
-
-export default Header;

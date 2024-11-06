@@ -4,7 +4,7 @@ import { FaUserAlt, FaLock } from "react-icons/fa";
 import Header from "../components/Header";  // Import the Header component
 import "../styles/LoginPage.css"; // Import styles for registration page
 
-function LoginPage() {
+export default function LoginPage() {
     const [showRegistrationModal, setShowRegistrationModal] = useState(false);
 
     const openRegistrationModal = () => {
@@ -17,23 +17,17 @@ function LoginPage() {
 
     return (
         <div>
-            {/* Header will appear on top of the page */}
-            <Header />
             <div className="registration-container">
                 <div className="registration-box">
                     <h2>Sign In Now</h2>
                     <form>
-                        <div style={{ position: "relative" }}>
-                            <input type="email" placeholder="Your email" required />
-                            <div className="icon-wrapper">
-                                <div className="icon"><FaUserAlt /></div>
-                            </div>
+                        <div className="input-group">
+                            <div className="icon"><FaUserAlt /></div>
+                            <input type="email" placeholder="Your email" required className="input" />
                         </div>
-                        <div style={{ position: "relative" }}>
-                            <input type="password" placeholder="Your password" required />
-                            <div className="icon-wrapper">
-                                <div className="icon"><FaLock /></div>
-                            </div>
+                        <div className="input-group">
+                            <div className="icon"><FaLock /></div>
+                            <input type="password" placeholder="Your password" required className="input"  />
                         </div>
                         <div className="terms">
                             <input type="checkbox" id="terms" required />
@@ -81,4 +75,3 @@ function LoginPage() {
     );
 }
 
-export default LoginPage;

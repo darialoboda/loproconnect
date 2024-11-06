@@ -2,10 +2,9 @@ import React from 'react';
 import '../styles/AboutPage.css'; // Подключение стилей
 import Header from "../components/Header"; // Импортируем Header
 
-function AboutPage() {
+export default function AboutPage() {
   return (
     <div className='header'>
-      <Header />
       <div className="about-page">
         <div className="background"></div>
         <div className="content">
@@ -43,10 +42,7 @@ function AboutPage() {
           <div className="course-info">
             <h2 className="course-title">Level-Up Your Design</h2>
 
-            <div className="content-wrapper">
-              <div className="phone-image-container">
-                <img src="/img/mobil.jpg" alt="Phone" className="phone-image" />
-              </div>
+            <div className="content-wrapper">             
 
               <div className="features">
                 <div id="feature-card-1" className="feature-card">
@@ -72,9 +68,7 @@ function AboutPage() {
                     <i className="fas fa-palette"></i>
                   </div>
                   <h3>Modern & Bright Colors</h3>
-                  <p>Kurz kombinuje teoretické vedomosti s praktickými cvičeniami, aby ste získali komplexný prehľad o tom,
-                    ako LPWAN funguje a ako ho môžete využiť vo vlastných projektoch. Na konci kurzu budete mať schopnosť navrhnúť
-                    a implementovať základné aplikácie založené na LPWAN, čím sa vám otvoria nové kariérne príležitosti v technológii.</p>
+                  <p>Kurz kombinuje teoretické vedomosti s praktickými cvičeniami, aby ste získali komplexný prehľad o tom, ako LPWAN funguje a ako ho môžete využiť vo vlastných projektoch. </p>
                 </div>
                 <div id="feature-card-4" className="feature-card">
                   <div className="feature-icon">
@@ -83,6 +77,10 @@ function AboutPage() {
                   <h3>Carefully Named Layers</h3>
                   <p>At first, for some time, I was not able to answer him one word.</p>
                 </div>
+              </div>
+
+              <div className="phone-image-container">
+                <img src="/img/mobil.jpg" alt="Phone" className="phone-image" />
               </div>
             </div>
             <p className="course-subtitle">
@@ -94,5 +92,3 @@ function AboutPage() {
     </div>
   );
 }
-
-export default AboutPage;

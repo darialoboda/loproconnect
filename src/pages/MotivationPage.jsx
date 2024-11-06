@@ -3,10 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTools, faClipboardCheck, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import Header from "../components/Header"; // Импортируем Header
 
-function Motivation() {
+export default function MotivationPage() {
   return (
     <div>
-      <Header />
       <h2>Prečo práve tento kurz?</h2>
       <div className="course-cards">
         <div className="card">
@@ -28,5 +27,3 @@ function Motivation() {
     </div>
   );
 }
-
-export default Motivation;
