@@ -1,29 +1,53 @@
 import React from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTools, faClipboardCheck, faLightbulb } from '@fortawesome/free-solid-svg-icons';
-import Header from "../components/Header"; // Импортируем Header
+import "../styles/MotivationPage.css";
+import { FaQuoteLeft, FaCheckCircle } from 'react-icons/fa';
 
-export default function MotivationPage() {
+const MotivationSection = () => {
+  const quotes = [
+    "Success is not the key to happiness. Happiness is the key to success. - Albert Schweitzer",
+    "Don't watch the clock; do what it does. Keep going. - Sam Levenson",
+    "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt"
+  ];
+
+  const tips = [
+    "Set small, achievable goals each week.",
+    "Stay curious and keep experimenting with new ideas.",
+    "Reach out to others in the community for advice and support.",
+    "Celebrate your progress, no matter how small!"
+  ];
+
   return (
-    <div>
-      <h2>Prečo práve tento kurz?</h2>
-      <div className="course-cards">
-        <div className="card">
-          <FontAwesomeIcon icon={faTools} className="card-icon" />
-          <h3>Praktické zručnosti</h3>
-          <p> Kurz poskytuje praktické zručnosti a znalosti, ktoré sú potrebné pre úspešnú kariéru v oblasti LPWAN, vrátane praktických projektov a aplikácií.</p>
+    <div className="motivation-section">
+      <h2 className="motivation-title">Stay Motivated!</h2>
+      
+      <div className="content-wrapper">
+        <div className="quote-section">
+          <h3>Quotes to Inspire You</h3>
+          {quotes.map((quote, index) => (
+            <div key={index} className="quote">
+              <FaQuoteLeft className="quote-icon" />
+              <p>{quote}</p>
+            </div>
+          ))}
         </div>
-        <div className="card">
-          <FontAwesomeIcon icon={faClipboardCheck} className="card-icon" />
-          <h3>Možnosť otestovať sa</h3>
-          <p>Študenti majú príležitosť otestovať svoje vedomosti a zručnosti prostredníctvom rôznych testov a projektov, čo im pomáha lepšie pochopiť učivo a získať spätnú väzbu.</p>
+        
+        <div className="tips-section">
+          <h3>Success Tips</h3>
+          {tips.map((tip, index) => (
+            <div key={index} className="tip">
+              <FaCheckCircle className="tip-icon" />
+              <p>{tip}</p>
+            </div>
+          ))}
         </div>
-        <div className="card">
-          <FontAwesomeIcon icon={faLightbulb} className="card-icon" />
-          <h3>Inovácie a aktuálnosť</h3>
-          <p>Kurz je zameraný na najnovšie trendy a technológie v oblasti LPWAN, čo umožňuje študentom zostať na špici inovácií a technologického pokroku.</p>
+        
+        <div className="progress-tracker">
+          <h3>Track Your Progress</h3>
+          <p>You're just steps away from mastering LPWAN! Keep going and reach your goals.</p>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default MotivationSection;

@@ -5,9 +5,11 @@ import Header from "../components/Header"; // Импортируем Header
 export default function AboutPage() {
   return (
     <div className='header'>
+       <div class="banner-image"></div>
       <div className="about-page">
         <div className="background"></div>
         <div className="content">
+       
           <h1 className="title">About Me</h1>
           <p className="subtitle">Get to know me and my course</p>
 

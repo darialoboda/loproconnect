@@ -13,7 +13,17 @@
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
     color: #333;
-    background-color: #000; /* Черний фон */
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.5), /* затемнение сверху */
+        rgba(0, 0, 0, 0.5)
+    ),
+    url('/public/img/background.jpg'); /* путь к изображению */
+    background-size: cover; /* растянуть фон */
+    background-position: center; /* центрировать фон */
+    background-repeat: no-repeat; /* не повторять фон */
+   
+    border-radius: 20px; /* закругленные углы */
+    overflow: hidden; /* скрыть содержимое за границами */
 }
 
 /* Main Content */
