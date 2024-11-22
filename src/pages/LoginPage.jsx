@@ -1,10 +1,9 @@
 // src/pages/RegistrationPage.js
 import React, { useState } from "react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
-import Header from "../components/Header";  // Import the Header component
 import "../styles/LoginPage.css"; // Import styles for registration page
 
-export default function LoginPage() {
+export default function RegistrationPage() {
     const [showRegistrationModal, setShowRegistrationModal] = useState(false);
 
     const openRegistrationModal = () => {
@@ -19,24 +18,24 @@ export default function LoginPage() {
         <div>
             <div className="registration-container">
                 <div className="registration-box">
-                    <h2>Sign In Now</h2>
+                    <h2>Prihlásiť sa</h2>
                     <form>
                         <div className="input-group">
                             <div className="icon"><FaUserAlt /></div>
-                            <input type="email" placeholder="Your email" required className="input" />
+                            <input type="email" placeholder="Tvoj email " required className="input" />
                         </div>
                         <div className="input-group">
                             <div className="icon"><FaLock /></div>
-                            <input type="password" placeholder="Your password" required className="input"  />
+                            <input type="password" placeholder="Tvoje heslo " required className="input" />
                         </div>
-                        <div className="terms">
+                        {/* <div className="terms">
                             <input type="checkbox" id="terms" required />
                             <label htmlFor="terms">I agree to the Terms of Service.</label>
-                        </div>
-                        <button type="submit">Login</button>
+                        </div> */}
+                        <button type="submit">Prihlásiť sa</button>
                     </form>
                     <p className="register-prompt">
-                        Don’t have an account? <span onClick={openRegistrationModal} className="register-link">Create one</span>
+                    Nemáš účet?  <span onClick={openRegistrationModal} className="register-link">Vytvor si ho!</span>
                     </p>
                 </div>
             </div>
@@ -45,33 +44,26 @@ export default function LoginPage() {
             {showRegistrationModal && (
                 <div className="modal-overlay">
                     <div className="modal">
-                        <h2>Create an Account</h2>
+                        <h2>Vytvorit si konto</h2>
                         <form>
-                            <div style={{ position: "relative" }}>
-                                <input type="text" placeholder="Your name" required />
-                                <div className="icon-wrapper">
-                                    <div className="icon"><FaUserAlt /></div>
-                                </div>
+                            <div className="input-group">
+                                <div className="icon"><FaUserAlt /></div>
+                                <input type="text" placeholder="Tvoje meno : " required className="input" />
                             </div>
-                            <div style={{ position: "relative" }}>
-                                <input type="email" placeholder="Your email" required />
-                                <div className="icon-wrapper">
-                                    <div className="icon"><FaUserAlt /></div>
-                                </div>
+                            <div className="input-group">
+                                <div className="icon"><FaUserAlt /></div>
+                                <input type="email" placeholder="Email" required className="input" />
                             </div>
-                            <div style={{ position: "relative" }}>
-                                <input type="password" placeholder="Create password" required />
-                                <div className="icon-wrapper">
-                                    <div className="icon"><FaLock /></div>
-                                </div>
+                            <div className="input-group">
+                                <div className="icon"><FaLock /></div>
+                                <input type="password" placeholder="Heslo" required className="input" />
                             </div>
-                            <button type="submit">Register</button>
+                            <button type="submit">Zaregistrovať sa </button>
                         </form>
-                        <button onClick={closeRegistrationModal} className="close-modal">Close</button>
+                        <button onClick={closeRegistrationModal} className="close-modal">Zatvoriť </button>
                     </div>
                 </div>
             )}
         </div>
     );
 }
-
