@@ -1,5 +1,5 @@
 /* General Registration Container */
-.registration-container {
+.login-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,7 +16,7 @@
 }
 
 /* Registration Box Styling */
-.registration-box {
+.login-box {
   background-color: #ecce05;
   padding: 40px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
@@ -185,6 +185,87 @@ button:hover {
 .close-modal:hover {
   color: #333;
 }
+/* Общий контейнер для выбора роли */
+.role-selection {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.role-selection p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+/* Стили для каждой роли */
+.role-option {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #f3f3f4;
+  font-size: 16px;
+}
+
+.role-option:hover {
+  border-color: #007bff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+  background-color: #fff;
+}
+
+.role-option.selected {
+  border-color: #007bff;
+  background-color: rgba(0, 123, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Скрытие стандартной радиокнопки */
+.role-option input[type="radio"] {
+  display: none;
+}
+
+/* Иконка роли */
+.role-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #ddd;
+  font-size: 20px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.role-option:hover .role-icon {
+  background-color: #007bff;
+  color: white;
+  transform: scale(1.1);
+}
+
+.role-option.selected .role-icon {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Текст роли */
+.role-option span {
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.role-option.selected span {
+  color: #007bff;
+}
+
 
 @keyframes fadeIn {
   from {
