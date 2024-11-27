@@ -1,259 +1,24 @@
-/* Global Styles */
-* {
-  box-sizing: border-box;
-}
+@import url('./0--main.css');
+@import url('./0--buttons.css');
 
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #050505;
-  scroll-behavior: smooth;
-}
+@import url('./block--nav-links.css');
+@import url('./block--header.css');
+@import url('./block--banner.css');
+@import url('./block--courses.css');
+@import url('./block--testimonial.css');
+@import url('./block--step.css');
+@import url('./block--why-choose-us.css');
+@import url('./block--features.css');
+@import url('./block--footer.css');
 
-a {
-  text-decoration: none;
-}
-
-svg {
-  width: 1em;
-  height: 1em;
-}
-
-header {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+@import url('./page--about.css');
+@import url('./page--motivation.css');
+@import url('./page--login.css');
 
 
 
-/* Header */
-.header {
-  position: relative; 
-  background-color: #050505;
-  background-size: cover;
-  background-position: center;
-  padding: 250px;
-  text-align: center;
-  color: rgb(26, 24, 24);
-  z-index: 1; 
-
-  padding: 20px;
-}
-
-.header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); 
-  z-index: -1; 
-}
 
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-}
-
-.logo {
-  font-size: 36px; 
-  font-weight: bold; 
-  color: #ffd700; 
-  font-family: 'Poppins', sans-serif; 
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-  letter-spacing: 2px; 
-}
-
-.logo span:first-letter {
-  font-size: 42px; 
-  text-transform: uppercase; 
-}
-.logo:hover {
-  transform: scale(1.1); 
-  color: #ffa500; 
-}
-
-
-.nav-links {
-  list-style-type: none;
-  display: flex;
-  gap: 20px;
-  
-}
-
-.nav-links li {
-  display: inline;
-}
-
-.nav-links a {
-  color: white;
-  text-decoration: none;      
-  font-size: 16px;
-  transition: color 0.3s ease; 
-  border-bottom: 2px solid transparent; 
-}
-
-/* Add hover effect for nav links */
-.nav-links a:hover {
-  color: #ffd700;             
-  border-bottom: 2px solid #ffd700; 
-  padding-bottom: 2px;       
-}
-
-
-/* Call-to-action button for Login/Sign Up */
-.cta-button {
-  background-color: #ffd700; 
-  padding: 10px 15px;
-  border-radius: 5px;
-  color: #02070c;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.cta-button:hover {
-  background-color: #ffa500; 
-}
-
-/* Banner */
-.banner {
-  
-    background-size: cover; 
-    background-position: center; 
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/public/img/background.jpg');
-    background-size: cover;
-    background-position: center;
-    padding: 250px;
-    text-align: center;
-    color: white;
-  }
-
-
-.banner h1 {
-  margin: 0;
-  font-size: 2.5em;
-}
-
-.banner p {
-  font-size: 1.2em;
-}
-.register-icon-link {
-  color: #333;
-  transition: color 0.3s;
-  display: inline-flex;
-  align-items: center; /* Aligns the icon vertically */
-  font-size: 0.9rem; /* Adjust as needed */
-}
-
-.register-icon-link:hover {
-  color: #007bff; /* Hover effect */
-}
-
-.nav-links li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-
-
-.cta-primary {
-  background-color: #ffd700;
-  color: #020d16;
-  padding: 12px 25px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 18px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  display: inline-block;
-  margin-top: 20px;
-}
-
-.cta-primary:hover {
-  background-color: #ffa500;
-}
-
-/* Main Content */
-main {
-  padding: 40px;
-}
-
-/* Section Styles */
-.courses, .easy-steps, .why-choose-us, .testimonials {
-  background-color: white;
-  padding: 30px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Courses Section */
-.course-cards {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap; 
-}
-
-.card {
-  background-color:  #ffd700;
-  padding: 20px;
-  border-radius: 8px;
-  flex: 1;
-  text-align: center;
-  transition: transform 0.3s ease;
-}
-
-/* Add hover effect for cards */
-.card:hover {
-  transform: translateY(-10px); /* Slight lift effect */
-}
-
-.card-icon {
-  font-size: 30px;
-  margin-bottom: 15px;
-}
-
-/* Testimonials */
-.testimonial {
-  padding: 10px;
-  font-style: italic;
-}
-
-.testimonial span {
-  display: block;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-/* Footer */
-.footer {
-  background-color: #000004;
-  color: white;
-  text-align: center;
-  padding: 20px;
-}
-
-.social-links {
-  list-style-type: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.social-links a {
-  color: white;
-  font-size: 18px;
-  text-decoration: none;
-}
-
-.social-links a:hover {
-  color: #ffd700;
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -290,74 +55,10 @@ main {
     padding: 10px 20px;
   }
 
-  main {
-    padding: 20px;
-  }
-
   .card {
     padding: 15px;
   }
 }
+
+
 /* Styling for each step */
-.step-item {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 40px;
-  position: relative;
-}
-.step-number {
-  width: 30px;
-  height: 30px;
-  background-color:  #ffd700;
-  color: rgb(17, 1, 1);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  margin-right: 20px;
-  position: relative;
-  z-index: 1;
-}
-
-.step-content {
-  max-width: 600px;
-}
-
-.step__title {
-  font-size: 1.5rem;
-  color: #333;
-}
-
-.step__text {
-  color: #666;
-}
-
-/*css for image*/
-.steps-wrapper {
-  display: flex;
-  justify-content: center; /* Центрируем содержимое */
-  align-items: flex-start;
-  gap: 30px; /* Добавляем промежуток между элементами */
-}
-
-.step-container {
-  flex: 2; /* Занимает больше пространства */
-}
-
-.steps-image {
-  flex: 1; /* Занимает меньше пространства, но больше чем раньше */
-  display: flex;
-  justify-content: center; /* Центрирует картинку по горизонтали */
-  align-items: center;
-  padding: 10px; /* Дополнительное пространство вокруг картинки */
-}
-
-.steps-image img {
-  width: 400px; /* Увеличиваем размер */
-  height: auto;
-  max-width: 400px; /* Максимальная ширина */
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-

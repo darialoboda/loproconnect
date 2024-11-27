@@ -1,0 +1,44 @@
+.banner {
+
+}
+
+.banner-hold {
+  padding: 60px 0;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/public/img/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-size: cover;
+  background-position: center;
+  border-radius: 30px 30px 0 0;
+}
+
+.banner h1 {
+  margin: 0;
+  font-size: 2.5em;
+}
+
+.banner p {
+  font-size: 1.2em;
+}
+
+.banner .register-icon-link {
+  color: #333;
+  transition: color 0.3s;
+  display: inline-flex;
+  align-items: center;
+  /* Aligns the icon vertically */
+  font-size: 0.9rem;
+  /* Adjust as needed */
+}
+
+.banner .register-icon-link:hover {
+  color: #007bff;
+  /* Hover effect */
+}

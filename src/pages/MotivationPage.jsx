@@ -1,5 +1,3 @@
-import React from 'react';
-import "../styles/MotivationPage.css";
 import { FaQuoteLeft, FaCheckCircle } from 'react-icons/fa';
 
 const MotivationSection = () => {

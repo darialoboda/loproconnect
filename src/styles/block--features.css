@@ -1,0 +1,40 @@
+.features {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px 100px;
+    z-index: 2;
+    min-height: 490px;
+}
+
+.feature-card {
+    background: #f0c106;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 32%;
+}
+
+.feature-card h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.feature-card p {
+    margin: 0;
+    color: #666;
+    font-size: 1em;
+    line-height: 1.6;
+}
+
+.feature-icon {
+    font-size: 1.5em;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}

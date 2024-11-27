@@ -1,0 +1,62 @@
+/* v1 */
+.cta-button {
+    background-color: #ffd700;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: #02070c;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #ffa500;
+}
+
+
+/* v2 */
+.cta-primary {
+    background-color: #ffd700;
+    color: #020d16;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.cta-primary:hover {
+    background-color: #ffa500;
+}
+
+
+/* v3 */
+button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #555;
+    transform: translateY(-3px);
+}
+
+
+/* v4 */
+.learn-more-button {
+    background-color: #333;
+    color: #fff;
+}
+.meet-button {
+    background-color: #ffd700;
+    color: #333;
+}

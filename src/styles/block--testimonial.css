@@ -1,0 +1,15 @@
+.testimonial {
+    padding: 10px 0;
+    font-style: italic;
+    background-color: white;
+    padding: 30px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .testimonial span {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+  }

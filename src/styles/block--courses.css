@@ -1,0 +1,33 @@
+.courses .courses-hold {
+    background-color: white;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 8px 8px;
+}
+
+.course-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.courses .card {
+    background-color: #ffd700;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+/* Add hover effect for cards */
+.courses .card:hover {
+    transform: translateY(-10px);
+    /* Slight lift effect */
+}
+
+.courses .card-icon {
+    font-size: 30px;
+    margin-bottom: 15px;
+}

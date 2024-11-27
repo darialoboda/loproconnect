@@ -1,0 +1,50 @@
+.header {
+    position: relative; 
+    background-color: #050505;
+    background-size: cover;
+    background-position: center;
+    padding: 250px;
+    text-align: center;
+    color: rgb(26, 24, 24);
+    z-index: 1; 
+  
+    padding: 20px 0 60px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+
+.header .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header .logo {
+    font-size: 36px;
+    font-weight: bold;
+    color: #ffd700;
+    font-family: 'Poppins', sans-serif;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+}
+
+.header .logo span:first-letter {
+    font-size: 42px;
+    text-transform: uppercase;
+}
+
+.header .logo:hover {
+    transform: scale(1.1);
+    color: #ffa500;
+}
