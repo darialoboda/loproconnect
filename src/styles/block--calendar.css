@@ -1,0 +1,123 @@
+/* MotivationCalendar.css */
+.calendar-section {
+    max-width: 650px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .calendar-section h3 {
+    color: #4a90e2;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .calendar-section p {
+    color: #4a4a4a;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+  
+  .react-calendar {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+  }
+  
+  .react-calendar__tile {
+    background: #f9f9f9;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 1rem;
+    color: #4a90e2;
+    padding: 12px;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  
+  .react-calendar__tile:hover {
+    background: #4a90e2;
+    color: #ffffff;
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border-color: #4a90e2;
+  }
+  
+  .react-calendar__tile--active {
+    background: #e76f51;
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .react-calendar__navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .react-calendar__navigation button {
+    background: transparent;
+    color: #4a90e2;
+    font-size: 1.5rem;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .react-calendar__navigation button:hover {
+    color: #e76f51;
+  }
+  
+  .react-calendar__navigation button:disabled {
+    color: #d0d0d0;
+  }
+  
+  .motivation-task {
+    margin-top: 30px;
+    background: #ffe066;
+    color: #4a4a4a;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    text-align: left;
+    transition: all 0.3s ease;
+    font-weight: 300;
+  }
+  
+  .motivation-task h4 {
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  
+  .motivation-task p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+  
+  .motivation-task:hover {
+    background:#FFD700;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .motivation-task:active {
+    background: #FFD700;
+    transform: scale(0.98);
+  }
+  

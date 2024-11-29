@@ -7,8 +7,8 @@ export default function AboutPage() {
         <div className="content-hold">
           <div className="content">
         
-            <h1 className="title">About Me</h1>
-            <p className="subtitle">Get to know me and my course</p>
+            <h1 className="title">Začíname s LPWAN</h1>
+            <p className="subtitle">Zoznámte sa so mnou a mojím kurzom</p>
 
             <div className="profile-card">
               <img
@@ -24,11 +24,11 @@ export default function AboutPage() {
                 ktorá umožní lepšie porozumieť tejto fascinujúcej technológii a jej aplikáciám v reálnom svete. Verím, že LPWAN má potenciál
                 zmeniť spôsob, akým komunikujeme s technológiami a zariadeniami okolo nás.
               </p>
-              <button className="meet-button">Meet Me</button>
+              {/* <button className="meet-button">Meet Me</button> */}
             </div>
 
             <div className="course-info">
-              <h2 className="course-title">Level-Up Your Design</h2>
+              <h2 className="course-title">O kurze</h2>
 
               <div className="content-wrapper">             
 
@@ -37,7 +37,7 @@ export default function AboutPage() {
                     <div className="feature-icon">
                       <i className="fas fa-paint-brush"></i>
                     </div>
-                    <h3>Pixel Perfect Design</h3>
+                    <h3>Vitajte v kurze</h3>
                     <p>Vitajte v kurze, ktorý je venovaný svetu Low-Power Wide-Area Networks
                       (LPWAN)! Tento kurz je určený pre študentov, ktorí sa zaujímajú o moderné technológie
                       a ich praktické využitie. </p>
@@ -46,7 +46,7 @@ export default function AboutPage() {
                     <div className="feature-icon">
                       <i className="fas fa-font"></i>
                     </div>
-                    <h3>Free Google Fonts</h3>
+                    <h3>Čo sa naučíte</h3>
                     <p>Počas tohto kurzu sa naučíte základy LPWAN technológie, architektúru sietí,
                       bezpečnostné aspekty a praktické aplikácie. Okrem toho sa zameriame na konkrétne technológie
                       ako Wi-Fi HaLow a LTE-M, ktoré sú populárne pre svoje výhody v nízkej spotrebe energie a širokom dosahu.</p>
@@ -55,7 +55,7 @@ export default function AboutPage() {
                     <div className="feature-icon">
                       <i className="fas fa-palette"></i>
                     </div>
-                    <h3>Modern & Bright Colors</h3>
+                    <h3>Metodika kurzu</h3>
                     <p>Kurz kombinuje teoretické vedomosti s praktickými cvičeniami, aby ste získali komplexný prehľad o tom, ako LPWAN funguje a ako ho môžete využiť vo vlastných projektoch. </p>
                   </div>
                   <div id="feature-card-4" className="feature-card">
