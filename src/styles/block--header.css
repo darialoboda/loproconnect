@@ -32,19 +32,44 @@
 
 .header .logo {
     font-size: 36px;
-    font-weight: bold;
-    color: #ffd700;
+    font-weight: 600;
     font-family: 'Poppins', sans-serif;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     letter-spacing: 2px;
+    color: #333; 
+    position: relative;
+    display: inline-block;
+    padding: 5px 10px;
+    border: 2px solid #333; 
+    border-radius: 8px; 
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+}
+
+.header .logo:hover {
+    color: #ffd700; 
+    border-color: #ffd700;
+    transform: scale(1.05); 
 }
 
 .header .logo span:first-letter {
     font-size: 42px;
-    text-transform: uppercase;
+    font-weight: bold;
+    color: #555;
 }
 
-.header .logo:hover {
-    transform: scale(1.1);
-    color: #ffa500;
+/* Декоративний елемент: тонка лінія під текстом */
+.header .logo::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background-color: #333;
+    border-radius: 2px;
+    transition: background-color 0.3s;
+}
+
+.header .logo:hover::after {
+    background-color: #ffd700;
 }

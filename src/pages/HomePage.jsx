@@ -9,8 +9,8 @@ export default function HomePage() {
       <section className="banner">
         <Container>
           <div className="banner-hold">
-            <h1>Learn and Connect with Low-Power Technology</h1>
-            <p>Preskúmajte svet LPWAN a zlepšite svoje vedomosti.</p>
+            <h1>Objavte svet technológií s nízkou spotrebou energie</h1>
+            {/* <p>Preskúmajte svet LPWAN a zlepšite svoje vedomosti.</p> */}
             <a href="#courses" className="cta-primary">
               Zistiť viac
             </a>

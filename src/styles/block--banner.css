@@ -1,44 +1,117 @@
-.banner {
 
+.banner {
+  /* Залишаємо ваші початкові властивості */
+  position: relative;
+  height: 80vh; 
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/public/img/background.jpg');
+  background-size: cover;
+  max-width: 1465px;
+  margin: 0 auto; 
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px 30px 0 0;
+  overflow: hidden;
+  text-align: center;
+  color: white;
+  animation: fadeInBanner 2s ease-out; 
 }
 
+/* Анімація для банера */
+@keyframes fadeInBanner {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Контейнер для тексту */
 .banner-hold {
-  padding: 60px 0;
-  min-height: 600px;
+  padding: 60px 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  color: white;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/public/img/background.jpg');
-  background-size: cover;
-  background-position: center;
-  background-size: cover;
-  background-position: center;
-  border-radius: 30px 30px 0 0;
+  z-index: 2;
+  max-width: 800px; 
 }
 
+/* Заголовок */
 .banner h1 {
-  margin: 0;
-  font-size: 2.5em;
+  font-size: 3.5em; 
+  font-weight: bold;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #00e6b8, #0073e6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 20px;
+  animation: slideInText 1.5s ease-out; 
 }
 
+/* Підзаголовок */
 .banner p {
-  font-size: 1.2em;
+  font-size: 1.5em; 
+  font-weight: 300;
+  color: #d9f7f1;
+  margin-bottom: 30px;
+  animation: fadeInText 2s ease-out 0.5s; 
 }
+
+/* Кнопка */
+.cta-primary {
+  font-size: 1.2rem;
+  padding: 15px 30px;
+  background-color: #0073e6;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
+.cta-primary:hover {
+  background-color: #005bb5;
+}
+
+
+@keyframes fadeInText {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes slideInText {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 
 .banner .register-icon-link {
   color: #333;
   transition: color 0.3s;
   display: inline-flex;
   align-items: center;
-  /* Aligns the icon vertically */
-  font-size: 0.9rem;
-  /* Adjust as needed */
+  font-size: 1.1rem;
 }
 
 .banner .register-icon-link:hover {
   color: #007bff;
-  /* Hover effect */
 }
