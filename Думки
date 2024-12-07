@@ -1,5 +1,22 @@
-Назви таблиць
+Один до одного (курс - категорії)
+category
+- id
+course
+- id
+- category_id
 
-courses
--id
--name 
+Один до багато (курс - відгуків)
+course
+- id
+reviews
+- id
+- course_id
+Багато до багатьо (тести - курсів)
+course
+- id
+test
+- id
+relation_test_course
+id
+course_id
+test_id

@@ -3,7 +3,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faBook, faInfoCircle, faPhone, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { FaUserAlt, FaLock } from "react-icons/fa";
+//import { FaUserAlt, FaLock } from "react-icons/fa";
 import Container from "./Container";
 
 export default function Header() {
