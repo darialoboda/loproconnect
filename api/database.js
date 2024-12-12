@@ -6,15 +6,15 @@ db.serialize(() => {
   // Таблиця користувачів
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name VARCHAR NOT NULL,
-      email VARCHAR UNIQUE NOT NULL,
-      password VARCHAR NOT NULL,
-      token VARCHAR,
-      role VARCHAR NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name VARCHAR NOT NULL,
+        email VARCHAR UNIQUE NOT NULL,
+        password VARCHAR NOT NULL,
+        role VARCHAR NOT NULL CHECK(role IN ('user', 'teacher', 'admin')),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        token VARCHAR
+    );
+`);
 
   // Таблиця курсів
   db.run(`

@@ -34,6 +34,7 @@
     max-width: calc(33.333% - 30px);
     text-align: left;
     position: relative;
+    cursor: pointer; /* Change cursor to pointer on hover */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   

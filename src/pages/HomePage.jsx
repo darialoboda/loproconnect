@@ -1,16 +1,45 @@
+import React, { useState } from "react"; // Correct import from React
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTools, faClipboardCheck, faLightbulb } from "@fortawesome/free-solid-svg-icons";
 import Container from "../components/Container";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
+
 
 export default function HomePage() {
+  const navigate = useNavigate(); 
+
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+
+  const openModal = () => {
+    setIsModalOpen(true); 
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); 
+  };
+
+  const handleStepClick = (step) => {
+    switch (step) {
+      case 1:
+        navigate('/courses'); 
+        break;
+      // case 2:
+      //   setIsModalOpen(true); 
+      //   break;
+      case 3:
+        navigate('/register'); 
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="page-home">
-
       <section className="banner">
         <Container>
           <div className="banner-hold">
             <h1>Objavte svet technológií s nízkou spotrebou energie</h1>
-            {/* <p>Preskúmajte svet LPWAN a zlepšite svoje vedomosti.</p> */}
             <a href="#courses" className="cta-primary">
               Zistiť viac
             </a>
@@ -48,21 +77,21 @@ export default function HomePage() {
           <div className="easy-steps-hold">
             <h2 className="easy-steps__title">Tvoje jednoduché kroky</h2>
             <div className="step-container">
-              <div className="step-item">
+              <div className="step-item" onClick={() => handleStepClick(1)}>
                 <div className="step-number">1</div>
                 <div className="step-content">
                   <h3 className="step__title">Získaj základné informácie</h3>
                   <p className="step__text">Prečítaj si úvod do LPWAN...</p>
                 </div>
               </div>
-              <div className="step-item">
+              <div className="step-item" onClick={() => handleStepClick(2)}>
                 <div className="step-number">2</div>
                 <div className="step-content">
                   <h3 className="step__title">Zaregistruj sa a získaj viac možností</h3>
                   <p className="step__text">Ako registrovaný používateľ...</p>
                 </div>
               </div>
-              <div className="step-item">
+              <div className="step-item" onClick={() => handleStepClick(3)}>
                 <div className="step-number">3</div>
                 <div className="step-content">
                   <h3 className="step__title">Otestuj sa, aby si preveril svoje vedomosti</h3>

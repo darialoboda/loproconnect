@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook, faLaptopCode, faSignal, faCog, faUserTie, faCloud, faMicrochip, faSearch, faNetworkWired } from '@fortawesome/free-solid-svg-icons';
 import Container from '../components/Container';
-
+import { toast, ToastContainer } from "react-toastify"; // Імпорт ToastContainer і toast
+import "react-toastify/dist/ReactToastify.css"; // Імпорт стилів для toastify
 
 export default function CoursesPage() {
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   const topics = [
     { id: 1, title: "Čo je LPWAN? Úvod do technológie", icon: faSignal, keywords: ["LPWAN", "technológia", "IoT"] },
     { id: 2, title: "Čo je LTE-M?", icon: faLaptopCode, keywords: ["LTE-M", "mobilná sieť", "IoT"] },
@@ -29,8 +30,14 @@ export default function CoursesPage() {
   );
 
   const handleTopicClick = (topic) => {
-    alert(`Otvoriť tému: ${topic.title}`);
-    // Lógika na otvorenie témy
+    toast.info(`Informácie o téme "${topic.title}" budú čoskoro dostupné!`, {
+      position: "top-center",
+      autoClose: 3000, // Автозакриття через 3 секунди
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   return (
@@ -66,6 +73,7 @@ export default function CoursesPage() {
           </div>
         </div>
       </Container>
+      <ToastContainer /> {/* Додано для відображення тостів */}
     </section>
   );
 }
