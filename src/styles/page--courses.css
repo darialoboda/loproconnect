@@ -20,7 +20,7 @@
   }
   
   .search-bar input {
-    padding: 10px;
+    padding: 13px;
     width: 60%;
     font-size: 1rem;
     border-radius: 5px;
@@ -29,25 +29,26 @@
   }
   
   .search-icon {
-    font-size: 1.5rem;
-    color: #0073e6;
+    font-size: 1.8rem;
+    color: #dc3545;
     cursor: pointer;
   }
   
   .topics-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns in a row */
+    gap: 20px; /* Gap between the cards */
   }
   
   .topic-card {
     background: #ffffff;
     border: 1px solid #ddd;
     border-radius: 10px;
-    padding: 20px;
+    padding: 30px;
     text-align: center;
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
+    height: 100%;
   }
   
   .topic-card:hover {
@@ -56,14 +57,32 @@
   }
   
   .topic-icon {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: #0073e6;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
   }
   
   .topic-title {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: bold;
     color: #333;
   }
+  /* Responsive design */
+@media (max-width: 1200px) {
+  .topics-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for medium-sized screens */
+  }
+}
+
+@media (max-width: 900px) {
+  .topics-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .topics-grid {
+    grid-template-columns: 1fr; /* 1 column for very small screens */
+  }
+}
   

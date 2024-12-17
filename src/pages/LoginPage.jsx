@@ -97,7 +97,14 @@ export default function LoginPage() {
                                 </div>
                             </div>
                         )}
+                        <nav className="navbar">
+                           <button className="profile-button" onClick={() => window.location.href = "/profile"}>
+                               Профіль
+                           </button>
+                        </nav>
+                        
                 </div>
+               
             </Container>
         </div>
     );

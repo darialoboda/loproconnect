@@ -270,3 +270,27 @@ button:hover {
       transform: scale(1);
   }
 }
+
+
+/* кнопка */
+
+
+.profile-button {
+  background-color: #007bff; /* Синій фон */
+  color: white; /* Білий текст */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.profile-button:hover {
+  background-color: #0056b3; /* Темніший синій при наведенні */
+}
+
+.profile-button:active {
+  background-color: #003d80; /* Ще темніший синій при кліку */
+}
+

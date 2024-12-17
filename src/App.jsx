@@ -6,6 +6,7 @@ import MotivationPage from "./pages/MotivationPage";
 import LoginPage from "./pages/LoginPage";
 import NoPage from "./pages/NoPage";
 import Layout from "./pages/Layout";
+import UserProfilePage from "./pages/UserProfilePage";
 
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
                     <Route path="motivation" element={<MotivationPage />} />
                     <Route path="register" element={<LoginPage />} />
                     <Route path="*" element={<NoPage />} />
+                    <Route path="/profile" element={<UserProfilePage />} />
                 </Route>
             </Routes>
         </BrowserRouter>
