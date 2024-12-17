@@ -1,29 +1,64 @@
 const db = require('../database');
+const multer = require('multer');
+const path = require('path');
+
+
+// Налаштування для збереження файлів
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        if (file.fieldname === 'img') cb(null, '../public/img');
+        else if (file.fieldname === 'files') cb(null, '../public/files');
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}_${file.originalname}`);
+    }
+});
+
+const upload = multer({ storage: storage }).fields([
+    { name: 'img', maxCount: 1 },
+    { name: 'files', maxCount: 1 }
+]);
 
 exports.createCourse = (req, res) => {
-    const { title, description, video_link, files, created_by } = req.body;
-
-    if (!title || !description || !created_by) {
-        return res.status(400).json({ error: 'Title, description, and created_by are required' });
-    }
-
-    const query = `
-      INSERT INTO courses (title, description, video_link, files, created_by)
-      VALUES (?, ?, ?, ?, ?)
-    `;
-
-    db.run(
-        query,
-        [title, description, video_link || null, files || null, created_by],
-        function (err) {
-            if (err) {
-                console.error(err.message);
-                return res.status(500).json({ error: 'Failed to add course' });
-            }
-            res.status(201).json({ id: this.lastID, message: 'Course added successfully' });
+    upload(req, res, (err) => {
+        if (err) {
+            console.error(err.message);
+            return res.status(500).json({ error: 'File upload failed' });
         }
-    );
+
+        const { title, description, video_link } = req.body; // Видаляємо created_by
+        const imgPath = req.files?.img ? req.files.img[0].path : null;
+        const filesPath = req.files?.files ? req.files.files[0].path : null;
+
+        // Перевірка на обов'язкові поля
+        if (!title || !description) {
+            return res.status(400).json({ error: 'Title and description are required' });
+        }
+
+        // Генеруємо значення created_by
+        const createdBy = 1; // Приклад фіксованого ID користувача
+
+        const query = `
+          INSERT INTO courses (title, description, video_link, img, files, created_by)
+          VALUES (?, ?, ?, ?, ?, ?)
+        `;
+
+        db.run(
+            query,
+            [title, description, video_link || null, imgPath, filesPath, createdBy],
+            function (err) {
+                if (err) {
+                    console.error(err.message);
+                    return res.status(500).json({ error: 'Failed to add course' });
+                }
+                res.status(201).json({ id: this.lastID, message: 'Course added successfully' });
+            }
+        );
+    });
 };
+
+
+
 exports.getCourses = (req, res) => {
     const query = `SELECT * FROM courses`;
     db.all(query, (err, rows) => {

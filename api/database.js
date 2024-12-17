@@ -23,6 +23,7 @@ db.serialize(() => {
       title VARCHAR NOT NULL,
       description TEXT NOT NULL,
       video_link VARCHAR,
+      img VARCHAR,
       files VARCHAR,
       created_by INTEGER,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
