@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage";
 import NoPage from "./pages/NoPage";
 import Layout from "./pages/Layout";
 import UserProfilePage from "./pages/UserProfilePage";
+import CourseDetailPage from "./pages/CourseDetailPage";
 
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
                     <Route index element={<HomePage />} />
                     <Route path="about" element={<AboutPage />} />
                     <Route path="courses" element={<CoursesPage />} />
+                    <Route path="course/:id" element={<CourseDetailPage />} />
                     <Route path="motivation" element={<MotivationPage />} />
                     <Route path="register" element={<LoginPage />} />
                     <Route path="*" element={<NoPage />} />
