@@ -7,4 +7,5 @@ export async function getData(url) {
 export const apiUrl = {
     courses: 'http://localhost:5000/courses',
     courseById: 'http://localhost:5000/courses/',
+    testsByCourse: '/api/tests/course/'
 }

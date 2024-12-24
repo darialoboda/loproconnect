@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const courseRoutes = require('./routes/courseRoutes');
+const testRoutes = require('./routes/testRoutes');
+
 
 const app = express();
 app.use(cors());
@@ -16,6 +18,7 @@ app.get('/', (req, res) => {
 // Реєструємо маршрути
 app.use('/users', userRoutes);
 app.use('/courses', courseRoutes);
+app.use('/tests', testRoutes);
 
 // Запуск сервера
 const PORT = 5000;

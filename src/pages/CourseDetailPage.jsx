@@ -4,20 +4,24 @@ import { apiUrl, getData } from '../utils/utils';
 
 export default function CourseDetailPage() {
   const [course, setCourse] = useState({})  
-
+  const [tests, setTests] = useState([]); // Додаємо стан для тестів
   // Отримуємо параметр з посилання який курс потрібно показати
   const { id } = useParams();
   
-  // Отримуємо курс по id 
-    useEffect(() => {
-  
-      async function getCourse() {
-        const data = await getData(apiUrl.courseById + id);
-        setCourse(data);
-      }
-      getCourse();
       
-    }, [id])
+  useEffect(() => {
+    async function fetchCourseData() {
+      const courseData = await getData(`${apiUrl.courseById}${id}`);
+      setCourse(courseData);
+
+      // Отримуємо тести для курсу
+      const testsData = await getData(`${apiUrl.testsByCourse}${id}`);
+      setTests(testsData);
+    }
+    fetchCourseData();
+  }, [id]);
+
+    
   
 
   return (
@@ -34,12 +38,12 @@ export default function CourseDetailPage() {
       <p className="course-description">{course.description}</p>
 
       {/* Медіа контент */}
-      {/* {course.video_link ? (
+      {course.video_link ? (
         <div className="course-media">
           <iframe
             width="100%"
             height="400"
-            src={course.video_link}
+            src={`https://www.youtube.com/embed/${course.video_link}`}
             title="Video kurzu"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -49,20 +53,13 @@ export default function CourseDetailPage() {
       ) : (
         <div className="course-media">
           <img
-            src="https://via.placeholder.com/800x400"
+            src="https://picsum.photos/848/565"
             alt="Course preview"
             className="course-image"
           />
         </div>
-      )} */}
+      )}
 
-      <div className="course-media">
-        <img
-          src="https://via.placeholder.com/800x400"
-          alt="Course preview"
-          className="course-image"
-        />
-      </div>
 
       {/* Додаткові матеріали */}
       {course.files && (
@@ -93,7 +90,7 @@ export default function CourseDetailPage() {
       </div>
 
       {/* Кнопка для тестування */}
-      <button className="btn-test">Prejsť na test</button>
+     
     </div>
   );
 }

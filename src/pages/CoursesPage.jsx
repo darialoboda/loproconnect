@@ -30,16 +30,12 @@ export default function CoursesPage() {
   const filteredTopics = topics.filter(topic =>
     topic.title.toLowerCase().includes(searchQuery)
   );
-  
-
-  
 
   // Функція для пошуку
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
   };
-  
 
   // const topics = [
   //   { id: 1, title: "Čo je LPWAN? Úvod do technológie", icon: faSignal, description: "Základné informácie o LPWAN technológii.", keywords: ["LPWAN", "technológia", "IoT"] },
@@ -53,18 +49,7 @@ export default function CoursesPage() {
   //   { id: 8, title: "Porovnanie LPWAN a tradičných mobilných sietí", icon: faUserTie, keywords: ["LPWAN", "mobilné siete", "porovnanie"] },
   // ];
 
-
   
-
-
-  // const handleAddCourse = (newCourse) => {
-  //   setCourses((prevCourses) => [...prevCourses, newCourse]);
-  // };
-
-  // const handleViewCourse = (topic) => {
-  //   setSelectedCourse(topic);
-  // };
-
   // Видалення курсу
   const handleDelete = async (id) => {
     try {

@@ -8,6 +8,7 @@ import NoPage from "./pages/NoPage";
 import Layout from "./pages/Layout";
 import UserProfilePage from "./pages/UserProfilePage";
 import CourseDetailPage from "./pages/CourseDetailPage";
+import AddCourseForm from "./pages/AddCourseForm";
 
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<HomePage />} />
                     <Route path="about" element={<AboutPage />} />
+                    <Route path="add-course" element={<AddCourseForm />} />
                     <Route path="courses" element={<CoursesPage />} />
                     <Route path="course/:id" element={<CourseDetailPage />} />
                     <Route path="motivation" element={<MotivationPage />} />

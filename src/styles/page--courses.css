@@ -75,10 +75,10 @@
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-.topic-icon {
-  font-size: 2.5rem;
-  color: #007bff;
-  margin-bottom: 15px;
+.topic-card-img {
+  border-radius: 16px;
+  width: 100%;
+  height: auto;
 }
 
 .topic-title {
