@@ -8,6 +8,7 @@ const fs = require('fs');
 // Налаштування для збереження файлів
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
+        console.log("file: ", file); 
         if (file.fieldname === 'img') cb(null, '../public/img/courses');
         else if (file.fieldname === 'files') cb(null, '../public/files');
     },
@@ -22,21 +23,23 @@ const upload = multer({ storage: storage }).fields([
 ]);
 
 
+
 exports.createCourse = (req, res) => {
     upload(req, res, async (err) => {
         if (err) {
+            console.error(err);
             console.error(err.message);
             return res.status(500).json({ error: 'File upload failed' });
         }
 
-        const { title, description, video_link, createdBy } = req.body;
+        const { title, description, videoLink, article, createdBy, publish } = req.body;
 
         const imgFile = req.files?.img ? req.files.img[0] : null;
         const filesPath = req.files?.files ? req.files.files.map(item => item.filename).join(',') : null;
 
         // Перевірка на обов'язкові поля
-        if (!title || !description) {
-            return res.status(400).json({ error: 'Title and description are required' });
+        if (!title) {
+            return res.status(400).json({ error: 'Title are required' });
         }
 
         // Перевірка ширини зображення
@@ -53,7 +56,7 @@ exports.createCourse = (req, res) => {
                 return res.status(500).json({ error: 'Image validation failed' });
             }
         }
-
+        
         // Перевірка на дублікат
         db.get(`SELECT COUNT(*) AS count FROM courses WHERE title = ?`, [title], (err, row) => {
             if (err) {
@@ -71,9 +74,9 @@ exports.createCourse = (req, res) => {
             // Додаємо курс, якщо дубліката немає
             db.run(
                 `
-                INSERT INTO courses (title, description, video_link, img, files, created_by)
-                VALUES (?, ?, ?, ?, ?, ?)`,
-                [title, description, video_link || null, imgPath, filesPath, createdBy],
+                INSERT INTO courses (title, description, video_link, article, img, files, created_by, publish)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+                [title, description, videoLink || null, article, imgPath, filesPath, createdBy, publish],
                 function (err) {
                     if (err) {
                         console.error(err.message);

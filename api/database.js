@@ -21,8 +21,10 @@ db.serialize(() => {
     CREATE TABLE IF NOT EXISTS courses (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title VARCHAR NOT NULL,
-      description TEXT NOT NULL,
+      description VARCHAR NOT NULL,
+      article TEXT NOT NULL,
       video_link VARCHAR,
+      publish VARCHAR,
       img VARCHAR,
       files VARCHAR,
       created_by INTEGER,
