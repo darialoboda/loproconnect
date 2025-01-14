@@ -75,6 +75,11 @@
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
+.topic-card-img-hold {
+  min-height: 170px;
+  width: 100%;
+}
+
 .topic-card-img {
   border-radius: 16px;
   width: 100%;

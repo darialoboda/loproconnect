@@ -90,7 +90,22 @@ export default function CourseDetailPage() {
       </div>
 
       {/* Кнопка для тестування */}
-     
+      {/* Список тестів */}
+      {tests.length > 0 && (
+        <div className="course-tests">
+          <h3>Témy na testovanie</h3>
+          <ul>
+            {tests.map((test) => (
+              <li key={test.id}>
+                <Link to={`/tests/${test.id}`} className="btn-test">
+                  {test.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
+

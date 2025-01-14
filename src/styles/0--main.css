@@ -24,6 +24,10 @@ svg {
     height: 1em;
 }
 
+.hide {
+    display: none !important;
+}
+
 .container {
     width: 100%;
     max-width: 1530px;
@@ -68,4 +72,18 @@ svg {
     font-size: 1.2em;
     color: #555;
     margin-bottom: 30px;
+}
+
+.img-cover {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+}
+.img-cover img {
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
