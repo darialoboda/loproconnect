@@ -1,63 +1,51 @@
 import React, { useEffect, useState } from 'react';
-
-import Container from '../components/Container';
+import { IconButton, Modal, Box, Typography, Tooltip } from '@mui/material';
+import { Delete, Add } from '@mui/icons-material';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AddCourseForm from './AddCourseForm'; 
-import CourseDetailPage from './CourseDetailPage'; // Імпортуємо сторінку деталей курсу
+import Container from '../components/Container';
 import { apiUrl, getData } from '../utils/utils';
 import TopicCard from '../components/TopicCard';
+import { useNavigate } from 'react-router-dom';
 
 export default function CoursesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [topics, setTopics] = useState([]);
-  // const [courses, setCourses] = useState([]);
-  // const [selectedCourse, setSelectedCourse] = useState(null); // Для відображення детального курсу
+  const [selectedTopic, setSelectedTopic] = useState(null);
+  const navigate = useNavigate();
 
-  // отримаємо дані з бази даних
   useEffect(() => {
-
     async function getCourses() {
       const data = await getData(apiUrl.courses);
       setTopics(data);
     }
     getCourses();
-    
-  }, [])
-  
-  
-  // Робимо додатковий вивід через фільтрування
+  }, []);
+
   const filteredTopics = topics.filter(topic =>
     topic.title.toLowerCase().includes(searchQuery)
   );
 
-  // Функція для пошуку
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
   };
 
-  // const topics = [
-  //   { id: 1, title: "Čo je LPWAN? Úvod do technológie", icon: faSignal, description: "Základné informácie o LPWAN technológii.", keywords: ["LPWAN", "technológia", "IoT"] },
-  //   { id: 2, title: "Čo je LTE-M?", icon: faLaptopCode, description: "Detailný popis LTE-M siete a jej výhod.", keywords: ["LTE-M", "mobilná sieť", "IoT"] },
-  //   { id: 3, title: "Čo je Wi-Fi HaLow?", icon: faCloud, description: "Úvod do Wi-Fi HaLow a jej aplikácií.", keywords: ["Wi-Fi HaLow", "technológia", "energetická efektívnosť"] },
-  //   // Додайте інші теми
-  //   { id: 4, title: "Rozdiel medzi LPWAN, LTE-M a Wi-Fi HaLow", icon: faNetworkWired, keywords: ["LPWAN", "LTE-M", "Wi-Fi HaLow", "rozdiely"] },
-  //   { id: 5, title: "Aplikácie LPWAN v IoT", icon: faBook, keywords: ["LPWAN", "IoT", "aplikácie"] },
-  //   { id: 6, title: "Výhody a nevýhody LTE-M", icon: faCog, keywords: ["LTE-M", "výhody", "nevýhody"] },
-  //   { id: 7, title: "Výhody a nevýhody Wi-Fi HaLow", icon: faMicrochip, keywords: ["Wi-Fi HaLow", "výhody", "nevýhody"] },
-  //   { id: 8, title: "Porovnanie LPWAN a tradičných mobilných sietí", icon: faUserTie, keywords: ["LPWAN", "mobilné siete", "porovnanie"] },
-  // ];
+  const handleOpenModal = (topic) => {
+    setSelectedTopic(topic);
+  };
 
-  
-  // Видалення курсу
-  const handleDelete = async (id) => {
+  const handleCloseModal = () => {
+    setSelectedTopic(null);
+  };
+
+  const handleDelete = async () => {
     try {
-      const response = await fetch(`${apiUrl.courses}/${id}`, {
+      const response = await fetch(`${apiUrl.courses}/${selectedTopic.id}`, {
         method: 'DELETE',
       });
       if (response.ok) {
-        setTopics((prevTopics) => prevTopics.filter((topic) => topic.id !== id));
+        setTopics((prevTopics) => prevTopics.filter((topic) => topic.id !== selectedTopic.id));
         toast.success('Kurz bol úspešne odstránený.');
       } else {
         toast.error('Nepodarilo sa odstrániť kurz.');
@@ -65,17 +53,27 @@ export default function CoursesPage() {
     } catch (error) {
       console.error('Error deleting course:', error);
       toast.error('Chyba pri odstraňovaní kurzu.');
+    } finally {
+      handleCloseModal();
     }
+  };
+
+  const handleAddCourse = () => {
+    navigate('/add-course'); // Redirect to the AddCourseForm page
   };
 
   return (
     <section className="page-courses">
       <Container>
         <div className="content-hold">
-          <h1 className="page-title">Kurzy LoProConnect</h1>
-          <p className="page-description">
-            Vyhľadajte konkrétny kurz podľa kľúčových slov alebo si vyberte tému.
-          </p>
+          <div className="header-actions" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '16px' }}>
+            <div style={{ textAlign: 'center' }}>
+              <h1 className="page-title">Kurzy LoProConnect</h1>
+              <p className="page-description">
+                Vyhľadajte konkrétny kurz podľa kľúčových slov alebo si vyberte tému.
+              </p>
+            </div>
+          </div>
 
           <div className="search-bar">
             <input
@@ -88,11 +86,67 @@ export default function CoursesPage() {
 
           <div className="topics-grid">
             {filteredTopics.map((topic) => (
-              <TopicCard key={topic.id} topic={topic} onDelete={() => handleDelete(topic.id)} />
+              <div key={topic.id}>
+                <TopicCard topic={topic} />
+                <Tooltip title="Odstrániť kurz">
+                  <IconButton
+                    aria-label="delete"
+                    color="error"
+                    onClick={() => handleOpenModal(topic)}
+                  >
+                    <Delete />
+                  </IconButton>
+                </Tooltip>
+              </div>
             ))}
+          </div>
+
+          <div style={{ marginTop: '24px', textAlign: 'center' }}>
+            <Tooltip title="Pridať kurz">
+              <IconButton
+                color="primary"
+                onClick={handleAddCourse}
+              >
+                <Add />
+              </IconButton>
+            </Tooltip>
           </div>
         </div>
       </Container>
+
+      <Modal
+        open={!!selectedTopic}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 2,
+          }}
+        >
+          <Typography id="modal-title" variant="h6" component="h2">
+            Ste si istí, že chcete odstrániť kurz "{selectedTopic?.title}"?
+          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+            <IconButton onClick={handleCloseModal} sx={{ mr: 1 }}>
+              Zrušiť
+            </IconButton>
+            <IconButton variant="contained" color="error" onClick={handleDelete}>
+              Odstrániť
+            </IconButton>
+          </Box>
+        </Box>
+      </Modal>
+
       <ToastContainer />
     </section>
   );

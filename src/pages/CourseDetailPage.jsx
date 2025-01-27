@@ -1,44 +1,68 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { apiUrl, getData } from '../utils/utils';
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { apiUrl, getData } from "../utils/utils";
 
 export default function CourseDetailPage() {
-  const [course, setCourse] = useState({})  
-  const [tests, setTests] = useState([]); // Додаємо стан для тестів
-  // Отримуємо параметр з посилання який курс потрібно показати
+  const [course, setCourse] = useState({});
+  const [tests, setTests] = useState([]);
   const { id } = useParams();
-  
-      
+
   useEffect(() => {
     async function fetchCourseData() {
       const courseData = await getData(`${apiUrl.courseById}${id}`);
       setCourse(courseData);
 
-      // Отримуємо тести для курсу
       const testsData = await getData(`${apiUrl.testsByCourse}${id}`);
       setTests(testsData);
     }
     fetchCourseData();
   }, [id]);
 
-    
-  
+  // Функція для отримання іконки за типом файлу
+  const getFileIcon = (fileName) => {
+    const fileExtension = fileName.split(".").pop().toLowerCase();
+    switch (fileExtension) {
+      case "pdf":
+        return "📄"; // PDF іконка
+      case "doc":
+      case "docx":
+        return "📄"; // Документ Word
+      case "zip":
+      case "rar":
+        return "🗂️"; // Архів
+      case "jpg":
+      case "jpeg":
+      case "png":
+        return "🖼️"; // Зображення
+      default:
+        return "📁"; // Загальна іконка для інших файлів
+    }
+  };
 
   return (
     <div className="course-detail">
-      {/* Кнопка повернення */}
       <Link to="/courses" className="btn-back">
         ← Späť na zoznam
       </Link>
 
-      {/* Назва курсу */}
       <h2 className="course-title">{course.title}</h2>
-
-      {/* Опис курсу */}
       <p className="course-description">{course.description}</p>
 
-      {/* Медіа контент */}
-      {course.video_link ? (
+      {course.img ? (
+        <div className="course-media">
+          <img
+            src={course.img}
+            alt="Course preview"
+            className="course-image"
+          />
+        </div>
+      ) : (
+        <div className="course-media">
+          <p>Obrázok nie je dostupný.</p>
+        </div>
+      )}
+
+      {course.video_link && (
         <div className="course-media">
           <iframe
             width="100%"
@@ -50,38 +74,46 @@ export default function CourseDetailPage() {
             allowFullScreen
           ></iframe>
         </div>
-      ) : (
-        <div className="course-media">
-          <img
-            src="https://picsum.photos/848/565"
-            alt="Course preview"
-            className="course-image"
-          />
+      )}
+
+      {course.article && (
+        <div className="course-article">
+          <h3>Článok:</h3>
+          <p>{course.article}</p>
         </div>
       )}
 
-
-      {/* Додаткові матеріали */}
       {course.files && (
         <div className="course-resources">
-          <p>
-            <strong>Ďalšie materiály: </strong>
-            <a
-              href={course.files}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-download"
-            >
-              Stiahnuť materiály
-            </a>
-          </p>
+          <h3>Ďalšie materiály:</h3>
+          <ul className="file-list">
+            {course.files.split(",").map((file, index) => (
+              <li key={index} className="file-item">
+                <span className="file-icon">{getFileIcon(file)}</span>
+                <a
+                  href={file}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="file-link"
+                >
+                  {file.split("/").pop()} {/* Назва файлу */}
+                </a>
+                <a
+                  href={file}
+                  download
+                  className="file-download"
+                >
+                  ⬇️ Stiahnuť
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 
-      {/* Мета-інформація */}
       <div className="course-meta">
         <p>
-          <strong>Vytvorené:</strong>{' '}
+          <strong>Vytvorené:</strong>{" "}
           {new Date(course.created_at).toLocaleDateString()}
         </p>
         <p>
@@ -89,8 +121,6 @@ export default function CourseDetailPage() {
         </p>
       </div>
 
-      {/* Кнопка для тестування */}
-      {/* Список тестів */}
       {tests.length > 0 && (
         <div className="course-tests">
           <h3>Témy na testovanie</h3>
@@ -108,4 +138,3 @@ export default function CourseDetailPage() {
     </div>
   );
 }
-

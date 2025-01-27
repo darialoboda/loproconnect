@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import 'react-quill/dist/quill.snow.css';
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import CoursesPage from "./pages/CoursesPage";
@@ -9,6 +10,8 @@ import Layout from "./pages/Layout";
 import UserProfilePage from "./pages/UserProfilePage";
 import CourseDetailPage from "./pages/CourseDetailPage";
 import AddCourseForm from "./pages/AddCourseForm";
+import EditCourse from "./pages/EditCourse"; // Змініть шлях, якщо файл розташований в іншій папці
+
 
 
 export default function App() {
@@ -25,6 +28,7 @@ export default function App() {
                     <Route path="register" element={<LoginPage />} />
                     <Route path="*" element={<NoPage />} />
                     <Route path="/profile" element={<UserProfilePage />} />
+                    <Route path="/edit-course/:id" element={<EditCourse />} />
                 </Route>
             </Routes>
         </BrowserRouter>
