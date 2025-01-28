@@ -32,7 +32,7 @@ export default function TopicCard({ topic }) {
     >
       <div className="img-cover topic-card-img-hold">
         <img
-          src={`img/courses/${topic.img}`}
+          src={`/img/courses/${topic.img ?? 'no-image.jpg'}`}
           alt={topic.title}
           className="topic-card-img"
           style={{ width: "100%", borderRadius: "8px" }}

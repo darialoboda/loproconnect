@@ -9,3 +9,9 @@ export const apiUrl = {
     courseById: 'http://localhost:5000/courses/',
     testsByCourse: '/api/tests/course/'
 }
+
+
+export function extractYouTubeVideoId(url) {
+    const match = url.match(/(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/);
+    return match ? match[1] : null;
+}

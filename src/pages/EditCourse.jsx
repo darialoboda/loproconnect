@@ -15,7 +15,7 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 const CourseSchema = Yup.object().shape({
   title: Yup.string().required("Názov kurzu je povinný").max(100, "Názov kurzu môže mať maximálne 100 znakov"),
   description: Yup.string().max(500, "Popis kurzu môže mať maximálne 500 znakov"),
-  videoLink: Yup.string().url("Musí byť platná URL adresa"),
+  videoLink: Yup.string(),
   img: Yup.mixed().nullable(),
   files: Yup.mixed().nullable(),
   article: Yup.string().max(1000, "Článok môže mať maximálne 1000 znakov"),
@@ -30,11 +30,12 @@ export default function EditCourse() {
   useEffect(() => {
     fetch(`http://localhost:5000/courses/${id}`)
       .then((response) => response.json())
-      .then((data) => {
+      .then((data) => {        
         setInitialValues({
+          id: data.id,
           title: data.title,
           description: data.description,
-          videoLink: data.videoLink,
+          videoLink: (data.video_link && typeof data.video_link === "string" && data.video_link !== "null") ? data.video_link : '',
           publish: data.publish,
           article: data.article,
           img: null,
@@ -46,6 +47,7 @@ export default function EditCourse() {
 
   const handleSubmit = (values, { resetForm }) => {
     const formData = new FormData();
+    formData.append("id", values.id);
     formData.append("title", values.title);
     formData.append("description", values.description);
     formData.append("videoLink", values.videoLink);
@@ -65,7 +67,9 @@ export default function EditCourse() {
       .then((response) => {
         if (response.ok) {
           toast.success("Kurz bol úspešne aktualizovaný");
-          navigate(`/course/${id}`);
+          setTimeout(() => {
+            navigate(`/course/${id}`);
+          }, 2000);
         } else {
           toast.error("Nepodarilo sa aktualizovať kurz");
         }
@@ -77,7 +81,7 @@ export default function EditCourse() {
   };
 
   const RichTextDisplay = ({ article }) => (
-    <div className="rich-text-container">
+    <div className="rich-text-container typography">
       {parse(article)}
     </div>
   );
@@ -164,18 +168,7 @@ export default function EditCourse() {
                     />
                   </div>
 
-                  <div className="form-group">
-                    <Typography variant="body1">Článok:</Typography>
-                    <RichTextEditor
-                      value={values.article}
-                      onChange={(value) => setFieldValue("article", value)}
-                    />
-                    <Typography variant="body2" color="textSecondary" style={{ marginTop: "10px" }}>
-                      Náhľad článku:
-                    </Typography>
-                    <RichTextDisplay article={values.article} />
-                  </div>
-
+                  
                   <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                     <Typography variant="body1">Obrázok kurzu:</Typography>
                     <IconButton
@@ -209,6 +202,25 @@ export default function EditCourse() {
                       />
                     </IconButton>
                   </div>
+
+                  <div className="form-group">
+                    <Typography variant="body1">Článok:</Typography>
+                    <RichTextEditor
+                      value={values.article}
+                      onChange={(value) => setFieldValue("article", value)}
+                      controls={[
+                        ['bold', 'italic', 'underline', 'strike', 'clean'],
+                        ['h3', 'h4'],
+                        ['unorderedList', 'orderedList'], // Списки
+                        ['link', 'image'],
+                      ]}
+                    />
+                    <Typography variant="body2" color="textSecondary" style={{ marginTop: "10px" }}>
+                      Náhľad článku:
+                    </Typography>
+                    <RichTextDisplay article={values.article} />
+                  </div>
+
 
                   <div className="form-group">
                     <Button type="submit" variant="contained" color="primary">

@@ -117,29 +117,90 @@ exports.getCourseById = (req, res) => {
         res.status(200).json(row);
     });
 };
+
+
 exports.updateCourse = (req, res) => {
-    const { id } = req.params;
-    const { title, description, video_link, files, created_by } = req.body;
+    upload(req, res, async (err) => {
+        if (err) {
+            console.error(err);
+            console.error(err.message);
+            return res.status(500).json({ error: 'File upload failed' });
+        }
 
-    const query = `
-      UPDATE courses
-      SET title = ?, description = ?, video_link = ?, files = ?, created_by = ?
-      WHERE id = ?
-    `;
+        const { id, title, description, videoLink, article, publish } = req.body;
+        console.log("videoLink: ", videoLink);
 
-    db.run(
-        query,
-        [title, description, video_link || null, files || null, created_by, id],
-        function (err) {
+        const imgFile = req.files?.img ? req.files.img[0] : null;
+        const filesPath = req.files?.files ? req.files.files.map(item => item.filename).join(',') : null;
+
+        // Перевірка на обов'язкові поля
+        if (!id || !title) {
+            return res.status(400).json({ error: 'ID and title are required' });
+        }
+
+        // Перевірка ширини зображення
+        if (imgFile) {
+            try {
+                const metadata = await sharp(imgFile.path).metadata();
+                if (metadata.width < 850) {
+                    return res.status(400).json({
+                        error: 'The image width must be at least 850px'
+                    });
+                }
+            } catch (error) {
+                console.error('Failed to validate image dimensions:', error.message);
+                return res.status(500).json({ error: 'Image validation failed' });
+            }
+        }
+
+        const imgPath = imgFile ? imgFile.filename : null;
+
+        // Перевірка на існування курсу
+        db.get(`SELECT * FROM courses WHERE id = ?`, [id], (err, row) => {
             if (err) {
                 console.error(err.message);
-                return res.status(500).json({ error: 'Failed to update course' });
+                return res.status(500).json({ error: 'Database query failed' });
             }
-            if (this.changes === 0) return res.status(404).json({ error: 'Course not found' });
-            res.status(200).json({ message: 'Course updated successfully' });
-        }
-    );
+
+            if (!row) {
+                return res.status(404).json({ error: 'Course not found' });
+            }
+
+            // Оновлення курсу
+            db.run(
+                `
+                UPDATE courses
+                SET title = ?,
+                    description = ?,
+                    video_link = ?,
+                    article = ?,
+                    img = COALESCE(?, img),
+                    files = COALESCE(?, files),
+                    publish = ?
+                WHERE id = ?
+                `,
+                [
+                    title,
+                    description,
+                    videoLink,
+                    article,
+                    imgPath,
+                    filesPath,
+                    publish !== undefined ? publish : row.publish,
+                    id
+                ],
+                function (err) {
+                    if (err) {
+                        console.error(err.message);
+                        return res.status(500).json({ error: 'Failed to update course' });
+                    }
+                    res.status(200).json({ message: 'Course updated successfully' });
+                }
+            );
+        });
+    });
 };
+
 
 
 exports.deleteCourse = (req, res) => {

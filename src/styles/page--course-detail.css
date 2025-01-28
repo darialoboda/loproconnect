@@ -1,0 +1,71 @@
+.course-detail {}
+.course-detail .course-media {}
+.course-detail .course-media img {
+    width: 100%;
+}
+.course-detail .file-list {
+    list-style: none;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+}
+.course-detail .file-list .file-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+    margin: 8px 0;
+}
+.course-detail .file-list .file-item .file-download {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+
+.typography {
+    font-size: 16px;
+    color: #000;
+    line-height: 1.6;
+}
+
+.typography > * {
+    font-family: inherit;
+    margin: 0 0 16px 0;
+}
+
+.typography > :first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.typography a {
+    position: relative;
+    color: #5084FC;
+    text-decoration: underline;
+    text-underline-offset: 20%;
+    transition: .12s;
+}
+.typography a:hover {
+    color: #507AFC;
+    text-underline-offset: 5%;
+}
+
+.typography p {}
+.typography h3,
+.typography h4 {
+    
+}
+
+.typography h3 {}
+.typography h4 {}
+
+.typography ul {
+    list-style: outside;
+    padding-left: 20px;
+}
+
+.typography ul li + li {
+    margin-top: calc(16px / 4);
+}
+
+.typography img {}

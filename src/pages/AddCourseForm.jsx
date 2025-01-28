@@ -14,7 +14,7 @@ export default function AddCourseForm() {
   const CourseSchema = Yup.object().shape({
     title: Yup.string().required("Názov kurzu je povinný").max(100, "Názov kurzu môže mať maximálne 100 znakov"),
     description: Yup.string().max(500, "Popis kurzu môže mať maximálne 500 znakov"),
-    videoLink: Yup.string().url("Musí byť platná URL adresa"),
+    videoLink: Yup.string(),
     img: Yup.mixed().nullable(),
     files: Yup.mixed().nullable(),
     article: Yup.string().max(1000, "Článok môže mať maximálne 1000 znakov"),
@@ -55,7 +55,7 @@ export default function AddCourseForm() {
   }
 
   const RichTextDisplay = ({ article }) => (
-    <div className="rich-text-container">
+    <div className="rich-text-container typography">
       {parse(article)}
     </div>
   );
@@ -137,17 +137,6 @@ export default function AddCourseForm() {
                     />
                   </div>
 
-                  <div className="form-group">
-                    <Typography variant="body1">Článok:</Typography>
-                    <RichTextEditor
-                      value={values.article}
-                      onChange={(value) => setFieldValue("article", value)}
-                    />
-                    <Typography variant="body2" color="textSecondary" style={{ marginTop: "10px" }}>
-                      Náhľad článku:
-                    </Typography>
-                    <RichTextDisplay article={values.article} />
-                  </div>
 
                   <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                     <Typography variant="body1">Obrázok kurzu:</Typography>
@@ -182,6 +171,25 @@ export default function AddCourseForm() {
                       />
                     </IconButton>
                   </div>
+
+                  <div className="form-group">
+                    <Typography variant="body1">Článok:</Typography>
+                    <RichTextEditor
+                      value={values.article}
+                      onChange={(value) => setFieldValue("article", value)}
+                       controls={[
+                        ['bold', 'italic', 'underline', 'strike', 'clean'],
+                        ['h3', 'h4'],
+                        ['unorderedList', 'orderedList'], // Списки
+                        ['link', 'image'],
+                      ]}
+                    />
+                    <Typography variant="body2" color="textSecondary" style={{ marginTop: "10px" }}>
+                      Náhľad článku:
+                    </Typography>
+                    <RichTextDisplay article={values.article} />
+                  </div>
+
 
                   <div className="form-group">
                     <Button type="submit" variant="contained" color="primary">

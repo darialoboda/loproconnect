@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { apiUrl, getData } from "../utils/utils";
+import { apiUrl, extractYouTubeVideoId, getData } from "../utils/utils";
 import { AiOutlineArrowLeft, AiOutlineEdit } from "react-icons/ai";
 import { FaQuestionCircle } from "react-icons/fa"; // Іконка питання
+import parse from "html-react-parser";
 
 export default function CourseDetailPage() {
   const [course, setCourse] = useState({});
@@ -13,6 +14,8 @@ export default function CourseDetailPage() {
   useEffect(() => {
     async function fetchCourseData() {
       const courseData = await getData(`${apiUrl.courseById}${id}`);
+      console.log(courseData);
+      
       setCourse(courseData);
 
       const testsData = await getData(`${apiUrl.testsByCourse}${id}`);
@@ -73,42 +76,35 @@ export default function CourseDetailPage() {
           <FaQuestionCircle />
         </button>
       </div>
-
       <h2 className="course-title">{course.title}</h2>
       <p className="course-description">{course.description}</p>
 
-      {course.img ? (
-        <div className="course-media">
-          <img
-            src={course.img}
-            alt="Налаштування курсу"
-            className="course-image"
-          />
-        </div>
-      ) : (
-        <div className="course-media">
-          <p>Зображення недоступне.</p>
-        </div>
-      )}
+      <div className="course-media">
+        <img
+          src={`/img/courses/${course.img ?? 'no-image.jpg' }`}
+          alt="Налаштування курсу"
+          className="course-image"
+        />
+      </div>
 
-      {course.video_link && (
+      {(course.video_link && typeof course.video_link === "string" && course.video_link !== "null") ? (
         <div className="course-media">
           <iframe
             width="100%"
             height="400"
-            src={`https://www.youtube.com/embed/${course.video_link}`}
+            src={`https://www.youtube.com/embed/${extractYouTubeVideoId(course.video_link)}`}
             title="Відео курсу"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           ></iframe>
         </div>
-      )}
+      ) : ''}
 
       {course.article && (
         <div className="course-article">
           <h3>Стаття:</h3>
-          <p>{course.article}</p>
+          <div className="typography">{parse(course.article)}</div>
         </div>
       )}
 
@@ -120,15 +116,17 @@ export default function CourseDetailPage() {
               <li key={index} className="file-item">
                 <span className="file-icon">{getFileIcon(file)}</span>
                 <a
-                  href={file}
+                  href={`/files/${file}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="file-link"
+                  download
                 >
-                  {file.split("/").pop()} {/* Назва файлу */}
+                  {/* file.split("/").pop() */}
+                  {`Навчальний матеріал ${index + 1}`}
                 </a>
                 <a
-                  href={file}
+                  href={`/files/${file}`}
                   download
                   className="file-download"
                 >
