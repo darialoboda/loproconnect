@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { apiUrl, getData } from "../utils/utils";
+import { AiOutlineArrowLeft, AiOutlineEdit } from "react-icons/ai";
 
 export default function CourseDetailPage() {
   const [course, setCourse] = useState({});
   const [tests, setTests] = useState([]);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchCourseData() {
@@ -18,32 +20,49 @@ export default function CourseDetailPage() {
     fetchCourseData();
   }, [id]);
 
-  // Функція для отримання іконки за типом файлу
+  // Funkcia na získanie ikony podľa typu súboru
   const getFileIcon = (fileName) => {
     const fileExtension = fileName.split(".").pop().toLowerCase();
     switch (fileExtension) {
       case "pdf":
-        return "📄"; // PDF іконка
+        return "📄"; // PDF ikona
       case "doc":
       case "docx":
-        return "📄"; // Документ Word
+        return "📄"; // Dokument Word
       case "zip":
       case "rar":
-        return "🗂️"; // Архів
+        return "🗂️"; // Archív
       case "jpg":
       case "jpeg":
       case "png":
-        return "🖼️"; // Зображення
+        return "🖼️"; // Obrázok
       default:
-        return "📁"; // Загальна іконка для інших файлів
+        return "📁"; // Všeobecná ikona pre iné súbory
     }
   };
 
   return (
     <div className="course-detail">
-      <Link to="/courses" className="btn-back">
-        ← Späť na zoznam
-      </Link>
+     <div className="navigation-buttons" style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+  <button
+    onClick={() => navigate(-1)}
+    className="btn-back"
+    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#007BFF" }}
+    title="Späť na kurzy"
+  >
+    <AiOutlineArrowLeft />
+  </button>
+
+  <button
+    onClick={() => navigate(`/edit-course/${id}`)}
+    className="btn-edit"
+    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#28a745" }}
+    title="Upraviť kurz"
+  >
+    <AiOutlineEdit />
+  </button>
+</div>
+
 
       <h2 className="course-title">{course.title}</h2>
       <p className="course-description">{course.description}</p>
@@ -52,7 +71,7 @@ export default function CourseDetailPage() {
         <div className="course-media">
           <img
             src={course.img}
-            alt="Course preview"
+            alt="Náhľad kurzu"
             className="course-image"
           />
         </div>
@@ -96,7 +115,7 @@ export default function CourseDetailPage() {
                   rel="noopener noreferrer"
                   className="file-link"
                 >
-                  {file.split("/").pop()} {/* Назва файлу */}
+                  {file.split("/").pop()} {/* Názov súboru */}
                 </a>
                 <a
                   href={file}

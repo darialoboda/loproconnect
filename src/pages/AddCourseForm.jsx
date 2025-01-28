@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Button, TextField, MenuItem } from "@mui/material";
+import { Button, TextField, MenuItem, IconButton, Typography } from "@mui/material";
+import { PhotoCamera, AttachFile } from "@mui/icons-material";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Container from "../components/Container";
-
-
-
+import { RichTextEditor } from "@mantine/rte";
+import parse from "html-react-parser";
+import "../styles/RichTextStyles.css";
 
 export default function AddCourseForm() {
   const CourseSchema = Yup.object().shape({
@@ -19,9 +22,6 @@ export default function AddCourseForm() {
   });
 
   function handleSubmit(values, { resetForm }) {
-    console.log(values);
-    
-
     const formData = new FormData();
     formData.append("title", values.title);
     formData.append("description", values.description);
@@ -40,22 +40,34 @@ export default function AddCourseForm() {
       method: "POST",
       body: formData,
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        resetForm();
+      .then((response) => {
+        if (response.ok) {
+          toast.success("Kurz bol úspešne pridaný");
+          resetForm();
+        } else {
+          toast.error("Nepodarilo sa pridať kurz");
+        }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Chyba pri pridávaní kurzu:", error);
+        toast.error("Chyba pri pridávaní kurzu");
       });
   }
+
+  const RichTextDisplay = ({ article }) => (
+    <div className="rich-text-container">
+      {parse(article)}
+    </div>
+  );
 
   return (
     <section className="page-courses">
       <Container>
         <div className="content-hold">
           <div className="content">
-            <h1 className="form-title">Add course</h1>
+            <Typography variant="h4" component="h1" gutterBottom>
+              Add Course
+            </Typography>
 
             <Formik
               initialValues={{
@@ -66,7 +78,7 @@ export default function AddCourseForm() {
                 files: null,
                 article: "",
                 createdBy: "1",
-                publish: "no"
+                publish: "no",
               }}
               validationSchema={CourseSchema}
               onSubmit={handleSubmit}
@@ -85,20 +97,20 @@ export default function AddCourseForm() {
                   </div>
 
                   <div className="form-group">
-                  <TextField
-                    fullWidth
-                    margin="normal"
-                    select
-                    name="publish"
-                    label="Publikovať"
-                    value={values.publish}
-                    onChange={(event) => setFieldValue("publish", event.target.value)}
-                    error={touched.publish && Boolean(errors.publish)}
-                    helperText={touched.publish && errors.publish}
-                  >
-                    <MenuItem value="no">No</MenuItem>
-                    <MenuItem value="yes">Yes</MenuItem>
-                  </TextField>
+                    <TextField
+                      fullWidth
+                      margin="normal"
+                      select
+                      name="publish"
+                      label="Publikovať"
+                      value={values.publish}
+                      onChange={(event) => setFieldValue("publish", event.target.value)}
+                      error={touched.publish && Boolean(errors.publish)}
+                      helperText={touched.publish && errors.publish}
+                    >
+                      <MenuItem value="no">No</MenuItem>
+                      <MenuItem value="yes">Yes</MenuItem>
+                    </TextField>
                   </div>
 
                   <div className="form-group">
@@ -126,48 +138,49 @@ export default function AddCourseForm() {
                   </div>
 
                   <div className="form-group">
-                    <Field
-                      name="article"
-                      as={TextField}
-                      label="Článok"
-                      multiline
-                      rows={6}
-                      fullWidth
-                      error={touched.article && !!errors.article}
-                      helperText={<ErrorMessage name="article" />}
+                    <Typography variant="body1">Článok:</Typography>
+                    <RichTextEditor
+                      value={values.article}
+                      onChange={(value) => setFieldValue("article", value)}
                     />
+                    <Typography variant="body2" color="textSecondary" style={{ marginTop: "10px" }}>
+                      Náhľad článku:
+                    </Typography>
+                    <RichTextDisplay article={values.article} />
                   </div>
 
-                  <div className="form-group">
-                    <label htmlFor="">Obrázok kurzu:</label>
-                    <label className="cta-button">
-                      Виберіть картинку
+                  <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <Typography variant="body1">Obrázok kurzu:</Typography>
+                    <IconButton
+                      color="primary"
+                      aria-label="upload picture"
+                      component="label"
+                    >
+                      <PhotoCamera />
                       <input
+                        hidden
                         type="file"
-                        name="img"
                         accept="image/*"
-                        className="hide"
-                        onChange={(event) =>
-                          setFieldValue("img", event.currentTarget.files[0])
-                        }
+                        onChange={(event) => setFieldValue("img", event.currentTarget.files[0])}
                       />
-                    </label>
+                    </IconButton>
                   </div>
 
-                  <div className="form-group">
-                    <label>Súbory kurzu (voliteľné):</label>
-                    <label className="cta-button">
-                      Виберіть файли
+                  <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <Typography variant="body1">Súbory kurzu (voliteľné):</Typography>
+                    <IconButton
+                      color="primary"
+                      aria-label="upload files"
+                      component="label"
+                    >
+                      <AttachFile />
                       <input
+                        hidden
                         type="file"
-                        name="files"
-                        className="hide"
                         multiple
-                        onChange={(event) =>
-                          setFieldValue("files", event.currentTarget.files)
-                        }
+                        onChange={(event) => setFieldValue("files", event.currentTarget.files)}
                       />
-                    </label>
+                    </IconButton>
                   </div>
 
                   <div className="form-group">
@@ -178,6 +191,8 @@ export default function AddCourseForm() {
                 </Form>
               )}
             </Formik>
+
+            <ToastContainer />
           </div>
         </div>
       </Container>
