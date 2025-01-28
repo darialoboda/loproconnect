@@ -9,7 +9,7 @@
 }
 
 /* Registration Box Styling */
-.login-box {
+/* .login-box {
   background-color: #ecce05;
   padding: 40px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
@@ -18,11 +18,11 @@
   max-width: 500px;
   margin-top: -100px;
   position: relative;
-}
+} */
 
 .registration-box h2 {
   text-align: center;
-  color: #333;
+  color: #d6dc28;
   margin-bottom: 30px;
   font-size: 24px;
 }
@@ -143,7 +143,7 @@ button:hover {
 
 .modal h2 {
   text-align: center;
-  color: #333;
+  color: #d5f341;
   margin-bottom: 20px;
   font-size: 24px;
 }
@@ -188,7 +188,7 @@ button:hover {
 
 .role-selection p {
   font-size: 16px;
-  color: #333;
+  color: #ebeb2f;
   margin-bottom: 10px;
   font-weight: 600;
 }

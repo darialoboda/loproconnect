@@ -34,7 +34,7 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link to="/register" className="register-icon-link">
+              <Link to="/login" className="register-icon-link">
                 <FontAwesomeIcon icon={faUser} size="lg" /> {/* Reduced size */}
               </Link>
             </li>

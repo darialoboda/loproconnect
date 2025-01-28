@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { FaEdit, FaEye } from "react-icons/fa"; // Іконка для редагування та перегляду
+import { FaEdit, FaEye, FaQuestionCircle } from "react-icons/fa"; // Іконка для редагування, перегляду та питання
 
 export default function TopicCard({ topic }) {
   const navigate = useNavigate();
@@ -11,6 +11,11 @@ export default function TopicCard({ topic }) {
   const handleEditNavigate = (e) => {
     e.stopPropagation(); // Зупиняємо "бульбашку" події, щоб не спрацьовувало handleNavigate
     navigate(`/edit-course/${topic.id}`); // Перехід на сторінку редагування
+  };
+
+  const handleTestNavigate = (e) => {
+    e.stopPropagation(); // Зупиняємо "бульбашку" події
+    navigate(`/test/${topic.id}`); // Перехід на сторінку тестування
   };
 
   return (
@@ -43,7 +48,7 @@ export default function TopicCard({ topic }) {
         style={{
           position: "absolute",
           top: "10px",
-          right: "50px",
+          right: "90px", // Зміщуємо іконку перегляду
           cursor: "pointer",
           background: "#fff",
           padding: "5px",
@@ -61,7 +66,7 @@ export default function TopicCard({ topic }) {
         style={{
           position: "absolute",
           top: "10px",
-          right: "10px",
+          right: "50px", // Зміщуємо іконку редагування
           cursor: "pointer",
           background: "#fff",
           padding: "5px",
@@ -70,6 +75,24 @@ export default function TopicCard({ topic }) {
         }}
       >
         <FaEdit size={18} color="green" />
+      </div>
+
+      {/* Іконка для тестування курсу */}
+      <div
+        className="test-icon"
+        onClick={handleTestNavigate}
+        style={{
+          position: "absolute",
+          top: "10px",
+          right: "10px", // Зміщуємо іконку тестування
+          cursor: "pointer",
+          background: "#fff",
+          padding: "5px",
+          borderRadius: "50%",
+          boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+        }}
+      >
+        <FaQuestionCircle size={18} color="orange" />
       </div>
     </div>
   );

@@ -10,7 +10,9 @@ import Layout from "./pages/Layout";
 import UserProfilePage from "./pages/UserProfilePage";
 import CourseDetailPage from "./pages/CourseDetailPage";
 import AddCourseForm from "./pages/AddCourseForm";
-import EditCourse from "./pages/EditCourse"; // Змініть шлях, якщо файл розташований в іншій папці
+import EditCourse from "./pages/EditCourse"; 
+import TestPage from "./pages/TestPage"; 
+import RegistrationPage from "./pages/RegistrationPage";
 
 
 
@@ -25,10 +27,12 @@ export default function App() {
                     <Route path="courses" element={<CoursesPage />} />
                     <Route path="course/:id" element={<CourseDetailPage />} />
                     <Route path="motivation" element={<MotivationPage />} />
-                    <Route path="register" element={<LoginPage />} />
+                    <Route path="login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegistrationPage />} />
                     <Route path="*" element={<NoPage />} />
                     <Route path="/profile" element={<UserProfilePage />} />
                     <Route path="/edit-course/:id" element={<EditCourse />} />
+                    <Route path="/test/:id" element={<TestPage />} /> 
                 </Route>
             </Routes>
         </BrowserRouter>

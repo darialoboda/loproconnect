@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { apiUrl, getData } from "../utils/utils";
 import { AiOutlineArrowLeft, AiOutlineEdit } from "react-icons/ai";
+import { FaQuestionCircle } from "react-icons/fa"; // Іконка питання
 
 export default function CourseDetailPage() {
   const [course, setCourse] = useState({});
@@ -20,49 +21,58 @@ export default function CourseDetailPage() {
     fetchCourseData();
   }, [id]);
 
-  // Funkcia na získanie ikony podľa typu súboru
+  // Функція для отримання іконки в залежності від типу файлу
   const getFileIcon = (fileName) => {
     const fileExtension = fileName.split(".").pop().toLowerCase();
     switch (fileExtension) {
       case "pdf":
-        return "📄"; // PDF ikona
+        return "📄"; // PDF іконка
       case "doc":
       case "docx":
-        return "📄"; // Dokument Word
+        return "📄"; // Документ Word
       case "zip":
       case "rar":
-        return "🗂️"; // Archív
+        return "🗂️"; // Архів
       case "jpg":
       case "jpeg":
       case "png":
-        return "🖼️"; // Obrázok
+        return "🖼️"; // Зображення
       default:
-        return "📁"; // Všeobecná ikona pre iné súbory
+        return "📁"; // Загальна іконка для інших файлів
     }
   };
 
   return (
     <div className="course-detail">
-     <div className="navigation-buttons" style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-  <button
-    onClick={() => navigate(-1)}
-    className="btn-back"
-    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#007BFF" }}
-    title="Späť na kurzy"
-  >
-    <AiOutlineArrowLeft />
-  </button>
+      <div className="navigation-buttons" style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        <button
+          onClick={() => navigate(-1)}
+          className="btn-back"
+          style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#007BFF" }}
+          title=" Späť"
+        >
+          <AiOutlineArrowLeft />
+        </button>
 
-  <button
-    onClick={() => navigate(`/edit-course/${id}`)}
-    className="btn-edit"
-    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#28a745" }}
-    title="Upraviť kurz"
-  >
-    <AiOutlineEdit />
-  </button>
-</div>
+        <button
+          onClick={() => navigate(`/edit-course/${id}`)}
+          className="btn-edit"
+          style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#28a745" }}
+          title="Upraviť"
+        >
+          <AiOutlineEdit />
+        </button>
 
+        {/* Іконка для тестування */}
+        <button
+          onClick={() => navigate(`/test/${id}`)}
+          className="btn-test"
+          style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#007BFF"}}
+          title="Testovanie"
+        >
+          <FaQuestionCircle />
+        </button>
+      </div>
 
       <h2 className="course-title">{course.title}</h2>
       <p className="course-description">{course.description}</p>
@@ -71,13 +81,13 @@ export default function CourseDetailPage() {
         <div className="course-media">
           <img
             src={course.img}
-            alt="Náhľad kurzu"
+            alt="Налаштування курсу"
             className="course-image"
           />
         </div>
       ) : (
         <div className="course-media">
-          <p>Obrázok nie je dostupný.</p>
+          <p>Зображення недоступне.</p>
         </div>
       )}
 
@@ -87,7 +97,7 @@ export default function CourseDetailPage() {
             width="100%"
             height="400"
             src={`https://www.youtube.com/embed/${course.video_link}`}
-            title="Video kurzu"
+            title="Відео курсу"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
@@ -97,14 +107,14 @@ export default function CourseDetailPage() {
 
       {course.article && (
         <div className="course-article">
-          <h3>Článok:</h3>
+          <h3>Стаття:</h3>
           <p>{course.article}</p>
         </div>
       )}
 
       {course.files && (
         <div className="course-resources">
-          <h3>Ďalšie materiály:</h3>
+          <h3>Інші матеріали:</h3>
           <ul className="file-list">
             {course.files.split(",").map((file, index) => (
               <li key={index} className="file-item">
@@ -115,14 +125,14 @@ export default function CourseDetailPage() {
                   rel="noopener noreferrer"
                   className="file-link"
                 >
-                  {file.split("/").pop()} {/* Názov súboru */}
+                  {file.split("/").pop()} {/* Назва файлу */}
                 </a>
                 <a
                   href={file}
                   download
                   className="file-download"
                 >
-                  ⬇️ Stiahnuť
+                  ⬇️ Завантажити
                 </a>
               </li>
             ))}
@@ -132,17 +142,17 @@ export default function CourseDetailPage() {
 
       <div className="course-meta">
         <p>
-          <strong>Vytvorené:</strong>{" "}
+          <strong>Створено:</strong>{" "}
           {new Date(course.created_at).toLocaleDateString()}
         </p>
         <p>
-          <strong>Autor:</strong> Používateľ #{course.created_by}
+          <strong>Автор:</strong> Користувач #{course.created_by}
         </p>
       </div>
 
       {tests.length > 0 && (
         <div className="course-tests">
-          <h3>Témy na testovanie</h3>
+          <h3>Теми для тестування</h3>
           <ul>
             {tests.map((test) => (
               <li key={test.id}>

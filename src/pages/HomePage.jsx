@@ -27,7 +27,7 @@ export default function HomePage() {
       //   setIsModalOpen(true); 
       //   break;
       case 3:
-        navigate('/register'); 
+        navigate('/login'); 
         break;
       default:
         break;

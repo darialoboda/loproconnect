@@ -1,31 +1,16 @@
-import React from 'react';
-import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
-import { getData } from '../utils/utils';
+import React from "react";
+import { useParams } from "react-router-dom";
 
-export default function TestPage() {
-  const { courseId } = useParams();
-
-  // Використання react-query для отримання тестових питань
-  const { data: tests, isLoading, error } = useQuery(
-    ['tests', courseId],
-    () => getData(`${apiUrl.testsByCourse}${courseId}`)
-  );
-
-  if (isLoading) return <p>Завантаження тестових питань...</p>;
-  if (error) return <p>Сталася помилка: {error.message}</p>;
+const TestPage = () => {
+  const { id } = useParams(); // Отримуємо ID курсу з URL
 
   return (
     <div className="test-page">
-      <h2>Тести для курсу #{courseId}</h2>
-      <ul className="test-list">
-        {tests.map((test) => (
-          <li key={test.id} className="test-item">
-            <h3>{test.title}</h3>
-            <p>Питання: {test.questions}</p>
-          </li>
-        ))}
-      </ul>
+      <h1>Тестування курсу {id}</h1>
+      <p>Тут буде сторінка для тестування курсу. Це ваш курс з ID {id}.</p>
+      {/* Додайте тестові питання або інші елементи для тестування */}
     </div>
   );
-}
+};
+
+export default TestPage;

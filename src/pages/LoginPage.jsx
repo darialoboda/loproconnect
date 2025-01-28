@@ -1,110 +1,33 @@
-import React, { useState } from "react";
-import { FaUserAlt, FaLock, FaUserGraduate } from "react-icons/fa";
+import React from "react";
+import { FaUserAlt, FaLock } from "react-icons/fa";
 import Container from "../components/Container";
 
-
 export default function LoginPage() {
-    const [showLoginModal, setShowLoginModal] = useState(false);
-    const [userRole, setUserRole] = useState(""); // State to store user role
-
-    const openRegistrationModal = () => {
-        setShowLoginModal(true);
-    };
-
-    const closeLoginModal = () => {
-        setShowLoginModal(false);
-    };
-
-    const handleRoleChange = (event) => {
-        setUserRole(event.target.value);
-    };
-
     return (
         <div className='page-login'>
             <Container>
                 <div className="content-hold">
-                        <div className="login-container">
-                            <div className="login-box">
-                                <h2>Prihlásiť sa</h2>
-                                <form>
-                                    <div className="input-group">
-                                        <div className="icon"><FaUserAlt /></div>
-                                        <input type="email" placeholder="Tvoj email " required className="input" />
-                                    </div>
-                                    <div className="input-group">
-                                        <div className="icon"><FaLock /></div>
-                                        <input type="password" placeholder="Tvoje heslo " required className="input" />
-                                    </div>
-                                    <button type="submit">Prihlásiť sa</button>
-                                </form>
-                                <p className="register-prompt">
-                                    Nemáš účet? <span onClick={openRegistrationModal} className="register-link">Vytvor si ho!</span>
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Registration Modal */}
-                        {showLoginModal && (
-                            <div className="modal-overlay">
-                                <div className="modal">
-                                    <h2>Vytvorit si konto</h2>
-                                    <form>
-                                        <div className="input-group">
-                                            <div className="icon"><FaUserAlt /></div>
-                                            <input type="text" placeholder="Tvoje meno : " required className="input" />
-                                        </div>
-                                        <div className="input-group">
-                                            <div className="icon"><FaUserAlt /></div>
-                                            <input type="email" placeholder="Email" required className="input" />
-                                        </div>
-                                        <div className="input-group">
-                                            <div className="icon"><FaLock /></div>
-                                            <input type="password" placeholder="Heslo" required className="input" />
-                                        </div>
-                                        <div className="role-selection">
-                                            <p>Vyber svoju rolu:</p>
-                                            <label className={`role-option ${userRole === "student" ? "selected" : ""}`}>
-                                                <input
-                                                    type="radio"
-                                                    name="role"
-                                                    value="student"
-                                                    checked={userRole === "student"}
-                                                    onChange={handleRoleChange}
-                                                />
-                                                <div className="role-icon">
-                                                    <FaUserAlt /> {/* Иконка для студента */}
-                                                </div>
-                                                <span>Študent</span>
-                                            </label>
-                                            <label className={`role-option ${userRole === "teacher" ? "selected" : ""}`}>
-                                                <input
-                                                    type="radio"
-                                                    name="role"
-                                                    value="teacher"
-                                                    checked={userRole === "teacher"}
-                                                    onChange={handleRoleChange}
-                                                />
-                                                <div className="role-icon">
-                                                    <FaUserGraduate /> {/* Иконка для учителя */}
-                                                </div>
-                                                <span>Učiteľ</span>
-                                            </label>
-                                        </div>
-
-                                        <button type="submit">Zaregistrovať sa</button>
-                                    </form>
-                                    <button onClick={closeLoginModal} className="close-modal">Zatvoriť</button>
+                    <div className="login-container">
+                        <div className="login-box">
+                            <h2>Prihlásiť sa</h2>
+                            <form>
+                                <div className="input-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center', marginBottom: '10px' }}>
+                                    <div className="icon"><FaUserAlt /></div>
+                                    <input type="email" placeholder="Tvoj email" required className="input" style={{ width: '300px' }} />
                                 </div>
-                            </div>
-                        )}
-                        <nav className="navbar">
-                           <button className="profile-button" onClick={() => window.location.href = "/profile"}>
-                               Профіль
-                           </button>
-                        </nav>
-                        
+                                <div className="input-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center', marginBottom: '10px' }}>
+                                    <div className="icon"><FaLock /></div>
+                                    <input type="password" placeholder="Tvoje heslo" required className="input" style={{ width: '300px' }} />
+                                </div>
+
+                                <button type="submit" style={{ width: '150px', margin: '20px auto', display: 'block', backgroundColor: '#4CAF50', color: 'white', padding: '10px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Prihlásiť sa</button>
+                            </form>
+                            <p style={{ textAlign: 'center', marginTop: '15px' }}>
+                                Nemáš účet? <a href="/register" style={{ color: '#007BFF', cursor: 'pointer', textDecoration: 'underline' }}>Vytvor si ho!</a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-               
             </Container>
         </div>
     );
