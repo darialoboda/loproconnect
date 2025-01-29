@@ -11,13 +11,15 @@ import parse from "html-react-parser";
 import "../styles/RichTextStyles.css";
 
 export default function AddCourseForm() {
+  const MAX_ARTICLE_LENGTH = 10000;
+
   const CourseSchema = Yup.object().shape({
     title: Yup.string().required("Názov kurzu je povinný").max(100, "Názov kurzu môže mať maximálne 100 znakov"),
     description: Yup.string().max(500, "Popis kurzu môže mať maximálne 500 znakov"),
     videoLink: Yup.string(),
     img: Yup.mixed().nullable(),
     files: Yup.mixed().nullable(),
-    article: Yup.string().max(1000, "Článok môže mať maximálne 1000 znakov"),
+    article: Yup.string().max(10000, "Článok môže mať maximálne 1000 znakov"),
     publish: Yup.string().required("Vyberte možnosť publikovania").oneOf(["yes", "no"], "Publikovanie musí byť 'yes' alebo 'no'")
   });
 

@@ -16,6 +16,14 @@ import { deepPurple, yellow } from "@mui/material/colors";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
+    background: {
+      default: "#000000",  // Чорний фон
+      paper: "#000000",    // Трохи світліший для карток
+    },
+    text: {
+      primary: "#ffffff",  // Білий текст
+      secondary: "#bdbdbd", // Світло-сірий для допоміжного тексту
+    },
   },
 });
 
@@ -64,10 +72,10 @@ const ProfilePage = () => {
             sx={{
               maxWidth: 900,
               width: "100%",
-              boxShadow: 6,
+              boxShadow: darkMode ? 0 : 6,  // При темній темі без тіні
               borderRadius: 3,
               overflow: "hidden",
-              backgroundColor: darkMode ? "#333" : "#fff",
+              backgroundColor: darkMode ? "#000000" : "#fff",  // Чорний для темної теми
               position: "relative",
             }}
           >

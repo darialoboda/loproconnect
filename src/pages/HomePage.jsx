@@ -23,9 +23,9 @@ export default function HomePage() {
       case 1:
         navigate('/courses'); 
         break;
-      // case 2:
-      //   setIsModalOpen(true); 
-      //   break;
+      case 2:
+        navigate('/register'); 
+        break;
       case 3:
         navigate('/login'); 
         break;

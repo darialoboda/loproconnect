@@ -69,3 +69,44 @@
 }
 
 .typography img {}
+
+
+.course-detail {
+    padding: 20px;
+    border-radius: 12px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.light-mode .course-detail {
+    background-color: white;
+    color: black;
+}
+
+/* Видаляємо білу рамку у темному режимі */
+.dark-mode .course-detail {
+    background-color: #000000;
+    color: white;
+    border: none;
+    box-shadow: none;
+}
+
+.dark-mode.course-detail .typography {
+    color: white;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: rgb(27, 107, 227); 
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus {
+    background: none;
+    outline: none;
+}
+
+
+  

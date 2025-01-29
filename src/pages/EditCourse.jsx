@@ -18,7 +18,7 @@ const CourseSchema = Yup.object().shape({
   videoLink: Yup.string(),
   img: Yup.mixed().nullable(),
   files: Yup.mixed().nullable(),
-  article: Yup.string().max(1000, "Článok môže mať maximálne 1000 znakov"),
+  article: Yup.string().max(10000, "Článok môže mať maximálne 1000 znakov"),
   publish: Yup.string().required("Vyberte možnosť publikovania").oneOf(["yes", "no"], "Publikovanie musí byť 'yes' alebo 'no'")
 });
 

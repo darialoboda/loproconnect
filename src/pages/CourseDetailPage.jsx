@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { apiUrl, extractYouTubeVideoId, getData } from "../utils/utils";
 import { AiOutlineArrowLeft, AiOutlineEdit } from "react-icons/ai";
-import { FaQuestionCircle } from "react-icons/fa"; // Іконка питання
+import { FaQuestionCircle, FaSun, FaMoon } from "react-icons/fa";
 import parse from "html-react-parser";
 
 export default function CourseDetailPage() {
@@ -10,12 +10,15 @@ export default function CourseDetailPage() {
   const [tests, setTests] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("darkMode") === "true"; // Завантаження стану теми
+  });
 
   useEffect(() => {
     async function fetchCourseData() {
       const courseData = await getData(`${apiUrl.courseById}${id}`);
       console.log(courseData);
-      
+
       setCourse(courseData);
 
       const testsData = await getData(`${apiUrl.testsByCourse}${id}`);
@@ -24,29 +27,48 @@ export default function CourseDetailPage() {
     fetchCourseData();
   }, [id]);
 
+  // Функція для перемикання теми
+  const toggleTheme = () => {
+    setDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      localStorage.setItem("darkMode", newMode); // Збереження в localStorage
+      return newMode;
+    });
+  };
+
+  useEffect(() => {
+    // Додавання або видалення класу в body
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  }, [darkMode]);
+
   // Функція для отримання іконки в залежності від типу файлу
   const getFileIcon = (fileName) => {
     const fileExtension = fileName.split(".").pop().toLowerCase();
     switch (fileExtension) {
       case "pdf":
-        return "📄"; // PDF іконка
+        return "📄";
       case "doc":
       case "docx":
-        return "📄"; // Документ Word
+        return "📄";
       case "zip":
       case "rar":
-        return "🗂️"; // Архів
+        return "🗂️";
       case "jpg":
       case "jpeg":
       case "png":
-        return "🖼️"; // Зображення
+        return "🖼️";
       default:
-        return "📁"; // Загальна іконка для інших файлів
+        return "📁";
     }
   };
 
   return (
-    <div className="course-detail">
+    <div className={`course-detail ${darkMode ? "dark-mode" : "light-mode"}`}>
+
       <div className="navigation-buttons" style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
         <button
           onClick={() => navigate(-1)}
@@ -70,22 +92,36 @@ export default function CourseDetailPage() {
         <button
           onClick={() => navigate(`/test/${id}`)}
           className="btn-test"
-          style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#007BFF"}}
+          style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#007BFF" }}
           title="Testovanie"
         >
           <FaQuestionCircle />
         </button>
+
+        <button onClick={toggleTheme} className="theme-toggle" title="Zmeniť tému">
+          {darkMode ? <FaSun /> : <FaMoon />}
+        </button>
+
       </div>
       <h2 className="course-title">{course.title}</h2>
       <p className="course-description">{course.description}</p>
 
       <div className="course-media">
         <img
-          src={`/img/courses/${course.img ?? 'no-image.jpg' }`}
-          alt="Налаштування курсу"
+          src={`/img/courses/${course.img ?? 'no-image.jpg'}`}
+          alt="Nastavenie kurzu "
           className="course-image"
         />
       </div>
+
+
+
+      {course.article && (
+        <div className="course-article">
+          <h3>Článok::</h3>
+          <div className="typography">{parse(course.article)}</div>
+        </div>
+      )}
 
       {(course.video_link && typeof course.video_link === "string" && course.video_link !== "null") ? (
         <div className="course-media">
@@ -93,7 +129,7 @@ export default function CourseDetailPage() {
             width="100%"
             height="400"
             src={`https://www.youtube.com/embed/${extractYouTubeVideoId(course.video_link)}`}
-            title="Відео курсу"
+            title="Video kurzu"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
@@ -101,16 +137,9 @@ export default function CourseDetailPage() {
         </div>
       ) : ''}
 
-      {course.article && (
-        <div className="course-article">
-          <h3>Стаття:</h3>
-          <div className="typography">{parse(course.article)}</div>
-        </div>
-      )}
-
       {course.files && (
         <div className="course-resources">
-          <h3>Інші матеріали:</h3>
+          <h3>Ďalšie materiály:</h3>
           <ul className="file-list">
             {course.files.split(",").map((file, index) => (
               <li key={index} className="file-item">
@@ -123,14 +152,14 @@ export default function CourseDetailPage() {
                   download
                 >
                   {/* file.split("/").pop() */}
-                  {`Навчальний матеріал ${index + 1}`}
+                  {`Študijný materiál ${index + 1}`}
                 </a>
                 <a
                   href={`/files/${file}`}
                   download
                   className="file-download"
                 >
-                  ⬇️ Завантажити
+                  ⬇️ Stiahnuť
                 </a>
               </li>
             ))}
@@ -140,17 +169,17 @@ export default function CourseDetailPage() {
 
       <div className="course-meta">
         <p>
-          <strong>Створено:</strong>{" "}
+          <strong>Vytvorené: </strong>{" "}
           {new Date(course.created_at).toLocaleDateString()}
         </p>
         <p>
-          <strong>Автор:</strong> Користувач #{course.created_by}
+          <strong>Autor:</strong> Користувач #{course.created_by}
         </p>
       </div>
 
       {tests.length > 0 && (
         <div className="course-tests">
-          <h3>Теми для тестування</h3>
+          <h3>testovanie</h3>
           <ul>
             {tests.map((test) => (
               <li key={test.id}>
