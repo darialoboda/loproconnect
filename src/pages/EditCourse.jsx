@@ -106,7 +106,7 @@ export default function EditCourse() {
         <div className="content-hold">
           <div className="content">
             <Typography variant="h4" component="h1" gutterBottom>
-              Edit Course
+            Upraviť tému 
             </Typography>
 
             <Formik
@@ -224,7 +224,7 @@ export default function EditCourse() {
 
                   <div className="form-group">
                     <Button type="submit" variant="contained" color="primary">
-                      Save
+                    Uložiť zmeny 
                     </Button>
                   </div>
                 </Form>

@@ -10,12 +10,15 @@ exports.createTest = (req, res) => {
         return res.status(400).json({ error: 'Course ID, title, and questions are required' });
     }
 
+    // Перетворюємо масив питань у JSON-рядок перед збереженням
+    const questionsJson = JSON.stringify(questions);
+
     const query = `
       INSERT INTO tests (course_id, title, questions)
       VALUES (?, ?, ?)
     `;
 
-    db.run(query, [course_id, title, questions], function (err) {
+    db.run(query, [course_id, title, questionsJson], function (err) {
         if (err) {
             console.error(err.message);
             return res.status(500).json({ error: 'Failed to add test' });
@@ -32,7 +35,14 @@ exports.getTests = (req, res) => {
             console.error(err.message);
             return res.status(500).json({ error: 'Failed to fetch tests' });
         }
-        res.status(200).json(rows);
+
+        // Розпарсити питання з JSON-рядка у масив перед поверненням
+        const formattedRows = rows.map(test => ({
+            ...test,
+            questions: JSON.parse(test.questions)
+        }));
+
+        res.status(200).json(formattedRows);
     });
 };
 
@@ -47,6 +57,10 @@ exports.getTestById = (req, res) => {
             return res.status(500).json({ error: 'Failed to fetch test' });
         }
         if (!row) return res.status(404).json({ error: 'Test not found' });
+
+        // Розпарсити питання
+        row.questions = JSON.parse(row.questions);
+
         res.status(200).json(row);
     });
 };
@@ -56,13 +70,15 @@ exports.updateTest = (req, res) => {
     const { id } = req.params;
     const { course_id, title, questions } = req.body;
 
+    const questionsJson = JSON.stringify(questions);
+
     const query = `
       UPDATE tests
       SET course_id = ?, title = ?, questions = ?
       WHERE id = ?
     `;
 
-    db.run(query, [course_id, title, questions, id], function (err) {
+    db.run(query, [course_id, title, questionsJson, id], function (err) {
         if (err) {
             console.error(err.message);
             return res.status(500).json({ error: 'Failed to update test' });
@@ -86,6 +102,8 @@ exports.deleteTest = (req, res) => {
         res.status(200).json({ message: 'Test deleted successfully' });
     });
 };
+
+// Get tests by course ID
 exports.getTestsByCourseId = (req, res) => {
     const { course_id } = req.params;
     const query = `SELECT * FROM tests WHERE course_id = ?`;
@@ -95,7 +113,13 @@ exports.getTestsByCourseId = (req, res) => {
             console.error(err.message);
             return res.status(500).json({ error: 'Failed to fetch tests' });
         }
-        res.status(200).json(rows);
+
+        // Розпарсити питання у кожному тесті
+        const formattedRows = rows.map(test => ({
+            ...test,
+            questions: JSON.parse(test.questions)
+        }));
+
+        res.status(200).json(formattedRows);
     });
 };
-

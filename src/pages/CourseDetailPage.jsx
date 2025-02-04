@@ -118,7 +118,6 @@ export default function CourseDetailPage() {
 
       {course.article && (
         <div className="course-article">
-          <h3>Článok::</h3>
           <div className="typography">{parse(course.article)}</div>
         </div>
       )}

@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button, TextField, MenuItem, IconButton, Typography } from "@mui/material";
@@ -11,7 +12,8 @@ import parse from "html-react-parser";
 import "../styles/RichTextStyles.css";
 
 export default function AddCourseForm() {
-  const MAX_ARTICLE_LENGTH = 10000;
+  const [previewImage, setPreviewImage] = useState(null);
+  const [fileNames, setFileNames] = useState([]);
 
   const CourseSchema = Yup.object().shape({
     title: Yup.string().required("Názov kurzu je povinný").max(100, "Názov kurzu môže mať maximálne 100 znakov"),
@@ -22,6 +24,8 @@ export default function AddCourseForm() {
     article: Yup.string().max(10000, "Článok môže mať maximálne 1000 znakov"),
     publish: Yup.string().required("Vyberte možnosť publikovania").oneOf(["yes", "no"], "Publikovanie musí byť 'yes' alebo 'no'")
   });
+
+  
 
   function handleSubmit(values, { resetForm }) {
     const formData = new FormData();
@@ -68,7 +72,7 @@ export default function AddCourseForm() {
         <div className="content-hold">
           <div className="content">
             <Typography variant="h4" component="h1" gutterBottom>
-              Add Course
+            Pridať tému 
             </Typography>
 
             <Formik
@@ -138,40 +142,40 @@ export default function AddCourseForm() {
                       helperText={<ErrorMessage name="description" />}
                     />
                   </div>
-
-
                   <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                     <Typography variant="body1">Obrázok kurzu:</Typography>
-                    <IconButton
-                      color="primary"
-                      aria-label="upload picture"
-                      component="label"
-                    >
+                    <IconButton color="primary" component="label">
                       <PhotoCamera />
                       <input
                         hidden
                         type="file"
                         accept="image/*"
-                        onChange={(event) => setFieldValue("img", event.currentTarget.files[0])}
+                        onChange={(event) => {
+                          const file = event.currentTarget.files[0];
+                          setFieldValue("img", file);
+                          setPreviewImage(URL.createObjectURL(file));
+                        }}
                       />
                     </IconButton>
+                    {previewImage && <img src={previewImage} alt="Preview" width="50" height="50" style={{ borderRadius: '8px' }} />}
                   </div>
 
                   <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                     <Typography variant="body1">Súbory kurzu (voliteľné):</Typography>
-                    <IconButton
-                      color="primary"
-                      aria-label="upload files"
-                      component="label"
-                    >
+                    <IconButton color="primary" component="label">
                       <AttachFile />
                       <input
                         hidden
                         type="file"
                         multiple
-                        onChange={(event) => setFieldValue("files", event.currentTarget.files)}
+                        onChange={(event) => {
+                          const files = event.currentTarget.files;
+                          setFieldValue("files", files);
+                          setFileNames(Array.from(files).map(file => file.name));
+                        }}
                       />
                     </IconButton>
+                    {fileNames.length > 0 && <Typography variant="body2">{fileNames.join(", ")}</Typography>}
                   </div>
 
                   <div className="form-group">
@@ -195,7 +199,7 @@ export default function AddCourseForm() {
 
                   <div className="form-group">
                     <Button type="submit" variant="contained" color="primary">
-                      Submit
+                    Pridať tému 
                     </Button>
                   </div>
                 </Form>

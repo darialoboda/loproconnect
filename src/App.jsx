@@ -13,6 +13,7 @@ import AddCourseForm from "./pages/AddCourseForm";
 import EditCourse from "./pages/EditCourse"; 
 import TestPage from "./pages/TestPage"; 
 import RegistrationPage from "./pages/RegistrationPage";
+import AddTestForm from './pages/AddTestForm';
 
 
 
@@ -32,7 +33,8 @@ export default function App() {
                     <Route path="*" element={<NoPage />} />
                     <Route path="/profile" element={<UserProfilePage />} />
                     <Route path="/edit-course/:id" element={<EditCourse />} />
-                    <Route path="/test/:id" element={<TestPage />} /> 
+                    <Route path="test" element={<TestPage />} /> 
+                    <Route path="test-form" element={<AddTestForm />} />
                 </Route>
             </Routes>
         </BrowserRouter>
