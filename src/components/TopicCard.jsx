@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { FaEdit, FaEye, FaQuestionCircle } from "react-icons/fa"; // Іконка для редагування, перегляду та питання
+import { useAuth } from "../context/AuthContext";
 
 export default function TopicCard({ topic }) {
+
+  const { user } = useAuth();
+  
   const navigate = useNavigate();
 
   const handleNavigate = () => {
@@ -42,58 +46,67 @@ export default function TopicCard({ topic }) {
       <p className="topic-description">{topic.description}</p>
 
       {/* Кнопка для перегляду курсу */}
-      <div
-        className="view-icon"
-        onClick={handleNavigate}
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "90px", // Зміщуємо іконку перегляду
-          cursor: "pointer",
-          background: "#fff",
-          padding: "5px",
-          borderRadius: "50%",
-          boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
-        }}
-      >
-        <FaEye size={18} color="blue" />
-      </div>
+      {
+        user && 
+          <div
+            className="view-icon"
+            onClick={handleNavigate}
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "90px", // Зміщуємо іконку перегляду
+              cursor: "pointer",
+              background: "#fff",
+              padding: "5px",
+              borderRadius: "50%",
+              boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            <FaEye size={18} color="blue" />
+          </div>
+      }
 
       {/* Іконка для редагування курсу */}
-      <div
-        className="edit-icon"
-        onClick={handleEditNavigate}
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "50px", // Зміщуємо іконку редагування
-          cursor: "pointer",
-          background: "#fff",
-          padding: "5px",
-          borderRadius: "50%",
-          boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
-        }}
-      >
-        <FaEdit size={18} color="green" />
-      </div>
+      {
+        user && 
+          <div
+            className="edit-icon"
+            onClick={handleEditNavigate}
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "50px", // Зміщуємо іконку редагування
+              cursor: "pointer",
+              background: "#fff",
+              padding: "5px",
+              borderRadius: "50%",
+              boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            <FaEdit size={18} color="green" />
+          </div>
+      }
 
       {/* Іконка для тестування курсу */}
-      <div
-        className="test-icon"
-        onClick={handleTestNavigate}
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "10px", // Зміщуємо іконку тестування
-          cursor: "pointer",
-          background: "#fff",
-          padding: "5px",
-          borderRadius: "50%",
-          boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
-        }}
-      >
-        <FaQuestionCircle size={18} color="orange" />
-      </div>
+      {
+        user && 
+        <div
+          className="test-icon"
+          onClick={handleTestNavigate}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px", // Зміщуємо іконку тестування
+            cursor: "pointer",
+            background: "#fff",
+            padding: "5px",
+            borderRadius: "50%",
+            boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+          }}
+        >
+          <FaQuestionCircle size={18} color="orange" />
+        </div>
+      }
     </div>
   );
 }

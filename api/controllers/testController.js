@@ -3,11 +3,11 @@ const path = require('path');
 
 // Create a test
 exports.createTest = (req, res) => {
-    const { course_id, title, questions } = req.body;
+    const { course_id, questions } = req.body;
 
     // Validate required fields
-    if (!course_id || !title || !questions) {
-        return res.status(400).json({ error: 'Course ID, title, and questions are required' });
+    if (!course_id || !questions) {
+        return res.status(400).json({ error: 'Course ID, and questions are required' });
     }
 
     // Перетворюємо масив питань у JSON-рядок перед збереженням
@@ -17,6 +17,8 @@ exports.createTest = (req, res) => {
       INSERT INTO tests (course_id, title, questions)
       VALUES (?, ?, ?)
     `;
+
+    const title = 'Test name';
 
     db.run(query, [course_id, title, questionsJson], function (err) {
         if (err) {
@@ -105,21 +107,49 @@ exports.deleteTest = (req, res) => {
 
 // Get tests by course ID
 exports.getTestsByCourseId = (req, res) => {
-    const { course_id } = req.params;
+    const { id } = req.params;
     const query = `SELECT * FROM tests WHERE course_id = ?`;
 
-    db.all(query, [course_id], (err, rows) => {
+    db.get(query, [id], (err, row) => {
         if (err) {
             console.error(err.message);
-            return res.status(500).json({ error: 'Failed to fetch tests' });
+            return res.status(500).json({ error: 'Failed to fetch test' });
+        }
+        if (!row) return res.status(404).json({ error: 'Test not found' });
+
+        // Розпарсити питання
+        row.questions = JSON.parse(row.questions);
+
+        res.status(200).json(row);
+    });
+};
+
+
+// Save test answers and result
+exports.saveTestResults = (req, res) => {
+    const { test_id, user_id, answers } = req.body;
+
+    // Перевіряємо, чи всі поля передано
+    if (!test_id || !user_id || !answers) {
+        return res.status(400).json({ error: 'Test ID, user ID, and answers are required' });
+    }
+
+    // Перетворюємо масив відповідей у JSON-рядок перед збереженням
+    const answersJson = JSON.stringify(answers);
+
+    // Зберігаємо результати в таблиці answers
+    const query = `
+      INSERT INTO answers (test_id, user_id, answers)
+      VALUES (?, ?, ?)
+    `;
+
+    db.run(query, [test_id, user_id, answersJson], function (err) {
+        if (err) {
+            console.error(err.message);
+            return res.status(500).json({ error: 'Failed to save answers' });
         }
 
-        // Розпарсити питання у кожному тесті
-        const formattedRows = rows.map(test => ({
-            ...test,
-            questions: JSON.parse(test.questions)
-        }));
-
-        res.status(200).json(formattedRows);
+        // Повертаємо успішну відповідь
+        res.status(201).json({ message: 'Answers saved successfully', id: this.lastID });
     });
 };

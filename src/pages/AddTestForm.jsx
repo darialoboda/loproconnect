@@ -1,38 +1,74 @@
-import React from 'react';
-import { Formik, FieldArray, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import { TextField, Button, Box, Typography, Container, Paper } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import { Formik, FieldArray, Form, Field } from "formik";
+import * as Yup from "yup";
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Container,
+  Paper,
+  FormControlLabel,
+  RadioGroup,
+  Radio,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
+import { apiUrl, getData } from "../utils/utils";
+import { useNavigate } from "react-router-dom";
 
 const AddTestForm = () => {
+  const [courses, setCourses] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchCourses() {
+      const data = await getData(apiUrl.courses);
+      setCourses(data);
+    }
+    fetchCourses();
+  }, []);
+
   const initialValues = {
-    course_id: '',
-    title: '',
+    course_id: "",
     questions: [
       {
-        questionText: '',
-        options: ['', '', '', ''],
-        correctAnswer: '',
+        questionText: "",
+        options: ["", "", "", ""],
+        correctAnswerIndex: 0,
       },
     ],
   };
 
   const validationSchema = Yup.object({
-    course_id: Yup.number().required('Required'),
-    title: Yup.string().required('Required'),
+    course_id: Yup.string().required("Required"),
     questions: Yup.array()
       .of(
         Yup.object({
-          questionText: Yup.string().required('Required'),
-          options: Yup.array().of(Yup.string().required('Required')),
-          correctAnswer: Yup.string().required('Required'),
+          questionText: Yup.string().required("Required"),
+          options: Yup.array().of(Yup.string().required("Required")),
+          correctAnswerIndex: Yup.number().required("Required"),
         })
       )
-      .required('Must have at least one question'),
+      .required("Must have at least one question"),
   });
 
-  const onSubmit = (values) => {
-    console.log(values);
-    // Тут можна додати логіку для відправки даних на сервер
+  const onSubmit = async (values) => {
+    try {
+      const response = await fetch(apiUrl.tests, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
+      if (response.ok) {
+        navigate(`/course/${values.course_id}`);
+      }
+    } catch (error) {
+      console.error("Error adding test:", error);
+    }
   };
 
   return (
@@ -41,42 +77,24 @@ const AddTestForm = () => {
         <Typography variant="h4" align="center" gutterBottom>
           Add New Test
         </Typography>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={onSubmit}
-        >
-          {({ values, errors, touched }) => (
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+          {({ values, errors, touched, setFieldValue }) => (
             <Form>
-              <Field name="course_id">
-                {({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Course ID"
-                    fullWidth
-                    margin="normal"
-                    error={touched.course_id && !!errors.course_id}
-                    helperText={touched.course_id && errors.course_id}
-                  />
-                )}
-              </Field>
-              <Field name="title">
-                {({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Test Title"
-                    fullWidth
-                    margin="normal"
-                    error={touched.title && !!errors.title}
-                    helperText={touched.title && errors.title}
-                  />
-                )}
-              </Field>
+              <FormControl fullWidth margin="normal" error={touched.course_id && !!errors.course_id}>
+                <InputLabel>Course</InputLabel>
+                <Field name="course_id" as={Select} label="Course">
+                  {courses.map((course) => (
+                    <MenuItem key={course.id} value={course.id}>
+                      {course.title}
+                    </MenuItem>
+                  ))}
+                </Field>
+              </FormControl>
               <FieldArray name="questions">
                 {({ push, remove }) => (
                   <>
                     {values.questions.map((question, index) => (
-                      <Box key={index} sx={{ mt: 2, p: 2, border: '1px solid #ccc' }}>
+                      <Box key={index} sx={{ mt: 2, p: 2, border: "1px solid #ccc" }}>
                         <Typography variant="h6">Question {index + 1}</Typography>
                         <Field name={`questions.${index}.questionText`}>
                           {({ field }) => (
@@ -96,44 +114,39 @@ const AddTestForm = () => {
                             />
                           )}
                         </Field>
-                        {question.options.map((option, optionIndex) => (
-                          <Field key={optionIndex} name={`questions.${index}.options.${optionIndex}`}>
-                            {({ field }) => (
-                              <TextField
-                                {...field}
-                                label={`Option ${optionIndex + 1}`}
-                                fullWidth
-                                margin="normal"
-                                error={
-                                  touched.questions?.[index]?.options?.[optionIndex] &&
-                                  !!errors.questions?.[index]?.options?.[optionIndex]
-                                }
-                                helperText={
-                                  touched.questions?.[index]?.options?.[optionIndex] &&
-                                  errors.questions?.[index]?.options?.[optionIndex]
-                                }
-                              />
-                            )}
-                          </Field>
-                        ))}
-                        <Field name={`questions.${index}.correctAnswer`}>
-                          {({ field }) => (
-                            <TextField
-                              {...field}
-                              label="Correct Answer"
-                              fullWidth
-                              margin="normal"
-                              error={
-                                touched.questions?.[index]?.correctAnswer &&
-                                !!errors.questions?.[index]?.correctAnswer
-                              }
-                              helperText={
-                                touched.questions?.[index]?.correctAnswer &&
-                                errors.questions?.[index]?.correctAnswer
-                              }
-                            />
-                          )}
-                        </Field>
+                        <RadioGroup
+                          value={values.questions[index].correctAnswerIndex}
+                          onChange={(e) =>
+                            setFieldValue(
+                              `questions.${index}.correctAnswerIndex`,
+                              parseInt(e.target.value)
+                            )
+                          }
+                        >
+                          {question.options.map((option, optionIndex) => (
+                            <Box key={optionIndex} sx={{ display: "flex", alignItems: "center" }}>
+                              <FormControlLabel control={<Radio value={optionIndex} />} />
+                              <Field name={`questions.${index}.options.${optionIndex}`}>
+                                {({ field }) => (
+                                  <TextField
+                                    {...field}
+                                    label={`Option ${optionIndex + 1}`}
+                                    fullWidth
+                                    margin="normal"
+                                    error={
+                                      touched.questions?.[index]?.options?.[optionIndex] &&
+                                      !!errors.questions?.[index]?.options?.[optionIndex]
+                                    }
+                                    helperText={
+                                      touched.questions?.[index]?.options?.[optionIndex] &&
+                                      errors.questions?.[index]?.options?.[optionIndex]
+                                    }
+                                  />
+                                )}
+                              </Field>
+                            </Box>
+                          ))}
+                        </RadioGroup>
                         <Button
                           type="button"
                           variant="outlined"
@@ -151,9 +164,9 @@ const AddTestForm = () => {
                       color="primary"
                       onClick={() =>
                         push({
-                          questionText: '',
-                          options: ['', '', '', ''],
-                          correctAnswer: '',
+                          questionText: "",
+                          options: ["", "", "", ""],
+                          correctAnswerIndex: 0,
                         })
                       }
                       sx={{ mt: 2 }}

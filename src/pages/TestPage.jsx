@@ -1,142 +1,144 @@
 import React, { useState, useEffect } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { Button, Container, Paper, Typography, Radio, FormControlLabel, RadioGroup, Box, IconButton } from '@mui/material';
-import { FaSun, FaMoon } from 'react-icons/fa';
-
-// Приклад даних для тесту (можна замінити на дані з API або бази даних)
-const testData = {
-  title: "Test",
-  questions: [
-    {
-      id: 1,
-      questionText: "What is the capital of France?",
-      options: ["Paris", "London", "Berlin", "Madrid"],
-      correctAnswer: "Paris",
-    },
-    {
-      id: 2,
-      questionText: "Which planet is known as the Red Planet?",
-      options: ["Earth", "Mars", "Jupiter", "Saturn"],
-      correctAnswer: "Mars",
-    },
-    {
-      id: 3,
-      questionText: "Who wrote 'To Kill a Mockingbird'?",
-      options: ["Harper Lee", "Mark Twain", "J.K. Rowling", "Ernest Hemingway"],
-      correctAnswer: "Harper Lee",
-    },
-    {
-      id: 4,
-      questionText: "What is the largest ocean on Earth?",
-      options: ["Atlantic", "Indian", "Arctic", "Pacific"],
-      correctAnswer: "Pacific",
-    },
-    {
-      id: 5,
-      questionText: "What is the chemical symbol for water?",
-      options: ["H2O", "CO2", "O2", "NaCl"],
-      correctAnswer: "H2O",
-    },
-  ],
-};
-
-// Валідація для форми
-const validationSchema = Yup.object().shape({
-  answers: Yup.array()
-    .of(Yup.string().required("You must select an answer"))
-    .required("You must answer all questions"),
-});
+import { Button, Container, Paper, Typography, Radio, FormControlLabel, RadioGroup, Box } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import { apiUrl, getData } from '../utils/utils';
 
 const TestPage = () => {
-  const initialValues = {
-    answers: Array(testData.questions.length).fill(""), // Масив для зберігання відповідей
-  };
-
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem("darkMode") === "true"; // Завантаження стану теми
-  });
-
-  const toggleTheme = () => {
-    setDarkMode((prevMode) => {
-      const newMode = !prevMode;
-      localStorage.setItem("darkMode", newMode); // Збереження в localStorage
-      return newMode;
-    });
-  };
+  const [test, setTest] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [score, setScore] = useState(null);
+  const { id } = useParams();
 
   useEffect(() => {
-    // Додавання або видалення класу в body
-    if (darkMode) {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
+    async function fetchTestData() {
+      try {
+        const testData = await getData(`${apiUrl.tests}${id}`);
+        setTest(testData);
+      } catch (error) {
+        console.error("Error fetching test data:", error);
+      }
     }
-  }, [darkMode]);
+    fetchTestData();
+  }, [id]);
 
-  const handleSubmit = (values) => {
-    console.log("Submitted Answers:", values.answers);
-    // Тут можна додати логіку для перевірки відповідей або відправки на сервер
-  };
+  const validationSchema = Yup.object().shape({
+    answers: Yup.array()
+      .of(Yup.string().required("Ви повинні вибрати відповідь"))
+      .required("Ви повинні відповісти на всі питання"),
+  });
+
+  const handleSubmit = async (values) => {
+    let correctCount = 0;
+
+    // Створюємо новий масив для збереження відповідей з індексами
+    const userAnswers = test.questions.map((question, index) => {
+        const userAnswer = values.answers[index];
+        const isCorrect = userAnswer === question.options[question.correctAnswerIndex];
+
+        if (isCorrect) {
+            correctCount++;
+        }
+
+        // Зберігаємо відповідь користувача разом з індексом відповіді
+        return {
+            questionId: question.id,  // Якщо питання має унікальний id, додаємо його
+            selectedAnswer: userAnswer,
+            correctAnswerIndex: question.correctAnswerIndex,
+            isCorrect,
+        };
+    });
+
+    // Рахуємо результат
+    setScore(((correctCount / test.questions.length) * 100).toFixed(2));
+    setSubmitted(true);
+
+    // Зберігаємо відповіді у базі даних
+    try {
+        const response = await fetch(`${apiUrl.saveTestResults}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                test_id: test.id,
+                user_id: 1,  // Тут вказуємо ID користувача, отриманий із сесії чи іншого джерела
+                answers: userAnswers,
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to save answers');
+        }
+
+        const result = await response.json();
+        console.log(result.message);  // Логуємо повідомлення про успіх
+
+    } catch (error) {
+        console.error("Error saving answers:", error);
+    }
+};
+
+
+
+  if (!test) return <Typography variant="h5" align="center">Завантаження тесту...</Typography>;
 
   return (
     <Container component="main" maxWidth="md">
-      <Paper elevation={3} sx={{ mt: 8, p: 4, backgroundColor: darkMode ? '#000' : '#fff', color: darkMode ? '#fff' : '#000' }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h4" align="center" gutterBottom>
-            {testData.title}
-          </Typography>
-          <IconButton onClick={toggleTheme} color="inherit">
-            {darkMode ? <FaSun /> : <FaMoon />}
-          </IconButton>
-        </Box>
+      <Paper elevation={2} sx={{ mt: 8, p: 4 }}>
+        <Typography variant="h4" align="center" gutterBottom>{test.title}</Typography>
         <Formik
-          initialValues={initialValues}
+          initialValues={{ answers: Array(test.questions.length).fill("") }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({ values, errors, touched }) => (
+          {({ values }) => (
             <Form>
-              {testData.questions.map((question, index) => (
-                <Box key={question.id} sx={{ mb: 4 }}>
+              {test.questions.map((question, index) => (
+                <Box key={index} sx={{ mb: 4 }}>
                   <Typography variant="h6" gutterBottom>
                     {index + 1}. {question.questionText}
                   </Typography>
                   <Field name={`answers[${index}]`}>
                     {({ field }) => (
                       <RadioGroup {...field}>
-                        {question.options.map((option, optionIndex) => (
-                          <FormControlLabel
-                            key={optionIndex}
-                            value={option}
-                            control={<Radio />}
-                            label={option}
-                            sx={{ color: darkMode ? '#fff' : '#000' }}
-                          />
-                        ))}
+                        {question.options.map((option, optionIndex) => {
+                          const isCorrect = option === question.options[question.correctAnswerIndex];
+                          const isSelected = values.answers[index] === option;
+                          const showFeedback = submitted && isSelected;
+
+                          return (
+                            <FormControlLabel
+                              key={optionIndex}
+                              value={option}
+                              control={<Radio />}
+                              label={option}
+                              sx={{
+                                color: showFeedback ? (isCorrect ? 'green' : 'red') : 'inherit',
+                                textDecoration: submitted && isCorrect ? 'underline' : 'none',
+                              }}
+                            />
+                          );
+                        })}
                       </RadioGroup>
                     )}
                   </Field>
-                  <ErrorMessage
-                    name={`answers[${index}]`}
-                    component="div"
-                    className="error-message"
-                    style={{ color: 'red', fontSize: '0.875rem' }}
-                  />
                 </Box>
               ))}
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-                sx={{ mt: 3 }}
-              >
-                Підтвердити
-              </Button>
+              {!submitted && (
+                <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
+                  Підтвердити
+                </Button>
+              )}
             </Form>
           )}
         </Formik>
+        {submitted && (
+          <Typography variant="h5" align="center" sx={{ mt: 4 }}>
+            Ваш результат: {score}%
+          </Typography>
+        )}
       </Paper>
     </Container>
   );

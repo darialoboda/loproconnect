@@ -7,7 +7,8 @@ import parse from "html-react-parser";
 
 export default function CourseDetailPage() {
   const [course, setCourse] = useState({});
-  const [tests, setTests] = useState([]);
+  const [test, setTest] = useState(false);
+  
   const { id } = useParams();
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(() => {
@@ -17,12 +18,10 @@ export default function CourseDetailPage() {
   useEffect(() => {
     async function fetchCourseData() {
       const courseData = await getData(`${apiUrl.courseById}${id}`);
-      console.log(courseData);
-
       setCourse(courseData);
 
-      const testsData = await getData(`${apiUrl.testsByCourse}${id}`);
-      setTests(testsData);
+      const testData = await getData(`${apiUrl.testsByCourse + id}`);
+      setTest(testData);
     }
     fetchCourseData();
   }, [id]);
@@ -176,18 +175,12 @@ export default function CourseDetailPage() {
         </p>
       </div>
 
-      {tests.length > 0 && (
+      {test && (
         <div className="course-tests">
           <h3>testovanie</h3>
-          <ul>
-            {tests.map((test) => (
-              <li key={test.id}>
-                <Link to={`/tests/${test.id}`} className="btn-test">
-                  {test.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <Link to={`/test/${test.id}`} className="btn-test">
+            Otestovat sa
+          </Link>
         </div>
       )}
     </div>

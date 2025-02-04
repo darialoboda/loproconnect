@@ -5,8 +5,12 @@ import { faHome, faBook, faInfoCircle, faPhone, faUser } from "@fortawesome/free
 import { Link } from "react-router-dom";
 //import { FaUserAlt, FaLock } from "react-icons/fa";
 import Container from "./Container";
+import { useAuth } from "../context/AuthContext";
 
 export default function Header() {
+
+  const { isAuthenticated } = useAuth();
+
   return (
     <header className="header">
       <Container>
@@ -34,7 +38,7 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link to="/login" className="register-icon-link">
+              <Link to={isAuthenticated ? "/profile" : "/login"} className="register-icon-link">
                 <FontAwesomeIcon icon={faUser} size="lg" /> {/* Reduced size */}
               </Link>
             </li>

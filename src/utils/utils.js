@@ -7,7 +7,13 @@ export async function getData(url) {
 export const apiUrl = {
     courses: 'http://localhost:5000/courses',
     courseById: 'http://localhost:5000/courses/',
-    testsByCourse: '/api/tests/course/'
+    tests: 'http://localhost:5000/tests/',
+    testsByCourse: 'http://localhost:5000/tests/course/',
+    saveTestResults: 'http://localhost:5000/tests/save',
+    users: 'http://localhost:5000/users',
+    register: 'http://localhost:5000/users/register',
+    login: 'http://localhost:5000/users/login',
+    auth: 'http://localhost:5000/users/auth',
 }
 
 
