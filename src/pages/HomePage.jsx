@@ -1,12 +1,13 @@
-import React, { useState } from "react"; // Correct import from React
+import React, { useEffect, useState } from "react"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTools, faClipboardCheck, faLightbulb } from "@fortawesome/free-solid-svg-icons";
 import Container from "../components/Container";
-import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
-
+import { useNavigate, useLocation } from "react-router-dom"; // Додано useLocation
+import { toast } from "react-toastify";
 
 export default function HomePage() {
   const navigate = useNavigate(); 
+  const location = useLocation(); // Використання useLocation для доступу до location
 
   const [isModalOpen, setIsModalOpen] = useState(false); 
 
@@ -33,6 +34,12 @@ export default function HomePage() {
         break;
     }
   };
+
+  useEffect(() => {
+    if (location.state?.message) {
+      toast.success(location.state.message); // Тепер доступ до location через useLocation
+    }
+  }, [location]); // Використання location з useLocation в якості залежності
 
   return (
     <div className="page-home">

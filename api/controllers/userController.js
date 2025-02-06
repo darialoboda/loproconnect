@@ -97,11 +97,6 @@ exports.deleteUser = (req, res) => {
     });
 };
 
-
-
-
-
-
 // Функція для реєстрації користувача
 exports.registerUser = (req, res) => {
     const { name, email, password, role } = req.body;

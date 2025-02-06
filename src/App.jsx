@@ -15,6 +15,7 @@ import TestPage from "./pages/TestPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import AddTestForm from './pages/AddTestForm';
 import { AuthProvider } from "./context/AuthContext";
+import EditProfilePage from "./pages/EditProfilePage";
 
 export default function App() {
     return (
@@ -29,12 +30,14 @@ export default function App() {
                         <Route path="course/:id" element={<CourseDetailPage />} />
                         <Route path="motivation" element={<MotivationPage />} />
                         <Route path="login" element={<LoginPage />} />
+                        <Route path="edit-profile" element={<EditProfilePage />} />
                         <Route path="register" element={<RegistrationPage />} />
                         <Route path="*" element={<NoPage />} />
                         <Route path="profile" element={<UserProfilePage />} />
                         <Route path="edit-course/:id" element={<EditCourse />} />
                         <Route path="test/:id" element={<TestPage />} /> 
                         <Route path="test-form" element={<AddTestForm />} />
+
                     </Route>
                 </Routes>
             </BrowserRouter>

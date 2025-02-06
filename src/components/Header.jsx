@@ -1,15 +1,12 @@
-// src/components/Header.jsx
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faBook, faInfoCircle, faPhone, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-//import { FaUserAlt, FaLock } from "react-icons/fa";
 import Container from "./Container";
 import { useAuth } from "../context/AuthContext";
 
 export default function Header() {
-
-  const { isAuthenticated } = useAuth();
+  const { user } = useAuth();
 
   return (
     <header className="header">
@@ -38,8 +35,9 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link to={isAuthenticated ? "/profile" : "/login"} className="register-icon-link">
-                <FontAwesomeIcon icon={faUser} size="lg" /> {/* Reduced size */}
+              <Link to={user ? "/profile" : "/login"} className="register-icon-link">
+                <FontAwesomeIcon icon={faUser} size="lg" />
+                {user && <span className="username"> {user.name}</span>}
               </Link>
             </li>
           </ul>

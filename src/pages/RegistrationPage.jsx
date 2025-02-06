@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { FaUserAlt, FaLock, FaUserGraduate } from "react-icons/fa";
+import { FaUserAlt, FaUserGraduate } from "react-icons/fa";
 import Container from "../components/Container";
 import { apiUrl } from "../utils/utils";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify"; // Імпортуємо ToastContainer
+import "react-toastify/dist/ReactToastify.css"; // Імпортуємо стилі Toastify
 
 export default function RegistrationPage() {
     const navigate = useNavigate();
@@ -13,10 +15,10 @@ export default function RegistrationPage() {
         navigate('/profile');
     }
 
-    const [userRole, setUserRole] = useState(""); // State to store user role
-    const [username, setUsername] = useState(""); // State for username
-    const [email, setEmail] = useState(""); // State for email
-    const [password, setPassword] = useState(""); // State for password
+    const [userRole, setUserRole] = useState(""); // State для ролі користувача
+    const [username, setUsername] = useState(""); // State для імені
+    const [email, setEmail] = useState(""); // State для email
+    const [password, setPassword] = useState(""); // State для пароля
 
     const handleRoleChange = (event) => {
         setUserRole(event.target.value);
@@ -30,7 +32,7 @@ export default function RegistrationPage() {
             email,
             password,
             role: userRole,
-        };        
+        };
 
         try {
             const response = await fetch(apiUrl.register, {
@@ -40,21 +42,27 @@ export default function RegistrationPage() {
                 },
                 body: JSON.stringify(newUser),
             });
-            console.log("response: ", response);
 
             if (response.ok) {
-                alert("Registration successful!");
+                toast.success("Registration successful!"); // Показуємо успішне повідомлення
+                setUsername(""); // Очищаємо форму
+                setEmail("");
+                setPassword("");
+                setUserRole(""); // Очищаємо вибір ролі
+                setTimeout(() => {
+                    navigate("/login"); // Перенаправляємо на сторінку входу
+                }, 2000);
             } else {
-                alert("Registration failed. Please try again.");
+                toast.error("Registration failed. Please try again."); // Показуємо помилку
             }
         } catch (error) {
             console.error("Error:", error);
-            alert("Something went wrong. Please try again.");
+            toast.error("Something went wrong. Please try again."); // Показуємо помилку
         }
     };
 
     return (
-        <div className='page-registration'>
+        <div className="page-registration">
             <Container>
                 <div className="content-hold">
                     <div className="registration-container">
@@ -134,6 +142,9 @@ export default function RegistrationPage() {
                     </div>
                 </div>
             </Container>
+
+            {/* Додаємо ToastContainer для відображення повідомлень */}
+            <ToastContainer />
         </div>
     );
 }
