@@ -51,22 +51,21 @@ const UserProfilePage = () => {
           </Box>
           <CardContent sx={{ padding: 4 }}>
             <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 700, fontFamily: "'Roboto Slab', serif", color: darkMode ? yellow[200] : deepPurple[700] }}>
-              {user?.name || "Невідомий користувач"}
+              {user?.name || "Neznámy používateľ"}
             </Typography>
-            <Typography variant="body1" color="textSecondary" align="center">Email: {user?.email || "Немає email"}</Typography>
-            <Typography variant="body1" color="textSecondary" align="center">Роль: {user?.role || "Невідомо"}</Typography>
+            <Typography variant="body1" color="textSecondary" align="center">Email: {user?.email || "Žiadny e-mail"}</Typography>
+            <Typography variant="body1" color="textSecondary" align="center">Rola: {user?.role || "Neznáme"}</Typography>
             <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 3 }}>
               <Button variant="contained" color="primary" onClick={handleEditProfile} sx={{ borderRadius: 2, backgroundColor: "#FFC107", color: "#000", "&:hover": { backgroundColor: "#FFB300" } }}>
-                Редагувати профіль
+              Upraviť profil
               </Button>
               <Button variant="contained" onClick={handleLogout} sx={{ borderRadius: 2, backgroundColor: "#D32F2F", color: "#fff", "&:hover": { backgroundColor: "#B71C1C" } }}>
-                Вийти з акаунту
+              Odhlásiť sa z účtu
               </Button>
             </Box>
           </CardContent>
         </Card>
       </Box>
-      {/* Додаємо ToastContainer для відображення повідомлень */}
       <ToastContainer />
     </ThemeProvider>
   );

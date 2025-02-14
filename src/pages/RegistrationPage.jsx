@@ -44,7 +44,7 @@ export default function RegistrationPage() {
             });
 
             if (response.ok) {
-                toast.success("Registration successful!"); // Показуємо успішне повідомлення
+                toast.success("Registrácia bola úspešná!"); // Показуємо успішне повідомлення
                 setUsername(""); // Очищаємо форму
                 setEmail("");
                 setPassword("");
@@ -53,11 +53,11 @@ export default function RegistrationPage() {
                     navigate("/login"); // Перенаправляємо на сторінку входу
                 }, 2000);
             } else {
-                toast.error("Registration failed. Please try again."); // Показуємо помилку
+                toast.error("Registrácia zlyhala. Skúste to znova."); // Показуємо помилку
             }
         } catch (error) {
             console.error("Error:", error);
-            toast.error("Something went wrong. Please try again."); // Показуємо помилку
+            toast.error("Niečo sa pokazilo. Skúste to znova."); // Показуємо помилку
         }
     };
 

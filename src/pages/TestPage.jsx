@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { Button, Container, Paper, Typography, Radio, FormControlLabel, RadioGroup, Box } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { Button, Container, Paper, Typography, Radio, FormControlLabel, RadioGroup, Box, Modal } from '@mui/material';
+import { PieChart, Pie, Cell, Tooltip } from 'recharts';
+import { useParams, useNavigate } from 'react-router-dom';
 import { apiUrl, getData } from '../utils/utils';
 
 const TestPage = () => {
   const [test, setTest] = useState(null);
   const [submitted, setSubmitted] = useState(false);
-  const [score, setScore] = useState(null);
+  const [score, setScore] = useState(0);
+  const [open, setOpen] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchTestData() {
@@ -25,64 +28,55 @@ const TestPage = () => {
 
   const validationSchema = Yup.object().shape({
     answers: Yup.array()
-      .of(Yup.string().required("Ви повинні вибрати відповідь"))
-      .required("Ви повинні відповісти на всі питання"),
+      .of(Yup.string().required("Musíte vybrať odpoveď"))
+      .required("Musíte odpovedať na všetky otázky"),
   });
 
   const handleSubmit = async (values) => {
     let correctCount = 0;
 
-    // Створюємо новий масив для збереження відповідей з індексами
     const userAnswers = test.questions.map((question, index) => {
-        const userAnswer = values.answers[index];
-        const isCorrect = userAnswer === question.options[question.correctAnswerIndex];
+      const userAnswer = values.answers[index];
+      const isCorrect = userAnswer === question.options[question.correctAnswerIndex];
 
-        if (isCorrect) {
-            correctCount++;
-        }
-
-        // Зберігаємо відповідь користувача разом з індексом відповіді
-        return {
-            questionId: question.id,  // Якщо питання має унікальний id, додаємо його
-            selectedAnswer: userAnswer,
-            correctAnswerIndex: question.correctAnswerIndex,
-            isCorrect,
-        };
+      if (isCorrect) {
+        correctCount++;
+      }
+      return {
+        questionId: question.id,
+        selectedAnswer: userAnswer,
+        correctAnswerIndex: question.correctAnswerIndex,
+        isCorrect,
+      };
     });
 
-    // Рахуємо результат
-    setScore(((correctCount / test.questions.length) * 100).toFixed(2));
+    const calculatedScore = ((correctCount / test.questions.length) * 100).toFixed(2);
+    setScore(calculatedScore);
     setSubmitted(true);
+    setOpen(true);
 
-    // Зберігаємо відповіді у базі даних
     try {
-        const response = await fetch(`${apiUrl.saveTestResults}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                test_id: test.id,
-                user_id: 1,  // Тут вказуємо ID користувача, отриманий із сесії чи іншого джерела
-                answers: userAnswers,
-            }),
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to save answers');
-        }
-
-        const result = await response.json();
-        console.log(result.message);  // Логуємо повідомлення про успіх
-
+      await fetch(`${apiUrl.saveTestResults}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          test_id: test.id,
+          user_id: 1,
+          answers: userAnswers,
+        }),
+      });
     } catch (error) {
-        console.error("Error saving answers:", error);
+      console.error("Error saving answers:", error);
     }
-};
+  };
 
+  if (!test) return <Typography variant="h5" align="center">Načítava sa test...</Typography>;
 
-
-  if (!test) return <Typography variant="h5" align="center">Завантаження тесту...</Typography>;
+  const data = [
+    { name: 'Správne odpovede', value: Number(score) },
+    { name: 'Nesprávne odpovede', value: 100 - Number(score) }
+  ];
+  const COLORS = ['#4CAF50', '#F44336'];
 
   return (
     <Container component="main" maxWidth="md">
@@ -103,24 +97,14 @@ const TestPage = () => {
                   <Field name={`answers[${index}]`}>
                     {({ field }) => (
                       <RadioGroup {...field}>
-                        {question.options.map((option, optionIndex) => {
-                          const isCorrect = option === question.options[question.correctAnswerIndex];
-                          const isSelected = values.answers[index] === option;
-                          const showFeedback = submitted && isSelected;
-
-                          return (
-                            <FormControlLabel
-                              key={optionIndex}
-                              value={option}
-                              control={<Radio />}
-                              label={option}
-                              sx={{
-                                color: showFeedback ? (isCorrect ? 'green' : 'red') : 'inherit',
-                                textDecoration: submitted && isCorrect ? 'underline' : 'none',
-                              }}
-                            />
-                          );
-                        })}
+                        {question.options.map((option, optionIndex) => (
+                          <FormControlLabel
+                            key={optionIndex}
+                            value={option}
+                            control={<Radio />}
+                            label={option}
+                          />
+                        ))}
                       </RadioGroup>
                     )}
                   </Field>
@@ -128,18 +112,36 @@ const TestPage = () => {
               ))}
               {!submitted && (
                 <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
-                  Підтвердити
+                  Potvrdiť odoslanie
                 </Button>
               )}
             </Form>
           )}
         </Formik>
-        {submitted && (
-          <Typography variant="h5" align="center" sx={{ mt: 4 }}>
-            Ваш результат: {score}%
-          </Typography>
-        )}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+          <Button variant="contained" color="secondary" onClick={() => navigate(`/courses/${test.coursesId}`)}>
+            Назад до курсу
+          </Button>
+          <Button variant="contained" color="primary" onClick={() => navigate(`/edit-test/${test.id}`)}>
+            Редагувати тест
+          </Button>
+        </Box>
       </Paper>
+
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <Paper sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', p: 4, width: 400, textAlign: 'center' }}>
+          <Typography variant="h5" gutterBottom>Váš výsledok: {score}%</Typography>
+          <PieChart width={300} height={300}>
+            <Pie data={data} cx={150} cy={150} innerRadius={60} outerRadius={80} fill="#8884d8" dataKey="value" label>
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index]} />
+              ))}
+            </Pie>
+            <Tooltip />
+          </PieChart>
+          <Button variant="contained" onClick={() => setOpen(false)}>Zatvoriť</Button>
+        </Paper>
+      </Modal>
     </Container>
   );
 };

@@ -153,3 +153,41 @@ exports.saveTestResults = (req, res) => {
         res.status(201).json({ message: 'Answers saved successfully', id: this.lastID });
     });
 };
+
+// Get test results by user ID
+exports.getTestResultsByUser = (req, res) => {
+    const { user_id } = req.params;
+
+    if (!user_id) {
+        return res.status(400).json({ error: 'User ID is required' });
+    }
+
+    const query = `
+      SELECT answers.id, answers.test_id, tests.title, answers.answers
+      FROM answers
+      JOIN tests ON answers.test_id = tests.id
+      WHERE answers.user_id = ?
+    `;
+
+    db.all(query, [user_id], (err, rows) => {
+        if (err) {
+            console.error('Помилка отримання результатів тестів:', err.message);
+            return res.status(500).json({ error: 'Failed to fetch test results' });
+        }
+
+        if (rows.length === 0) {
+            return res.status(404).json({ error: 'No test results found for this user' });
+        }
+
+        // Розпарсимо відповіді з JSON-рядка
+        const formattedResults = rows.map(result => ({
+            id: result.id,
+            test_id: result.test_id,
+            test_title: result.title,
+            answers: JSON.parse(result.answers)
+        }));
+
+        res.status(200).json(formattedResults);
+    });
+};
+

@@ -52,7 +52,7 @@ const AddTestForm = () => {
           correctAnswerIndex: Yup.number().required("Required"),
         })
       )
-      .required("Must have at least one question"),
+      .required("Musí obsahovať aspoň jednu otázku"),
   });
 
   const onSubmit = async (values) => {
@@ -75,7 +75,7 @@ const AddTestForm = () => {
     <Container component="main" maxWidth="sm">
       <Paper elevation={3} sx={{ mt: 8, p: 4 }}>
         <Typography variant="h4" align="center" gutterBottom>
-          Add New Test
+        Pridaj nový test
         </Typography>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
           {({ values, errors, touched, setFieldValue }) => (
@@ -154,7 +154,7 @@ const AddTestForm = () => {
                           onClick={() => remove(index)}
                           sx={{ mt: 2 }}
                         >
-                          Remove Question
+                          Odstrániť otázku
                         </Button>
                       </Box>
                     ))}
@@ -171,13 +171,13 @@ const AddTestForm = () => {
                       }
                       sx={{ mt: 2 }}
                     >
-                      Add Question
+                      Pridať otázku
                     </Button>
                   </>
                 )}
               </FieldArray>
               <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
-                Submit
+              Odoslať
               </Button>
             </Form>
           )}

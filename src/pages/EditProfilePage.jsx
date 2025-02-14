@@ -13,10 +13,10 @@ const EditProfilePage = () => {
 
   // Валідація форми без підтвердження пароля
   const validationSchema = Yup.object({
-    name: Yup.string().required("Ім'я обов'язкове"),
-    email: Yup.string().email("Невірний формат email").required("Email обов'язковий"),
-    role: Yup.string().required("Роль обов'язкова"),
-    password: Yup.string().min(6, "Пароль повинен бути не менше 6 символів"), // Пароль без підтвердження
+    name: Yup.string().required("Meno je povinné"),
+    email: Yup.string().email("Nesprávny formát e-mailu").required("Email обов'язковий"),
+    role: Yup.string().required("Rola je povinná"),
+    password: Yup.string().min(6, "Heslo musí mať aspoň 6 znakov"), // Пароль без підтвердження
   });
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const EditProfilePage = () => {
       <Card sx={{ maxWidth: 900, width: "100%", boxShadow: 6, borderRadius: 3, overflow: "hidden", backgroundColor: "#fff" }}>
         <CardContent sx={{ padding: 4 }}>
           <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 700, color: deepPurple[700] }}>
-            Редагувати профіль
+          Upraviť profil
           </Typography>
 
           <Formik
@@ -96,10 +96,10 @@ const EditProfilePage = () => {
                   />
                   <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 3 }}>
                     <Button type="submit" variant="contained" color="primary" sx={{ backgroundColor: yellow[700], color: "#000" }}>
-                      Зберегти
+                    Uložiť
                     </Button>
                     <Button variant="outlined" onClick={() => navigate("/profile")} sx={{ color: deepPurple[700] }}>
-                      Відмінити
+                    Zrušiť
                     </Button>
                   </Box>
                 </Box>

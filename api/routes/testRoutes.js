@@ -7,7 +7,8 @@ const {
     updateTest, 
     deleteTest,
     getTestsByCourseId,
-    saveTestResults
+    saveTestResults,
+    getTestResultsByUser
 } = require('../controllers/testController');
 const router = express.Router();
 
@@ -19,6 +20,7 @@ router.put('/:id', updateTest);
 router.delete('/:id', deleteTest);
 router.get('/course/:id', getTestsByCourseId);
 router.post('/save', saveTestResults);
+router.get('/test-results/:userId', getTestResultsByUser);
 
 
 module.exports = router;
