@@ -107,6 +107,43 @@
     background: none;
     outline: none;
 }
+.course-tests {
+    display: flex;
+    justify-content: center;  /* Центрування по горизонталі */
+    align-items: center;      /* Центрування по вертикалі */
+}
+  
+.btn-test {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 0.875rem;
+    color: #333;  /* Темно-сірий текст */
+    background-color: transparent;
+    border: 1px solid #333;  /* Тонка сіра рамка */
+    border-radius: 20px;  /* Округлі кути */
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease; /* Плавний перехід для ефектів */
+}
+
+.btn-test:hover {
+    color: #fff;  /* Білий текст на наведенні */
+    background-color: #333;  /* Темно-сірий фон на наведенні */
+    border-color: #333;  /* Колір рамки залишиться тим самим */
+}
+
+/* Темний режим - синя рамка */
+.dark-mode .btn-test {
+    color: #fff;  /* Білий текст */
+    border-color: #007bff; /* Синя рамка */
+}
+
+.dark-mode .btn-test:hover {
+    background-color: #007bff; /* Синій фон при наведенні */
+    color: #fff;
+}
+  
+  
 
 
   

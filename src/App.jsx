@@ -39,7 +39,7 @@ export default function App() {
                         <Route path="edit-course/:id" element={<EditCourse />} />
                         <Route path="test/:id" element={<TestPage />} /> 
                         <Route path="test-form" element={<AddTestForm />} />
-                        <Route path="edit-test" element={<EditTestForm />} />
+                        <Route path="edit-test/:id" element={<EditTestForm />} />
 
 
                     </Route>

@@ -177,7 +177,6 @@ export default function CourseDetailPage() {
 
       {test && (
         <div className="course-tests">
-          <h3>testovanie</h3>
           <Link to={`/test/${test.id}`} className="btn-test">
             Otestovat sa
           </Link>
