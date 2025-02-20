@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
@@ -7,6 +7,9 @@ import { Avatar, Button, Card, CardContent, Typography, Box, IconButton } from "
 import { Brightness4, Brightness7 } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { deepPurple, yellow } from "@mui/material/colors";
+import RoleAdmin from "../components/userRole/RoleAdmin";
+import RoleTeacher from "../components/userRole/RoleTeacher";
+import RoleUser from "../components/userRole/RoleUser";
 
 const darkTheme = createTheme({
   palette: {
@@ -25,6 +28,12 @@ const UserProfilePage = () => {
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(false);
 
+  useEffect(() => {
+    if (!user) {
+      navigate("/login"); // Якщо користувач не автентифікований, перенаправляємо на сторінку входу
+    }
+  }, [user, navigate]);
+
   const handleLogout = () => {
     logout();
     toast.success("Ви успішно вийшли з акаунту!"); // Повідомлення про успішний вихід
@@ -33,6 +42,12 @@ const UserProfilePage = () => {
 
   const handleEditProfile = () => {
     navigate("/edit-profile"); // Перехід на сторінку редагування профілю
+  };
+
+  const roleComponents = {
+    admin: <RoleAdmin />,
+    teacher: <RoleTeacher />,
+    user: <RoleUser />
   };
 
   return (
@@ -64,6 +79,8 @@ const UserProfilePage = () => {
               </Button>
             </Box>
           </CardContent>
+          {/* {roleComponents[user?.role] || <Typography>Невідома роль</Typography>} */}
+          {roleComponents['user']}
         </Card>
       </Box>
       <ToastContainer />

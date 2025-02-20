@@ -14,6 +14,7 @@ export const apiUrl = {
     register: 'http://localhost:5000/users/register',
     login: 'http://localhost:5000/users/login',
     auth: 'http://localhost:5000/users/auth',
+    usersAnswers: 'http://localhost:5000/users/answers/',
 }
 
 
@@ -21,3 +22,4 @@ export function extractYouTubeVideoId(url) {
     const match = url.match(/(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/);
     return match ? match[1] : null;
 }
+

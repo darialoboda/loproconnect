@@ -61,13 +61,14 @@
 
 .topic-card {
   background: linear-gradient(135deg, #ffffff, #f7f9fc);
-  border: 1px solid #e6e9ef;
-  border-radius: 12px;
-  padding: 25px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
   text-align: center;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
 .topic-card:hover {
@@ -112,6 +113,53 @@
 
 .btn-view-course:hover {
   background-color: #0056b3;
+}
+
+.topic-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 15px;
+}
+.topic-actions .btn-action {
+  --bg: #fff;
+  --color: #000;
+  --hover-bg: #2632da;
+  --hover-color: #fff;
+
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: var(--bg);
+  color: var(--color);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.topic-actions .btn-action:hover {
+  background-color: var(--hover-bg);
+  color: var(--hover-color);
+}
+.topic-actions .btn-action.btn-action-view {
+  --color: #132adb;
+  --hover-bg: #132adb;
+}
+.topic-actions .btn-action.btn-action-edit {
+  --color: #4cbe0b;
+  --hover-bg: #4cbe0b;
+}
+.topic-actions .btn-action.btn-action-test {
+  --color: #de960f;
+  --hover-bg: #de960f;
+}
+.topic-actions .btn-action.btn-action-del {
+  --color: #d95f51;
+  --hover-bg: #d95f51;
 }
 
 /* Responsive adjustments */

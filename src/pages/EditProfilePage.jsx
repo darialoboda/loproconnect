@@ -15,7 +15,6 @@ const EditProfilePage = () => {
   const validationSchema = Yup.object({
     name: Yup.string().required("Meno je povinné"),
     email: Yup.string().email("Nesprávny formát e-mailu").required("Email обов'язковий"),
-    role: Yup.string().required("Rola je povinná"),
     password: Yup.string().min(6, "Heslo musí mať aspoň 6 znakov"), // Пароль без підтвердження
   });
 
@@ -30,7 +29,6 @@ const EditProfilePage = () => {
     updateUser({
       name: values.name,
       email: values.email,
-      role: values.role,
       password: values.password, // Оновлення пароля
     });
     navigate("/profile"); // Після редагування повертаємось на сторінку профілю
@@ -46,9 +44,8 @@ const EditProfilePage = () => {
 
           <Formik
             initialValues={{
-              name: user?.name || "",
-              email: user?.email || "",
-              role: user?.role || "",
+              name: user?.name || '',
+              email: user?.email || '',
               password: "",
             }}
             validationSchema={validationSchema}
@@ -61,7 +58,7 @@ const EditProfilePage = () => {
                     name="name"
                     label="Ім'я"
                     variant="outlined"
-                    component={TextField}
+                    as={TextField}
                     sx={{ width: "100%" }}
                     error={touched.name && !!errors.name}
                     helperText={touched.name && errors.name}
@@ -70,26 +67,17 @@ const EditProfilePage = () => {
                     name="email"
                     label="Email"
                     variant="outlined"
-                    component={TextField}
+                    as={TextField}
                     sx={{ width: "100%" }}
                     error={touched.email && !!errors.email}
                     helperText={touched.email && errors.email}
-                  />
-                  <Field
-                    name="role"
-                    label="Роль"
-                    variant="outlined"
-                    component={TextField}
-                    sx={{ width: "100%" }}
-                    error={touched.role && !!errors.role}
-                    helperText={touched.role && errors.role}
                   />
                   <Field
                     name="password"
                     label="Новий пароль"
                     type="password"
                     variant="outlined"
-                    component={TextField}
+                    as={TextField}
                     sx={{ width: "100%" }}
                     error={touched.password && !!errors.password}
                     helperText={touched.password && errors.password}

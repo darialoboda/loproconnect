@@ -58,29 +58,53 @@ exports.getUserById = (req, res) => {
 };
 
 // Оновлення користувача
-exports.updateUser = (req, res) => {
+exports.updateUser = async (req, res) => {
     const { id } = req.params;
     const { name, email, password, role } = req.body;
 
-    const query = `
-      UPDATE users
-      SET name = ?, email = ?, password = ?, role = ?
-      WHERE id = ?
-    `;
+    try {
+        // Отримуємо поточні дані користувача
+        const user = await new Promise((resolve, reject) => {
+            db.get('SELECT * FROM users WHERE id = ?', [id], (err, row) => {
+                if (err) reject(err);
+                else resolve(row);
+            });
+        });
 
-    db.run(
-        query,
-        [name, email, password, role, id],
-        function (err) {
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Формуємо оновлені дані, залишаючи старі, якщо нові не передані
+        const updatedName = name || user.name;
+        const updatedEmail = email || user.email;
+        const updatedRole = role || user.role;
+        let updatedPassword = user.password;
+
+        if (password) {
+            updatedPassword = await bcrypt.hash(password, 10);
+        }
+
+        // Виконуємо оновлення
+        const query = `
+            UPDATE users
+            SET name = ?, email = ?, password = ?, role = ?
+            WHERE id = ?
+        `;
+
+        db.run(query, [updatedName, updatedEmail, updatedPassword, updatedRole, id], function (err) {
             if (err) {
                 console.error(err.message);
                 return res.status(500).json({ error: 'Failed to update user' });
             }
-            if (this.changes === 0) return res.status(404).json({ error: 'User not found' });
             res.status(200).json({ message: 'User updated successfully' });
-        }
-    );
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 };
+
 
 // Видалення користувача
 exports.deleteUser = (req, res) => {
@@ -237,5 +261,31 @@ exports.authUser = (req, res) => {
                 },
             });
         });
+    });
+};
+
+
+// Функція для отримання відповідей користувача з назвами курсів
+exports.userAnswers = (req, res) => {
+    const userId = req.params.id;
+
+    const query = `
+        SELECT 
+            answers.id AS answer_id,
+            answers.answers,
+            tests.title AS test_title,
+            courses.title AS course_title
+        FROM answers
+        JOIN tests ON answers.test_id = tests.id
+        JOIN courses ON tests.course_id = courses.id
+        WHERE answers.user_id = ?
+    `;
+
+    db.all(query, [userId], (err, rows) => {
+        if (err) {
+            console.error('Error fetching user answers:', err);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        res.json({ answers: rows });
     });
 };

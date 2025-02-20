@@ -8,7 +8,7 @@ const EditProfileForm = ({ initialValues, onSubmit, onCancel }) => {
     validationSchema: Yup.object({
       name: Yup.string().required("Meno je povinné"),
       email: Yup.string().email("Nesprávny email").required("Email je povinný"),
-      role: Yup.string().required("Rola je povinná"),
+      // role: Yup.string().required("Rola je povinná"),
       password: Yup.string()
         .min(8, "Heslo musí mať aspoň 8 znakov")
         .matches(/^(?=.*[A-Z])(?=.*\d)/, "Heslo musí obsahovať aspoň jedno veľké písmeno a číslo"),
@@ -97,7 +97,7 @@ const EditProfileForm = ({ initialValues, onSubmit, onCancel }) => {
                 },
               }}
             />
-            <TextField
+            {/* <TextField
               fullWidth
               label="Rola"
               name="role"
@@ -115,7 +115,7 @@ const EditProfileForm = ({ initialValues, onSubmit, onCancel }) => {
                   borderRadius: 2,
                 },
               }}
-            />
+            /> */}
             <TextField
               fullWidth
               label="Nové heslo (voliteľné)"

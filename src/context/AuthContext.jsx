@@ -31,9 +31,10 @@ export const AuthProvider = ({ children }) => {
     // Функція для оновлення користувача
     const updateUser = async (userData) => {
         const token = localStorage.getItem('token');
+    
         if (token) {
             try {
-                const response = await fetch(apiUrl.updateUser, {
+                const response = await fetch(`${apiUrl.users}/${user.id}`, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -41,13 +42,17 @@ export const AuthProvider = ({ children }) => {
                     },
                     body: JSON.stringify(userData),
                 });
+    
                 const data = await response.json();
-                if (data.user) {
-                    setUser(data.user);
-                    localStorage.setItem('user', JSON.stringify(data.user));
+    
+                if (response.ok) {
+                    // Оновлюємо тільки ті дані, які користувач змінив
+                    const updatedUser = { ...user, ...userData };
+                    setUser(updatedUser);
+                    localStorage.setItem('user', JSON.stringify(updatedUser));
                     toast.success("Профіль оновлено!");
                 } else {
-                    toast.error("Не вдалося оновити профіль!");
+                    toast.error(data.error || "Не вдалося оновити профіль!");
                 }
             } catch (error) {
                 console.error('Error updating user:', error);
@@ -55,6 +60,7 @@ export const AuthProvider = ({ children }) => {
             }
         }
     };
+    
 
     // Функція для оновлення пароля
     const updatePassword = async (newPassword) => {

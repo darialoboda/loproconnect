@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IconButton, Modal, Box, Typography, Tooltip } from '@mui/material';
-import { Delete, Add } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Container from '../components/Container';
@@ -87,16 +87,7 @@ export default function CoursesPage() {
           <div className="topics-grid">
             {filteredTopics.map((topic) => (
               <div key={topic.id}>
-                <TopicCard topic={topic} />
-                <Tooltip title="Odstrániť kurz">
-                  <IconButton
-                    aria-label="delete"
-                    color="error"
-                    onClick={() => handleOpenModal(topic)}
-                  >
-                    <Delete />
-                  </IconButton>
-                </Tooltip>
+                <TopicCard topic={topic} handleOpenModal={handleOpenModal} />
               </div>
             ))}
           </div>
@@ -137,10 +128,10 @@ export default function CoursesPage() {
             Ste si istí, že chcete odstrániť kurz "{selectedTopic?.title}"?
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-            <IconButton onClick={handleCloseModal} sx={{ mr: 1 }}>
+            <IconButton onClick={handleCloseModal} sx={{ mr: 1, width: 'auto' }}>
               Zrušiť
             </IconButton>
-            <IconButton variant="contained" color="error" onClick={handleDelete}>
+            <IconButton variant="contained" color="error" onClick={handleDelete} sx={{ width: 'auto' }}>
               Odstrániť
             </IconButton>
           </Box>
