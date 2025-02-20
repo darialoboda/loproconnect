@@ -14,6 +14,8 @@ const TestPage = () => {
   const [darkMode, setDarkMode] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
+  const [userAnswers, setUserAnswers] = useState([]);
+
 
   useEffect(() => {
     async function fetchTestData() {
@@ -36,21 +38,38 @@ const TestPage = () => {
   const handleSubmit = async (values) => {
     let correctCount = 0;
 
-    const userAnswers = test.questions.map((question, index) => {
+    // const userAnswers = test.questions.map((question, index) => {
+    //   const userAnswer = values.answers[index];
+    //   const isCorrect = userAnswer === question.options[question.correctAnswerIndex];
+
+    //   if (isCorrect) {
+    //     correctCount++;
+    //   }
+    //   return {
+    //     questionId: question.id,
+    //     selectedAnswer: userAnswer,
+    //     correctAnswerIndex: question.correctAnswerIndex,
+    //     isCorrect,
+    //   };
+    // });
+
+    // const calculatedScore = ((correctCount / test.questions.length) * 100).toFixed(2);
+    // setScore(calculatedScore);
+    // setSubmitted(true);
+    // setOpen(true);
+
+    const answersWithStatus = test.questions.map((question, index) => {
       const userAnswer = values.answers[index];
       const isCorrect = userAnswer === question.options[question.correctAnswerIndex];
-
-      if (isCorrect) {
-        correctCount++;
-      }
+      if (isCorrect) correctCount++;
       return {
         questionId: question.id,
-        selectedAnswer: userAnswer,
-        correctAnswerIndex: question.correctAnswerIndex,
-        isCorrect,
+        userAnswer,
+        isCorrect
       };
     });
 
+    setUserAnswers(answersWithStatus);
     const calculatedScore = ((correctCount / test.questions.length) * 100).toFixed(2);
     setScore(calculatedScore);
     setSubmitted(true);
@@ -63,7 +82,7 @@ const TestPage = () => {
         body: JSON.stringify({
           test_id: test.id,
           user_id: 1,
-          answers: userAnswers,
+          answers: answersWithStatus,
         }),
       });
     } catch (error) {
@@ -98,14 +117,23 @@ const TestPage = () => {
                   <Field name={`answers[${index}]`}>
                     {({ field }) => (
                       <RadioGroup {...field}>
-                        {question.options.map((option, optionIndex) => (
-                          <FormControlLabel
-                            key={optionIndex}
-                            value={option}
-                            control={<Radio />}
-                            label={option}
-                          />
-                        ))}
+                        {question.options.map((option, optionIndex) => {
+                          const isSelected = values.answers[index] === option;
+                          const isCorrect = submitted && question.correctAnswerIndex === optionIndex;
+                          const isWrong = submitted && isSelected && !isCorrect;
+                          return (
+
+                            <FormControlLabel
+                              key={optionIndex}
+                              value={option}
+                              control={<Radio />}
+                              label={option}
+                              sx={{
+                                color: isCorrect ? 'green' : isWrong ? 'red' : 'inherit'
+                              }}
+                            />
+                          );
+                        })}
                       </RadioGroup>
                     )}
                   </Field>
@@ -113,80 +141,80 @@ const TestPage = () => {
               ))}
               {!submitted && (
                 <Button
-                type="submit"
-                variant="outlined"
-                color="primary"
-                sx={{
-                  mt: 3,
-                  fontSize: '0.75rem',  // Зменшений розмір тексту
-                  padding: '4px 10px',   // Менші відступи
-                  borderRadius: '20px',  // Закруглені кути
-                  border: '1px solid #333',  // Тонка сіра рамка
-                  color: '#333',  // Темно-сірий текст
-                  backgroundColor: 'transparent',
-                  textTransform: 'none',  // Вимкнути великі букви
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    color: '#fff',
-                    backgroundColor: '#333',
-                    borderColor: '#333',
-                  },
-                }}
-              >
-                Potvrdiť odoslanie
-              </Button>
-              
+                  type="submit"
+                  variant="outlined"
+                  color="primary"
+                  sx={{
+                    mt: 3,
+                    fontSize: '0.75rem',  // Зменшений розмір тексту
+                    padding: '4px 10px',   // Менші відступи
+                    borderRadius: '20px',  // Закруглені кути
+                    border: '1px solid #333',  // Тонка сіра рамка
+                    color: '#333',  // Темно-сірий текст
+                    backgroundColor: 'transparent',
+                    textTransform: 'none',  // Вимкнути великі букви
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      color: '#fff',
+                      backgroundColor: '#333',
+                      borderColor: '#333',
+                    },
+                  }}
+                >
+                  Potvrdiť odoslanie
+                </Button>
+
               )}
             </Form>
           )}
         </Formik>
         <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 3 }}>
-        <Button
-  variant="outlined"
-  color="secondary"
-  onClick={() => navigate(-1)}
-  sx={{
-    fontSize: '0.75rem',
-    padding: '4px 10px',  // Зменшені відступи
-    borderRadius: '20px', // Закруглені кути
-    border: '1px solid #333',
-    color: '#333',
-    backgroundColor: 'transparent',
-    textTransform: 'none',
-    transition: 'all 0.3s ease',
-    '&:hover': {
-      color: '#fff',
-      backgroundColor: '#333',
-      borderColor: '#333',
-    },
-  }}
->
-  Späť na kurz
-</Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => navigate(-1)}
+            sx={{
+              fontSize: '0.75rem',
+              padding: '4px 10px',  // Зменшені відступи
+              borderRadius: '20px', // Закруглені кути
+              border: '1px solid #333',
+              color: '#333',
+              backgroundColor: 'transparent',
+              textTransform: 'none',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                color: '#fff',
+                backgroundColor: '#333',
+                borderColor: '#333',
+              },
+            }}
+          >
+            Späť na kurz
+          </Button>
 
 
-<Button
-  variant="outlined"
-  color="primary"
-  onClick={() => navigate(`/edit-test/${test.id}`)}
-  sx={{
-    fontSize: '0.75rem', // Зменшений розмір тексту
-    padding: '4px 10px', // Менші відступи
-    borderRadius: '20px', // Закруглені кути
-    border: '1px solid #333', // Тонка сіра рамка
-    color: '#333', // Темно-сірий текст
-    backgroundColor: 'transparent',
-    textTransform: 'none', // Вимкнути великі букви
-    transition: 'all 0.3s ease',
-    '&:hover': {
-      color: '#fff',
-      backgroundColor: '#333',
-      borderColor: '#333',
-    },
-  }}
->
-  Upraviť test
-</Button>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => navigate(`/edit-test/${test.id}`)}
+            sx={{
+              fontSize: '0.75rem', // Зменшений розмір тексту
+              padding: '4px 10px', // Менші відступи
+              borderRadius: '20px', // Закруглені кути
+              border: '1px solid #333', // Тонка сіра рамка
+              color: '#333', // Темно-сірий текст
+              backgroundColor: 'transparent',
+              textTransform: 'none', // Вимкнути великі букви
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                color: '#fff',
+                backgroundColor: '#333',
+                borderColor: '#333',
+              },
+            }}
+          >
+            Upraviť test
+          </Button>
 
         </Box>
       </Paper>

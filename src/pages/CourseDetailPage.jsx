@@ -8,7 +8,7 @@ import parse from "html-react-parser";
 export default function CourseDetailPage() {
   const [course, setCourse] = useState({});
   const [test, setTest] = useState(false);
-  
+  const isAuthenticated = localStorage.getItem("user");
   const { id } = useParams();
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(() => {
@@ -35,6 +35,7 @@ export default function CourseDetailPage() {
     });
   };
 
+
   useEffect(() => {
     // Додавання або видалення класу в body
     if (darkMode) {
@@ -43,6 +44,15 @@ export default function CourseDetailPage() {
       document.body.classList.remove("dark-mode");
     }
   }, [darkMode]);
+
+  const handleTestClick = () => {
+    if (isAuthenticated) {
+      navigate(`/test/${test.id}`);
+    } else {
+      navigate("/login");
+    }
+  };
+
 
   // Функція для отримання іконки в залежності від типу файлу
   const getFileIcon = (fileName) => {
@@ -88,14 +98,14 @@ export default function CourseDetailPage() {
         </button>
 
         {/* Іконка для тестування */}
-        <button
+        {/* <button
           onClick={() => navigate(`/test/${id}`)}
           className="btn-test"
           style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#007BFF" }}
           title="Testovanie"
         >
           <FaQuestionCircle />
-        </button>
+        </button> */}
 
         <button onClick={toggleTheme} className="theme-toggle" title="Zmeniť tému">
           {darkMode ? <FaSun /> : <FaMoon />}
@@ -177,9 +187,10 @@ export default function CourseDetailPage() {
 
       {test && (
         <div className="course-tests">
-          <Link to={`/test/${test.id}`} className="btn-test">
+          <button onClick={handleTestClick} className="btn-test">
             Otestovat sa
-          </Link>
+          </button>
+
         </div>
       )}
     </div>
