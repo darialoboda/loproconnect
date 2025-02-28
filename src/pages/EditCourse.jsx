@@ -212,7 +212,8 @@ export default function EditCourse() {
                         ['bold', 'italic', 'underline', 'strike', 'clean'],
                         ['h3', 'h4'],
                         ['unorderedList', 'orderedList'], // Списки
-                        ['link', 'image'],
+                        ['link'],
+                        // ['link', 'image'],
                       ]}
                     />
                     <Typography variant="body2" color="textSecondary" style={{ marginTop: "10px" }}>

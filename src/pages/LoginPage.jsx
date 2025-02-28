@@ -83,7 +83,7 @@ export default function LoginPage() {
                                         width: '150px',
                                         margin: '20px auto',
                                         display: 'block',
-                                        backgroundColor: '#4CAF50',
+                                        backgroundColor: '#ebcd09',
                                         color: 'white',
                                         padding: '10px',
                                         border: 'none',

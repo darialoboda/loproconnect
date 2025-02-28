@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 
 export default function TopicCard({ topic, handleOpenModal }) {
 
-  const { user } = useAuth();
+  const { user, canRender } = useAuth();
   
   const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ export default function TopicCard({ topic, handleOpenModal }) {
       </div>
 
       {
-        user && 
+        canRender(topic.created_by) && 
           <div className="topic-actions">
             <div className="btn-action btn-action-view" onClick={handleNavigate}>
               <FaEye size={18} />
@@ -50,9 +50,7 @@ export default function TopicCard({ topic, handleOpenModal }) {
             <div className="btn-action btn-action-edit" onClick={handleEditNavigate}>
               <FaEdit size={18} />
             </div>
-            <div className="btn-action btn-action-test" onClick={handleTestNavigate}>
-              <FaQuestionCircle size={18} />
-            </div>
+
             <div className="btn-action btn-action-del" onClick={handleDelTopic}>
               <FaTrash size={18} />
             </div>

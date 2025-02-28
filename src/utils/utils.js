@@ -7,6 +7,7 @@ export async function getData(url) {
 export const apiUrl = {
     courses: 'http://localhost:5000/courses',
     courseById: 'http://localhost:5000/courses/',
+    courseTeacher: 'http://localhost:5000/courses/teacher/',
     tests: 'http://localhost:5000/tests/',
     testsByCourse: 'http://localhost:5000/tests/course/',
     saveTestResults: 'http://localhost:5000/tests/save',
@@ -22,4 +23,4 @@ export function extractYouTubeVideoId(url) {
     const match = url.match(/(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/);
     return match ? match[1] : null;
 }
-
+  

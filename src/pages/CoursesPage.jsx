@@ -7,11 +7,15 @@ import Container from '../components/Container';
 import { apiUrl, getData } from '../utils/utils';
 import TopicCard from '../components/TopicCard';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function CoursesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState(null);
+  
+  const { user, canRender } = useAuth();
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,7 +55,6 @@ export default function CoursesPage() {
         toast.error('Nepodarilo sa odstrániť kurz.');
       }
     } catch (error) {
-      console.error('Error deleting course:', error);
       toast.error('Chyba pri odstraňovaní kurzu.');
     } finally {
       handleCloseModal();
@@ -92,16 +95,19 @@ export default function CoursesPage() {
             ))}
           </div>
 
-          <div style={{ marginTop: '24px', textAlign: 'center' }}>
-            <Tooltip title="Pridať kurz">
-              <IconButton
-                color="primary"
-                onClick={handleAddCourse}
-              >
-                <Add />
-              </IconButton>
-            </Tooltip>
-          </div>
+          {
+            canRender() && 
+              <div style={{ marginTop: '24px', textAlign: 'center' }}>
+                <Tooltip title="Pridať kurz">
+                  <IconButton
+                    color="primary"
+                    onClick={handleAddCourse}
+                  >
+                    <Add />
+                  </IconButton>
+                </Tooltip>
+              </div>
+          }
         </div>
       </Container>
 

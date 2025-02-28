@@ -264,3 +264,21 @@ exports.deleteCourse = (req, res) => {
 };
 
 
+exports.getTeacherCourses = (req, res) => {
+    const { id } = req.params;
+
+    const query = `SELECT * FROM courses WHERE created_by = ?`;
+    
+    db.all(query, [id], (err, rows) => {
+        if (err) {
+            console.error(err.message);
+            return res.status(500).json({ error: 'Failed to fetch courses' });
+        }
+
+        if (rows.length === 0) {
+            return res.status(404).json({ error: 'No courses found for this teacher' });
+        }
+
+        res.status(200).json(rows);
+    });
+};

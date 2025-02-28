@@ -18,17 +18,29 @@ import {
 } from "@mui/material";
 import { apiUrl, getData } from "../utils/utils";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const AddTestForm = () => {
   const [courses, setCourses] = useState([]);
   const navigate = useNavigate();
 
+  const { user, canRender } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
   useEffect(() => {
     async function fetchCourses() {
-      const data = await getData(apiUrl.courses);
+      const data = await getData((user?.role === 'admin') ? apiUrl.courses : apiUrl.courseTeacher + user.id);
       setCourses(data);
     }
-    fetchCourses();
+
+    if(user) {
+      fetchCourses();
+    }
   }, []);
 
   const initialValues = {
@@ -84,9 +96,9 @@ const AddTestForm = () => {
                 <InputLabel>Course</InputLabel>
                 <Field name="course_id" as={Select} label="Course">
                   {courses.map((course) => (
-                    <MenuItem key={course.id} value={course.id}>
-                      {course.title}
-                    </MenuItem>
+                      <MenuItem key={course.id} value={course.id}>
+                        {course.title}
+                      </MenuItem>
                   ))}
                 </Field>
               </FormControl>

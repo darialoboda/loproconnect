@@ -5,7 +5,7 @@ export default function Footer() {
         <footer className="footer">
             <Container>
             <div className="footer-content">
-                <p>&copy; 2024 Daria Loboda. All rights reserved.</p>
+                <p>&copy; 2025 Daria Loboda. All rights reserved.</p>
             </div>
             </Container>
         </footer>

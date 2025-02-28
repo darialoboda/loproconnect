@@ -10,10 +10,15 @@ import Container from "../components/Container";
 import { RichTextEditor } from "@mantine/rte";
 import parse from "html-react-parser";
 import "../styles/RichTextStyles.css";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function AddCourseForm() {
   const [previewImage, setPreviewImage] = useState(null);
   const [fileNames, setFileNames] = useState([]);
+  const navigate = useNavigate();
+
+  const { user, canRender } = useAuth();
 
   const CourseSchema = Yup.object().shape({
     title: Yup.string().required("Názov kurzu je povinný").max(100, "Názov kurzu môže mať maximálne 100 znakov"),
@@ -50,6 +55,9 @@ export default function AddCourseForm() {
         if (response.ok) {
           toast.success("Kurz bol úspešne pridaný");
           resetForm();
+          setTimeout(() => {
+            navigate('/courses');
+          }, 2000)
         } else {
           toast.error("Nepodarilo sa pridať kurz");
         }
@@ -83,7 +91,7 @@ export default function AddCourseForm() {
                 img: null,
                 files: null,
                 article: "",
-                createdBy: "1",
+                createdBy: String(user.id),
                 publish: "no",
               }}
               validationSchema={CourseSchema}

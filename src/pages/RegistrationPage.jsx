@@ -134,7 +134,7 @@ export default function RegistrationPage() {
                                     </div>
                                 </div>
 
-                                <button type="submit" style={{ width: '150px', margin: '20px auto', display: 'block', backgroundColor: '#4CAF50', color: 'white', padding: '10px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+                                <button type="submit" style={{ width: '150px', margin: '20px auto', display: 'block', backgroundColor: '#ebcd09', color: 'white', padding: '10px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
                                     Zaregistrovať sa
                                 </button>
                             </form>

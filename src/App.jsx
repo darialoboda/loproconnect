@@ -34,14 +34,12 @@ export default function App() {
                         <Route path="login" element={<LoginPage />} />
                         <Route path="edit-profile" element={<EditProfilePage />} />
                         <Route path="register" element={<RegistrationPage />} />
-                        <Route path="*" element={<NoPage />} />
                         <Route path="profile" element={<UserProfilePage />} />
                         <Route path="edit-course/:id" element={<EditCourse />} />
                         <Route path="test/:id" element={<TestPage />} /> 
                         <Route path="test-form" element={<AddTestForm />} />
                         <Route path="edit-test/:id" element={<EditTestForm />} />
-
-
+                        <Route path="*" element={<NoPage />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

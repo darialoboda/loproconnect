@@ -289,3 +289,32 @@ exports.userAnswers = (req, res) => {
         res.json({ answers: rows });
     });
 };
+
+
+// controllers/userController.js
+exports.setAdmin = (req, res) => {
+    const { id } = req.params;
+    
+    // Перевіряємо, чи користувач існує
+    const checkUserQuery = `SELECT * FROM users WHERE id = ?`;
+    db.get(checkUserQuery, [id], (err, user) => {
+        if (err) {
+            console.error(err.message);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        
+        // Оновлюємо роль користувача до "admin"
+        const updateQuery = `UPDATE users SET role = 'admin' WHERE id = ?`;
+        db.run(updateQuery, [id], function (err) {
+            if (err) {
+                console.error(err.message);
+                return res.status(500).json({ error: 'Failed to update user role' });
+            }
+            res.status(200).json({ message: 'User role updated to admin successfully' });
+        });
+    });
+};

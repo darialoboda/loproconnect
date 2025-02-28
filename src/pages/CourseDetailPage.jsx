@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { apiUrl, extractYouTubeVideoId, getData } from "../utils/utils";
-import { AiOutlineArrowLeft, AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineArrowLeft, AiOutlineEdit, AiOutlineAppstoreAdd  } from "react-icons/ai";
 import { FaQuestionCircle, FaSun, FaMoon } from "react-icons/fa";
 import parse from "html-react-parser";
+import { useAuth } from "../context/AuthContext";
 
 export default function CourseDetailPage() {
   const [course, setCourse] = useState({});
   const [test, setTest] = useState(false);
-  const isAuthenticated = localStorage.getItem("user");
+  console.log("test: ", test);
   const { id } = useParams();
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true"; // Завантаження стану теми
   });
+
+  const { user, isAuthenticated, canRender } = useAuth();
 
   useEffect(() => {
     async function fetchCourseData() {
@@ -88,14 +91,27 @@ export default function CourseDetailPage() {
           <AiOutlineArrowLeft />
         </button>
 
-        <button
-          onClick={() => navigate(`/edit-course/${id}`)}
-          className="btn-edit"
-          style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#28a745" }}
-          title="Upraviť"
-        >
-          <AiOutlineEdit />
-        </button>
+        {
+          canRender(course.created_by) &&
+          <>
+            <button
+              onClick={() => navigate(`/edit-course/${id}`)}
+              className="btn-edit"
+              style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#28a745" }}
+              title="Upraviť"
+            >
+              <AiOutlineEdit />
+            </button>
+            <button
+              onClick={() => navigate((test?.id) ? `/edit-test/${test.id}` : `/test-form`)}
+              className="btn-edit"
+              style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#28a745" }}
+              title="Upraviť"
+            >
+              <AiOutlineAppstoreAdd />
+            </button>
+          </>
+        }
 
         {/* Іконка для тестування */}
         {/* <button
@@ -185,7 +201,7 @@ export default function CourseDetailPage() {
         </p>
       </div>
 
-      {test && (
+      {test?.id && (
         <div className="course-tests">
           <button onClick={handleTestClick} className="btn-test">
             Otestovat sa

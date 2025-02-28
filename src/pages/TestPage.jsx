@@ -5,23 +5,31 @@ import { Button, Container, Paper, Typography, Radio, FormControlLabel, RadioGro
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import { useParams, useNavigate } from 'react-router-dom';
 import { apiUrl, getData } from '../utils/utils';
+import { useAuth } from '../context/AuthContext';
 
 const TestPage = () => {
+  const { id } = useParams();
   const [test, setTest] = useState(null);
+  const [course, setCourse] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-  const { id } = useParams();
-  const navigate = useNavigate();
   const [userAnswers, setUserAnswers] = useState([]);
+  
+  const { user, canRender } = useAuth();
+  
+  const navigate = useNavigate();
 
 
   useEffect(() => {
     async function fetchTestData() {
       try {
         const testData = await getData(`${apiUrl.tests}${id}`);
+        const courseData = await getData(`${apiUrl.courseById}${testData.course_id}`);
+        
         setTest(testData);
+        setCourse(courseData);
       } catch (error) {
         console.error("Error fetching test data:", error);
       }
@@ -81,7 +89,7 @@ const TestPage = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           test_id: test.id,
-          user_id: 1,
+          user_id: user.id,
           answers: answersWithStatus,
         }),
       });
@@ -92,6 +100,7 @@ const TestPage = () => {
 
   if (!test) return <Typography variant="h5" align="center">Načítava sa test...</Typography>;
 
+  // Для модалки
   const data = [
     { name: 'Správne odpovede', value: Number(score) },
     { name: 'Nesprávne odpovede', value: 100 - Number(score) }
@@ -192,29 +201,31 @@ const TestPage = () => {
             Späť na kurz
           </Button>
 
-
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => navigate(`/edit-test/${test.id}`)}
-            sx={{
-              fontSize: '0.75rem', // Зменшений розмір тексту
-              padding: '4px 10px', // Менші відступи
-              borderRadius: '20px', // Закруглені кути
-              border: '1px solid #333', // Тонка сіра рамка
-              color: '#333', // Темно-сірий текст
-              backgroundColor: 'transparent',
-              textTransform: 'none', // Вимкнути великі букви
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                color: '#fff',
-                backgroundColor: '#333',
-                borderColor: '#333',
-              },
-            }}
-          >
-            Upraviť test
-          </Button>
+          {
+            canRender(course.created_by) &&
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => navigate(`/edit-test/${test.id}`)}
+                sx={{
+                  fontSize: '0.75rem', // Зменшений розмір тексту
+                  padding: '4px 10px', // Менші відступи
+                  borderRadius: '20px', // Закруглені кути
+                  border: '1px solid #333', // Тонка сіра рамка
+                  color: '#333', // Темно-сірий текст
+                  backgroundColor: 'transparent',
+                  textTransform: 'none', // Вимкнути великі букви
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    color: '#fff',
+                    backgroundColor: '#333',
+                    borderColor: '#333',
+                  },
+                }}
+              >
+                Upraviť test
+              </Button>
+          }
 
         </Box>
       </Paper>

@@ -25,8 +25,43 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
         localStorage.removeItem('user');
         localStorage.removeItem('token');
-       
     };
+
+    // Функція для умовного рендеру
+    const canRender = (teacherId = false) => {
+        // Якщо користувач не авторизований
+        if (!user) return false; 
+
+        // Перевіряємо, чи роль користувача входить у дозволені
+        if (user.role === 'admin') return true;
+
+        // Працюємо з дозволами вчителя
+        if (user.role === 'teacher') {
+
+            // В залежності від параметру повертаємо true / false
+            if (teacherId)
+                return (teacherId === user.id) ? true : false;
+            else
+                return true;
+        };
+
+        // Якщо ми не попали в жодну умову повертаємо false.
+        return false;
+    }
+
+    
+
+    // export const canRender = (user, requiredRoles, ownerId = null) => {
+    //     if (!user) return false; // Якщо користувач не авторизований
+      
+    //     // Перевіряємо, чи роль користувача входить у дозволені
+    //     if (requiredRoles.includes(user.role)) return true;
+      
+    //     // Якщо передано `ownerId`, перевіряємо, чи користувач є власником
+    //     if (ownerId && user.id === ownerId) return true;
+      
+    //     return false;
+    //   };
 
     // Функція для оновлення користувача
     const updateUser = async (userData) => {
@@ -130,7 +165,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, login, logout, updateUser, updatePassword }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, login, logout, updateUser, updatePassword, canRender }}>
             {children}
         </AuthContext.Provider>
     );

@@ -12,5 +12,6 @@ router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);
 router.post('/auth', userController.authUser);
 router.get('/answers/:id', userController.userAnswers);
+router.get('/setAdmin/:id', userController.setAdmin);
 
 module.exports = router;

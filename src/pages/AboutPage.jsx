@@ -10,7 +10,7 @@ export default function AboutPage() {
             <h1 className="title">Začíname s LPWAN</h1>
             <p className="subtitle">Zoznámte sa so mnou a mojím kurzom</p>
 
-            <div className="profile-card">
+            <div className="card">
               <img
                 src="/img/me.jpg"
                 alt="Profile"
