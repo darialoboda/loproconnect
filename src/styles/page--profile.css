@@ -47,7 +47,7 @@
     margin: 0 auto;
 }
 
-.theme-toggle {
+.page-profile .theme-toggle {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -62,6 +62,12 @@
     padding: 10px;
 }
 
+.dashboard-container {
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+
 .user-name {
     font-size: 2rem;
     font-weight: 700;
@@ -73,28 +79,40 @@
     color: #666;
     margin-bottom: 10px;
 }
+
 .buttons {
     display: flex;
-    flex-direction: row; /* Розташування кнопок у рядок */
-   
-    gap: 2px; /* Відстань між кнопками */
+    flex-direction: row;
+    /* Розташування кнопок у рядок */
+    gap: 8px;
+    /* Зменшена відстань між кнопками */
     margin-top: 20px;
     width: 100%;
+    justify-content: center;
+    /* Центрування кнопок */
 }
 
 .button {
-    padding: 12px;
+    padding: 8px 12px;
+    /* Менше наповнення */
     border: 1px solid #ccc;
     border-radius: 6px;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    /* Менший розмір шрифту */
     cursor: pointer;
     transition: 0.3s;
-    background-color: white;
-    color: #333;
-    width: 100%; /* Кнопки на всю ширину */
-    max-width: 250px; /* Обмежена ширина */
-    margin: 0 auto;
-    font-weight: 500;
+    background-color: #f7f7f7;
+    /* Світлий нейтральний фон */
+    color: #666;
+    /* Трохи світліший колір тексту */
+    width: auto;
+    /* Автоматична ширина */
+    max-width: 200px;
+    /* Обмежена ширина */
+    margin: 0;
+    /* Прибираємо відступи */
+    font-weight: 400;
+    /* Легший шрифт */
 }
 
 .button:hover {
@@ -107,5 +125,51 @@
 }
 
 .logout-btn {
-    border-color: #999;
+    border-color: #e08989;
+    background-color: #ffbfbf;
+}
+.logout-btn:hover {
+    border-color: #ef5c5c;
+    background-color: #ef5c5c;
+    color: #fff;
+}
+
+.page-profile .topics-grid {
+    padding: 0;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: 0.3s;
+    color: black;
+    border-radius: 8px;
+}
+
+.tab-button.active,
+.tab-button:hover {
+    background-color: #ffd700;
+}
+
+.tab-button.active {
+    font-weight: bold;
+}
+
+.tab-content {
+    font-size: 18px;
 }

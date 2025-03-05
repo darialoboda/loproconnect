@@ -1,0 +1,90 @@
+.edit-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+  padding: 20px;
+}
+
+.profile-edit .card {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.large-card {
+  max-width: 800px;
+  padding: 50px;
+}
+
+.profile-edit .title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #4a148c;
+}
+
+.profile-edit .form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.large-form .input {
+  font-size: 18px;
+  padding: 12px;
+}
+
+.profile-edit .input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.profile-edit .input.error {
+  border-color: red;
+}
+
+.profile-edit .error-text {
+  color: red;
+  font-size: 14px;
+  text-align: left;
+}
+
+.buttons {
+  display: flex;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  width: 48%;
+}
+
+.btn.save {
+  background-color: #ffcc00;
+  color: black;
+}
+
+.btn.cancel {
+  background-color: #4a148c;
+  color: white;
+}
+
+.dashboard-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+

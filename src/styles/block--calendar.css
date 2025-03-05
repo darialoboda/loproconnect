@@ -98,6 +98,7 @@
     text-align: left;
     transition: all 0.3s ease;
     font-weight: 300;
+    max-width: 350px;
   }
   
   .motivation-task h4 {

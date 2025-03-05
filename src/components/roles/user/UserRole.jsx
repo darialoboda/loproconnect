@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Typography, Box, CircularProgress, Grid, Card, CardContent } from "@mui/material";
-import { toast } from "react-toastify";
-import { apiUrl, getData } from "../../utils/utils";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { apiUrl, getData } from "../../../utils/utils";
 
-export default function RoleUser() {
+export default function UserRole() {
   const { user } = useAuth();
   const [courseResults, setCourseResults] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +37,7 @@ export default function RoleUser() {
 
       setCourseResults(Object.values(latestResults));
     } catch (error) {
-      setError("Nepodarilo sa načítať odpovede.");
+      setError("Zatial nemate ziadne vysledky.");
       // toast.error("Nepodarilo sa načítať odpovede.");
     } finally {
       setLoading(false);

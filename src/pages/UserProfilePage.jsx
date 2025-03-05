@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
-import RoleAdmin from "../components/userRole/RoleAdmin";
-import RoleTeacher from "../components/userRole/RoleTeacher";
-import RoleUser from "../components/userRole/RoleUser";
+import UserRole from "../components/roles/user/UserRole";
+import TeacherRole from "../components/roles/teacher/TeacherRole";
+import AdminRole from "../components/roles/admin/AdminRole";
+
 
 const UserProfilePage = () => {
   const { user, logout } = useAuth();
-  console.log("user: ", user);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,14 +23,10 @@ const UserProfilePage = () => {
     navigate("/", { state: { message: "Úspešne ste sa odhlásili!" } });
   };
 
-  const handleEditProfile = () => {
-    navigate("/edit-profile");
-  };
-
   const roleComponents = {
-    admin: <RoleAdmin />, 
-    teacher: <RoleTeacher />, 
-    user: <RoleUser />
+    admin: <AdminRole />, 
+    teacher: <TeacherRole />, 
+    user: <UserRole />
   };
 
   return (
@@ -42,9 +38,9 @@ const UserProfilePage = () => {
           <p className="user-info">{user?.email || "Žiadny e-mail"}</p>
           <p className="user-info">Rola: {user?.role || "Neznáma"}</p>
           <div className="buttons">
-            <button className="button edit-btn" onClick={handleEditProfile}>
+            <Link className="button edit-btn" to="/edit-profile">
               Upraviť
-            </button>
+            </Link>
             <button className="button logout-btn" onClick={handleLogout}>
               Odhlásiť sa
             </button>

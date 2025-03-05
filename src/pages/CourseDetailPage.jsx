@@ -98,31 +98,21 @@ export default function CourseDetailPage() {
               onClick={() => navigate(`/edit-course/${id}`)}
               className="btn-edit"
               style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#28a745" }}
-              title="Upraviť"
+              title="Upraviť temu "
             >
               <AiOutlineEdit />
             </button>
+        
             <button
               onClick={() => navigate((test?.id) ? `/edit-test/${test.id}` : `/test-form`)}
               className="btn-edit"
               style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#28a745" }}
-              title="Upraviť"
+              title="Upraviť test"
             >
               <AiOutlineAppstoreAdd />
             </button>
           </>
         }
-
-        {/* Іконка для тестування */}
-        {/* <button
-          onClick={() => navigate(`/test/${id}`)}
-          className="btn-test"
-          style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#007BFF" }}
-          title="Testovanie"
-        >
-          <FaQuestionCircle />
-        </button> */}
-
         <button onClick={toggleTheme} className="theme-toggle" title="Zmeniť tému">
           {darkMode ? <FaSun /> : <FaMoon />}
         </button>
@@ -138,9 +128,6 @@ export default function CourseDetailPage() {
           className="course-image"
         />
       </div>
-
-
-
       {course.article && (
         <div className="course-article">
           <div className="typography">{parse(course.article)}</div>

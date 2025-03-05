@@ -3,37 +3,21 @@ import { IconButton, Modal, Box, Typography, Tooltip } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Container from '../components/Container';
-import { apiUrl, getData } from '../utils/utils';
-import TopicCard from '../components/TopicCard';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
+import TopicCard from '../../TopicCard';
+import { apiUrl, getData } from '../../../utils/utils';
 
-export default function CoursesPage() {
-  const [searchQuery, setSearchQuery] = useState('');
+export default function Courses({ user }) {
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState(null);
-  
-  const { user, canRender } = useAuth();
-  
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function getCourses() {
-      const data = await getData(apiUrl.courses);
-      setTopics(data);
+      const data = await getData(apiUrl.courseTeacher + user.id);
+      setTopics(data?.error ? [] : data);
     }
     getCourses();
   }, []);
-
-  const filteredTopics = topics.filter(topic =>
-    topic.title.toLowerCase().includes(searchQuery)
-  );
-
-  const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
-  };
 
   const handleOpenModal = (topic) => {
     setSelectedTopic(topic);
@@ -62,47 +46,25 @@ export default function CoursesPage() {
   };
 
   return (
-    <section className="page-courses">
-      <Container>
-        <div className="content-hold">
-          <div className="header-actions" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '16px' }}>
-            <div style={{ textAlign: 'center' }}>
-              <h1 className="page-title">Kurzy LoProConnect</h1>
-              <p className="page-description">
-                Vyhľadajte konkrétny kurz podľa kľúčových slov alebo si vyberte tému.
-              </p>
-            </div>
+    <section className="tab-courses">
+      {
+        topics.length === 0
+          ? <h2 className='text-center'>Nemate ziadne kurzy</h2>
+          : <div className="topics-grid">
+            {
+              topics.map((topic) => (
+                <TopicCard topic={topic} key={topic.id} handleOpenModal={handleOpenModal} />
+              ))
+            }
           </div>
+      }
 
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="Vyhľadajte kurz..."
-              value={searchQuery}
-              onChange={handleSearch}
-            />
-          </div>
+      <Link to={"/add-course"} className='cta-primary btn-add-course'>
+        <Tooltip title="Pridať kurz">
+          <Add />
+        </Tooltip>
+      </Link>
 
-          <div className="topics-grid">
-            {filteredTopics.map((topic) => (
-              <div key={topic.id}>
-                <TopicCard topic={topic} handleOpenModal={handleOpenModal} />
-              </div>
-            ))}
-          </div>
-
-          {
-            canRender() && 
-              <div className='text-center px-20'>
-                <Link to={"/add-course"} className='cta-primary btn-add-course'>
-                  <Tooltip title="Pridať kurz">
-                    <Add />
-                  </Tooltip>
-                </Link>
-              </div>
-          }
-        </div>
-      </Container>
 
       <Modal
         open={!!selectedTopic}
@@ -139,5 +101,5 @@ export default function CoursesPage() {
 
       <ToastContainer />
     </section>
-  );
+  )
 }
