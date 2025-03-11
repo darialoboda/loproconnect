@@ -50,12 +50,12 @@ export default function CoursesPage() {
       });
       if (response.ok) {
         setTopics((prevTopics) => prevTopics.filter((topic) => topic.id !== selectedTopic.id));
-        toast.success('Kurz bol úspešne odstránený.');
+        toast.success('Tema bola úspešne odstránená.');
       } else {
-        toast.error('Nepodarilo sa odstrániť kurz.');
+        toast.error('Nepodarilo sa odstrániť temu.');
       }
     } catch (error) {
-      toast.error('Chyba pri odstraňovaní kurzu.');
+      toast.error('Chyba pri odstraňovaní temy.');
     } finally {
       handleCloseModal();
     }
@@ -67,9 +67,9 @@ export default function CoursesPage() {
         <div className="content-hold">
           <div className="header-actions" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '16px' }}>
             <div style={{ textAlign: 'center' }}>
-              <h1 className="page-title">Kurzy LoProConnect</h1>
+              <h1 className="page-title">Témy LoProConnect</h1>
               <p className="page-description">
-                Vyhľadajte konkrétny kurz podľa kľúčových slov alebo si vyberte tému.
+                Vyhľadajte temu podľa kľúčových slov alebo si vyberte tému.
               </p>
             </div>
           </div>
@@ -95,7 +95,7 @@ export default function CoursesPage() {
             canRender() && 
               <div className='text-center px-20'>
                 <Link to={"/add-course"} className='cta-primary btn-add-course'>
-                  <Tooltip title="Pridať kurz">
+                  <Tooltip title="Pridať temu">
                     <Add />
                   </Tooltip>
                 </Link>
@@ -124,7 +124,7 @@ export default function CoursesPage() {
           }}
         >
           <Typography id="modal-title" variant="h6" component="h2">
-            Ste si istí, že chcete odstrániť kurz "{selectedTopic?.title}"?
+            Ste si istí, že chcete odstrániť temu? "{selectedTopic?.title}"?
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
             <IconButton onClick={handleCloseModal} sx={{ mr: 1, width: 'auto' }}>

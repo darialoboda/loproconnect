@@ -11,7 +11,10 @@ import {
   FormControlLabel,
   RadioGroup,
   Radio,
+  IconButton,
+  Modal,
 } from "@mui/material";
+import { AiOutlineDelete } from "react-icons/ai";
 import { apiUrl, getData } from "../utils/utils";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -19,6 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const EditTestForm = () => {
   const [test, setTest] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -62,6 +66,23 @@ const EditTestForm = () => {
     }
   };
 
+  const deleteTest = async () => {
+    try {
+      const response = await fetch(`${apiUrl.tests}/${id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        toast.success("Test bol úspešne odstránený!");
+        setTimeout(() => {
+          navigate("/courses");
+        }, 2000);
+      }
+    } catch (error) {
+      toast.error("Chyba pri odstraňovaní testu");
+      console.error("Error deleting test:", error);
+    }
+  };
+
   if (!test) return <Typography>Načítava sa...</Typography>;
 
   return (
@@ -93,9 +114,9 @@ const EditTestForm = () => {
                             </Box>
                           ))}
                         </RadioGroup>
-                        <Button type="button" variant="outlined" color="secondary" onClick={() => remove(index)} sx={{ mt: 2 }}>
+                        {/* <Button type="button" variant="outlined" color="secondary" onClick={() => remove(index)} sx={{ mt: 2 }}>
                           Odstrániť otázku
-                        </Button>
+                        </Button> */}
                       </Box>
                     ))}
                     <Button
@@ -116,14 +137,34 @@ const EditTestForm = () => {
                   </>
                 )}
               </FieldArray>
-              <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
-                Uložiť zmeny
-              </Button>
+              <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
+                <Button type="submit" variant="contained" color="primary">
+                  Uložiť zmeny
+                </Button>
+              </Box>
+              <IconButton color="error" onClick={() => setOpenModal(true)}>
+                  <AiOutlineDelete size={24} />
+                </IconButton>
             </Form>
           )}
         </Formik>
       </Paper>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover draggable />
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <Box sx={{ p: 4, backgroundColor: "white", margin: "10% auto", width: "300px", borderRadius: "8px" }}>
+          <Typography variant="h6" component="h2">
+            Ste si istí, že chcete odstrániť tento test?
+          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+            <Button onClick={() => setOpenModal(false)} sx={{ mr: 1 }}>
+              Zrušiť
+            </Button>
+            <Button variant="contained" color="error" onClick={deleteTest}>
+              Odstrániť
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </Container>
   );
 };
