@@ -12,6 +12,7 @@ import parse from "html-react-parser";
 import "../styles/RichTextStyles.css";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../utils/utils";
 
 export default function AddCourseForm() {
   const [previewImage, setPreviewImage] = useState(null);
@@ -47,7 +48,7 @@ export default function AddCourseForm() {
     formData.append("article", values.article);
     formData.append("createdBy", values.createdBy);
 
-    fetch("http://localhost:5000/courses", {
+    fetch(apiUrl.courses, {
       method: "POST",
       body: formData,
     })

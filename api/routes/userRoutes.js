@@ -13,5 +13,7 @@ router.post('/login', userController.loginUser);
 router.post('/auth', userController.authUser);
 router.get('/answers/:id', userController.userAnswers);
 router.get('/setAdmin/:id', userController.setAdmin);
+router.get('/teacher/students/:teacher_id', userController.getStudentsForTeacher);
+router.get("/teacher/analytics/:id", userController.getTeacherAnalytics);
 
 module.exports = router;

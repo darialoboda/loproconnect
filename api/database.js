@@ -49,6 +49,8 @@ db.serialize(() => {
     CREATE TABLE IF NOT EXISTS answers (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       test_id INTEGER,
+      course_id INTEGER,
+      user_course_id INTEGER,
       user_id INTEGER,
       answers TEXT NOT NULL,
       FOREIGN KEY (test_id) REFERENCES tests(id),

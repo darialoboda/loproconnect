@@ -8,11 +8,13 @@ const {
     deleteTest,
     getTestsByCourseId,
     saveTestResults,
-    getTestResultsByUser
+    getTestResultsByUser,
+    clearAnswersTable
 } = require('../controllers/testController');
 const router = express.Router();
 
 // Routes for tests
+// router.get('/answers/clear', clearAnswersTable);
 router.post('/', createTest);
 router.get('/', getTests);
 router.get('/:id', getTestById);

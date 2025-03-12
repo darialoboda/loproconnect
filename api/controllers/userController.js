@@ -291,6 +291,60 @@ exports.userAnswers = (req, res) => {
 };
 
 
+// Get students assigned to a teacher based on user_course_id
+exports.getStudentsForTeacher = (req, res) => {
+    const { teacher_id } = req.params;
+
+    if (!teacher_id) {
+        return res.status(400).json({ error: 'Teacher ID is required' });
+    }
+
+    const query = `
+        SELECT DISTINCT u.id, u.name, u.email 
+        FROM users u
+        JOIN answers a ON u.id = a.user_id
+        WHERE a.user_course_id = ?
+    `;
+
+    db.all(query, [teacher_id], (err, rows) => {
+        if (err) {
+            console.error(err.message);
+            return res.status(500).json({ error: 'Failed to retrieve students' });
+        }
+
+        res.status(200).json(rows);
+    });
+};
+
+
+exports.getTeacherAnalytics = (req, res) => {
+    const teacherId = req.params.id;
+
+    const query = `
+        SELECT 
+            COUNT(DISTINCT a.user_id) AS active_students,
+            COUNT(DISTINCT a.course_id) AS completed_courses,
+            ROUND(AVG((LENGTH(a.answers) - LENGTH(REPLACE(a.answers, ',', '')) + 1)) * 10, 2) AS average_progress
+        FROM answers a
+        WHERE a.user_course_id = ?;
+    `;
+
+    db.get(query, [teacherId], (err, row) => {
+        if (err) {
+            console.error("Помилка отримання аналітики:", err);
+            return res.status(500).json({ error: "Не вдалося отримати аналітику" });
+        }
+
+        res.json({
+            active_students: row?.active_students || 0,
+            completed_courses: row?.completed_courses || 0,
+            average_progress: row?.average_progress || 0,
+        });
+    });
+};
+
+
+
 // controllers/userController.js
 exports.setAdmin = (req, res) => {
     const { id } = req.params;

@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { apiUrl, getData } from "../../../utils/utils";
 
-const initialUsers = [
-  { id: 1, name: "John Doe", email: "john@example.com", role: "Študent", registrationDate: "2023-01-15" },
-  { id: 2, name: "Jane Smith", email: "jane@example.com", role: "Študent", registrationDate: "2023-02-25" },
-  { id: 3, name: "Alice Johnson", email: "alice@example.com", role: "Študent", registrationDate: "2022-11-10" },
-];
+export default function Students({ user }) {
+  const [users, setUsers] = useState([]);
 
-export default function Users() {
-  const [users, setUsers] = useState(initialUsers);
+    useEffect(() => {
+      async function getUsers() {
+        const data = await getData(apiUrl.usersTeacherStudents + user.id);
+        setUsers(data);
+      }
+      getUsers();
+    }, []);
+  
 
   return (
     <div className="users-container">
@@ -28,13 +32,12 @@ export default function Users() {
               <tr key={user.id}>
                 <td className="user-name">
                   <div className="user-info">
-                    <img src={`https://i.pravatar.cc/40?u=${user.id}`} alt={user.name} className="avatar" />
                     <span className="user-text">{user.name}</span>
                   </div>
                 </td>
                 <td>{user.email}</td>
                 <td>{user.role}</td>
-                <td>{user.registrationDate}</td>
+                <td><small>{user.created_at}</small></td>
                 <td className="actions-cell">
                   <div className="actions-buttons">
                     <button className="edit-btn">Upraviť</button>

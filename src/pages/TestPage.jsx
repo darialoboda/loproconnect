@@ -46,26 +46,6 @@ const TestPage = () => {
   const handleSubmit = async (values) => {
     let correctCount = 0;
 
-    // const userAnswers = test.questions.map((question, index) => {
-    //   const userAnswer = values.answers[index];
-    //   const isCorrect = userAnswer === question.options[question.correctAnswerIndex];
-
-    //   if (isCorrect) {
-    //     correctCount++;
-    //   }
-    //   return {
-    //     questionId: question.id,
-    //     selectedAnswer: userAnswer,
-    //     correctAnswerIndex: question.correctAnswerIndex,
-    //     isCorrect,
-    //   };
-    // });
-
-    // const calculatedScore = ((correctCount / test.questions.length) * 100).toFixed(2);
-    // setScore(calculatedScore);
-    // setSubmitted(true);
-    // setOpen(true);
-
     const answersWithStatus = test.questions.map((question, index) => {
       const userAnswer = values.answers[index];
       const isCorrect = userAnswer === question.options[question.correctAnswerIndex];
@@ -90,6 +70,8 @@ const TestPage = () => {
         body: JSON.stringify({
           test_id: test.id,
           user_id: user.id,
+          course_id: course.id,
+          user_course_id: course.created_by,
           answers: answersWithStatus,
         }),
       });

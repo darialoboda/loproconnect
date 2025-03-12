@@ -11,6 +11,7 @@ import { RichTextEditor } from "@mantine/rte";
 import parse from "html-react-parser";
 import "../styles/RichTextStyles.css";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { apiUrl } from "../utils/utils";
 
 const CourseSchema = Yup.object().shape({
   title: Yup.string().required("Názov kurzu je povinný").max(100, "Názov kurzu môže mať maximálne 100 znakov"),
@@ -28,7 +29,7 @@ export default function EditCourse() {
   const [initialValues, setInitialValues] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/courses/${id}`)
+    fetch(apiUrl.courseById + id)
       .then((response) => response.json())
       .then((data) => {        
         setInitialValues({
@@ -60,7 +61,7 @@ export default function EditCourse() {
       Array.from(values.files).forEach((file) => formData.append("files", file));
     }
 
-    fetch(`http://localhost:5000/courses/${id}`, {
+    fetch(apiUrl.courseById + id, {
       method: "PUT",
       body: formData,
     })

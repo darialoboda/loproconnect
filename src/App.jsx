@@ -33,6 +33,7 @@ export default function App() {
                         <Route path="motivation" element={<MotivationPage />} />
                         <Route path="login" element={<LoginPage />} />
                         <Route path="edit-profile" element={<EditProfilePage />} />
+                        <Route path="edit-profile/:id" element={<EditProfilePage />} />
                         <Route path="register" element={<RegistrationPage />} />
                         <Route path="profile" element={<UserProfilePage />} />
                         <Route path="edit-course/:id" element={<EditCourse />} />

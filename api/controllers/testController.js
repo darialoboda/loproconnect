@@ -125,9 +125,9 @@ exports.getTestsByCourseId = (req, res) => {
 };
 
 
-// Save test answers and result
+// Save or update test answers and result
 exports.saveTestResults = (req, res) => {
-    const { test_id, user_id, answers } = req.body;
+    const { test_id, course_id, user_course_id, user_id, answers } = req.body;
 
     // Перевіряємо, чи всі поля передано
     if (!test_id || !user_id || !answers) {
@@ -137,22 +137,50 @@ exports.saveTestResults = (req, res) => {
     // Перетворюємо масив відповідей у JSON-рядок перед збереженням
     const answersJson = JSON.stringify(answers);
 
-    // Зберігаємо результати в таблиці answers
-    const query = `
-      INSERT INTO answers (test_id, user_id, answers)
-      VALUES (?, ?, ?)
-    `;
+    // Спочатку перевіряємо, чи вже існує запис для цього користувача та тесту
+    const checkQuery = `SELECT id FROM answers WHERE test_id = ? AND user_id = ?`;
 
-    db.run(query, [test_id, user_id, answersJson], function (err) {
+    db.get(checkQuery, [test_id, user_id], (err, row) => {
         if (err) {
             console.error(err.message);
-            return res.status(500).json({ error: 'Failed to save answers' });
+            return res.status(500).json({ error: 'Database error during checking answers' });
         }
 
-        // Повертаємо успішну відповідь
-        res.status(201).json({ message: 'Answers saved successfully', id: this.lastID });
+        if (row) {
+            // Якщо запис існує, оновлюємо його
+            const updateQuery = `
+                UPDATE answers 
+                SET answers = ?, course_id = ?, user_course_id = ?
+                WHERE id = ?
+            `;
+
+            db.run(updateQuery, [answersJson, course_id, user_course_id, row.id], function (err) {
+                if (err) {
+                    console.error(err.message);
+                    return res.status(500).json({ error: 'Failed to update answers' });
+                }
+
+                res.status(200).json({ message: 'Answers updated successfully', id: row.id });
+            });
+        } else {
+            // Якщо запису немає, створюємо новий
+            const insertQuery = `
+                INSERT INTO answers (test_id, user_id, answers, course_id, user_course_id)
+                VALUES (?, ?, ?, ?, ?)
+            `;
+
+            db.run(insertQuery, [test_id, user_id, answersJson, course_id, user_course_id], function (err) {
+                if (err) {
+                    console.error(err.message);
+                    return res.status(500).json({ error: 'Failed to save answers' });
+                }
+
+                res.status(201).json({ message: 'Answers saved successfully', id: this.lastID });
+            });
+        }
     });
 };
+
 
 // Get test results by user ID
 exports.getTestResultsByUser = (req, res) => {
@@ -191,3 +219,17 @@ exports.getTestResultsByUser = (req, res) => {
     });
 };
 
+
+// Clear all records from the answers table
+exports.clearAnswersTable = (req, res) => {
+    const query = `DELETE FROM answers`;
+
+    db.run(query, function (err) {
+        if (err) {
+            console.error(err.message);
+            return res.status(500).json({ error: 'Failed to clear answers table' });
+        }
+
+        res.status(200).json({ message: 'Answers table cleared successfully', rowsAffected: this.changes });
+    });
+};

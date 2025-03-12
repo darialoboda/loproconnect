@@ -1,34 +1,76 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
-
+import { apiUrl, getData } from "../utils/utils";
 
 const EditProfilePage = () => {
-  const { user, updateUser } = useAuth();
+  const { user } = useAuth();
+  const { id } = useParams(); // ID користувача з URL
   const navigate = useNavigate();
+  const [profile, setProfile] = useState(null);
+  const isAdmin = user?.role === "admin"; // Перевірка ролі
 
+  // Валідація
   const validationSchema = Yup.object({
     name: Yup.string().required("Meno je povinné"),
     email: Yup.string().email("Nesprávny formát e-mailu").required("Email обов'язковий"),
     password: Yup.string().min(6, "Heslo musí mať aspoň 6 znakov"),
   });
 
+  // Завантаження профілю (свого або іншого користувача)
   useEffect(() => {
     if (!user) {
       navigate("/login");
+      return;
     }
-  }, [user, navigate]);
 
-  const handleSubmit = (values) => {
-    updateUser({
-      name: values.name,
-      email: values.email,
-      password: values.password,
-    });
-    navigate("/profile");
+    const userId = id || user.id; // Якщо немає ID у URL, беремо поточного користувача
+
+    async function fetchProfile() {
+      try {
+        const data = await getData(`${apiUrl.users}/${userId}`);
+        setProfile(data);
+      } catch (error) {
+        console.error("Помилка отримання профілю:", error);
+        navigate("/profile");
+      }
+    }
+
+    fetchProfile();
+  }, [id, user, navigate]);
+
+  // Функція для оновлення профілю
+  const handleSubmit = async (values) => {
+    const userId = id || user.id; // Визначаємо, кого оновлюємо
+    try {
+      const response = await fetch(`${apiUrl.users}/${userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error("Помилка оновлення профілю");
+      }
+
+      navigate("/profile");
+    } catch (error) {
+      console.error("Помилка оновлення профілю:", error);
+    }
   };
+
+  // Показуємо завантаження, якщо дані ще не прийшли
+  if (!profile) return <p>Завантаження...</p>;
+
+  // Захист: не адміністратор намагається редагувати чужий профіль
+  if (id && !isAdmin) {
+    navigate("/profile");
+    return null;
+  }
 
   return (
     <div className="edit-container profile-edit">
@@ -36,8 +78,8 @@ const EditProfilePage = () => {
         <h2 className="title">Upraviť profil</h2>
         <Formik
           initialValues={{
-            name: user?.name || "",
-            email: user?.email || "",
+            name: profile.name,
+            email: profile.email,
             password: "",
           }}
           validationSchema={validationSchema}
@@ -47,18 +89,16 @@ const EditProfilePage = () => {
             <Form className="form">
               <Field name="name" type="text" placeholder="Ім'я" className={touched.name && errors.name ? "input error" : "input"} />
               {touched.name && errors.name && <div className="error-text">{errors.name}</div>}
-              
+
               <Field name="email" type="email" placeholder="Email" className={touched.email && errors.email ? "input error" : "input"} />
               {touched.email && errors.email && <div className="error-text">{errors.email}</div>}
-              
+
               <Field name="password" type="password" placeholder="Новий пароль" className={touched.password && errors.password ? "input error" : "input"} />
               {touched.password && errors.password && <div className="error-text">{errors.password}</div>}
-              
+
               <div className="buttons">
                 <button type="submit" className="btn save">Uložiť</button>
-                <button type="button" className="btn cancel" onClick={() => navigate("/profile")}>
-                  Zrušiť
-                </button>
+                <button type="button" className="btn cancel" onClick={() => navigate("/profile")}>Zrušiť</button>
               </div>
             </Form>
           )}
