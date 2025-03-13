@@ -98,7 +98,7 @@ export default function HomePage() {
                   <p className="step__text">Ako registrovaný používateľ...</p>
                 </div>
               </div>
-              <div className="step-item" onClick={() => handleStepClick(3)}>
+              <div className="step-item" onClick={() => handleStepClick(1)}>
                 <div className="step-number">3</div>
                 <div className="step-content">
                   <h3 className="step__title">Otestuj sa, aby si preveril svoje vedomosti</h3>

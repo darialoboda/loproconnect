@@ -21,20 +21,20 @@ export default function Analytics({user}) {
 
   return (
     <div className="analytics-container">
-      <h1 className="analytics-title">📊 Статистика</h1>
+      <h1 className="analytics-title">📊 Štatistiky</h1>
       
       {/* Картки статистики */}
       <div className="stats-grid">
-        <StatCard title="Активні студенти" value={stats.active_students} subtitle="Унікальні користувачі" />
-        <StatCard title="Пройдені курси" value={stats.completed_courses} subtitle="Кількість курсів" />
-        <StatCard title="Середній прогрес" value={`${stats.average_progress}%`} subtitle="Середній бал" />
+        <StatCard title="Aktívni študenti" value={stats.active_students} subtitle="Unikátni používatelia" />
+        <StatCard title="Dokončené kurzy" value={stats.completed_courses} subtitle="Počet kurzov" />
+        <StatCard title="Priemerný pokrok" value={`${stats.average_progress}%`} subtitle="Priemerné skóre" />
       </div>
       
       {/* Графік (залишаємо поки тестові дані, бо їх немає в БД) */}
       <div className="chart-container">
-        <h2 className="chart-title">📈 Динаміка активності студентів</h2>
+        <h2 className="chart-title">📈 Dynamika aktivity študentov</h2>
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={[{ name: "Тиждень 1", students: stats.active_students }]}>
+          <LineChart data={[{ name: "Týždeň 1", students: stats.active_students }]}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
