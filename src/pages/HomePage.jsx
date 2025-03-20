@@ -46,7 +46,7 @@ export default function HomePage() {
       <section className="banner">
         <Container>
           <div className="banner-hold">
-            <h1>Objavte svet technológií s nízkou spotrebou energie</h1>
+            <h1>Objavte svet technológií <br />s nízkou spotrebou energie</h1>
             <a href="#courses" className="cta-primary">
               Zistiť viac
             </a>

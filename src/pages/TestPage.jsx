@@ -130,7 +130,7 @@ const TestPage = () => {
                   </Field>
                 </Box>
               ))}
-              {!submitted && (
+              {!submitted && user?.role === "user" && (
                 <Button
                   type="submit"
                   variant="outlined"

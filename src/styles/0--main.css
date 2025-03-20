@@ -100,6 +100,16 @@ svg {
     height: 100%;
 }
 
+.status-yes {
+    color: #21c85e;
+}
+.status-no {
+    color: #df7f11;
+}
+.status-canceled {
+    color: rgb(205, 57, 57);
+}
+
 
 
 

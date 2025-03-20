@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button, TextField, MenuItem, IconButton, Typography } from "@mui/material";
@@ -20,6 +19,7 @@ export default function AddCourseForm() {
   const navigate = useNavigate();
 
   const { user, canRender } = useAuth();
+  const isTeacherActive = user?.role === "teacher" && user?.status === "yes"; // Перевірка на активного вчителя
 
   const CourseSchema = Yup.object().shape({
     title: Yup.string().required("Názov kurzu je povinný").max(100, "Názov kurzu môže mať maximálne 100 znakov"),
@@ -28,10 +28,17 @@ export default function AddCourseForm() {
     img: Yup.mixed().nullable(),
     files: Yup.mixed().nullable(),
     article: Yup.string().max(10000, "Článok môže mať maximálne 1000 znakov"),
-    publish: Yup.string().required("Vyberte možnosť publikovania").oneOf(["yes", "no"], "Publikovanie musí byť 'yes' alebo 'no'")
+    publish: Yup.string().required("Vyberte možnosť publikovania").oneOf(["yes", "no"], "Publikovanie musí byť 'yes' alebo 'no'"),
   });
 
-  
+  useEffect(() => {
+    if (!isTeacherActive) {
+      toast.error("Your account is not active or is blocked. You cannot add courses.");
+      setTimeout(() => {
+        navigate("/profile");
+      }, 3000);
+    }
+  }, [isTeacherActive, navigate]);
 
   function handleSubmit(values, { resetForm }) {
     const formData = new FormData();
@@ -58,7 +65,7 @@ export default function AddCourseForm() {
           resetForm();
           setTimeout(() => {
             navigate('/courses');
-          }, 2000)
+          }, 2000);
         } else {
           toast.error("Nepodarilo sa pridať kurz");
         }
@@ -81,7 +88,7 @@ export default function AddCourseForm() {
         <div className="content-hold">
           <div className="content">
             <Typography variant="h4" component="h1" gutterBottom>
-            Pridať tému 
+              Pridať tému
             </Typography>
 
             <Formik
@@ -192,10 +199,10 @@ export default function AddCourseForm() {
                     <RichTextEditor
                       value={values.article}
                       onChange={(value) => setFieldValue("article", value)}
-                       controls={[
+                      controls={[
                         ['bold', 'italic', 'underline', 'strike', 'clean'],
                         ['h3', 'h4'],
-                        ['unorderedList', 'orderedList'], // Списки
+                        ['unorderedList', 'orderedList'],
                         ['link', 'image'],
                       ]}
                     />
@@ -205,10 +212,9 @@ export default function AddCourseForm() {
                     <RichTextDisplay article={values.article} />
                   </div>
 
-
                   <div className="form-group">
-                    <Button type="submit" variant="contained" color="primary">
-                    Pridať tému 
+                    <Button type="submit" variant="contained" color="primary" disabled={!isTeacherActive}>
+                      Pridať tému
                     </Button>
                   </div>
                 </Form>

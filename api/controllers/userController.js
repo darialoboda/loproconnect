@@ -57,10 +57,11 @@ exports.getUserById = (req, res) => {
     });
 };
 
+
 // Оновлення користувача
 exports.updateUser = async (req, res) => {
     const { id } = req.params;
-    const { name, email, password, role } = req.body;
+    const { name, email, password, publish } = req.body;
 
     try {
         // Отримуємо поточні дані користувача
@@ -78,21 +79,27 @@ exports.updateUser = async (req, res) => {
         // Формуємо оновлені дані, залишаючи старі, якщо нові не передані
         const updatedName = name || user.name;
         const updatedEmail = email || user.email;
-        const updatedRole = role || user.role;
+        const updatedRole = user.role;
         let updatedPassword = user.password;
+        let updatedPublish = user.publish; // Залишаємо старе значення
 
         if (password) {
             updatedPassword = await bcrypt.hash(password, 10);
         }
 
+        if (user.role === 'teacher' && publish) {
+            // Якщо роль teacher, оновлюємо статус publish
+            updatedPublish = publish;
+        }
+
         // Виконуємо оновлення
         const query = `
             UPDATE users
-            SET name = ?, email = ?, password = ?, role = ?
+            SET name = ?, email = ?, password = ?, role = ?, publish = ?
             WHERE id = ?
         `;
 
-        db.run(query, [updatedName, updatedEmail, updatedPassword, updatedRole, id], function (err) {
+        db.run(query, [updatedName, updatedEmail, updatedPassword, updatedRole, updatedPublish, id], function (err) {
             if (err) {
                 console.error(err.message);
                 return res.status(500).json({ error: 'Failed to update user' });
@@ -104,6 +111,7 @@ exports.updateUser = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
 
 
 // Видалення користувача
@@ -132,8 +140,11 @@ exports.registerUser = (req, res) => {
 
     // Перевірка валідності ролі
     if (!['user', 'teacher'].includes(role)) {
-        return res.status(400).json({ error: 'Invalid role. Role must be "user", "teacher".' });
+        return res.status(400).json({ error: 'Invalid role. Role must be "user" or "teacher".' });
     }
+
+    // Визначаємо значення publish
+    const publish = role === 'teacher' ? 'no' : 'yes';
 
     // Перевірка на наявність користувача з таким email
     db.get('SELECT * FROM users WHERE email = ?', [email], (err, row) => {
@@ -150,13 +161,13 @@ exports.registerUser = (req, res) => {
                 return res.status(500).json({ error: 'Error hashing password' });
             }
 
-            // Запис у базу даних
+            // Запис у базу даних із відповідним значенням publish
             const query = `
-                INSERT INTO users (name, email, password, role)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO users (name, email, password, role, publish)
+                VALUES (?, ?, ?, ?, ?)
             `;
 
-            db.run(query, [name, email, hashedPassword, role], function (err) {
+            db.run(query, [name, email, hashedPassword, role, publish], function (err) {
                 if (err) {
                     console.error(err.message);
                     return res.status(500).json({ error: 'Failed to register user' });
@@ -167,6 +178,7 @@ exports.registerUser = (req, res) => {
         });
     });
 };
+
 
 
 
@@ -370,5 +382,57 @@ exports.setAdmin = (req, res) => {
             }
             res.status(200).json({ message: 'User role updated to admin successfully' });
         });
+    });
+};
+
+
+// Повне видалення таблиці users
+exports.delUsersTable = (req, res) => {
+    const query = `DROP TABLE users`;
+
+    db.run(query, function (err) {
+        if (err) {
+            console.error(err.message);
+            return res.status(500).json({ error: 'Failed to delete users table' });
+        }
+
+        res.status(200).json({ message: 'Users table deleted successfully' });
+    });
+};
+
+
+// Отримати всіх вчителів, у яких publish = 'no'
+exports.getAdminTeachers = (req, res) => {
+    const query = `SELECT id, name, email, created_at FROM users WHERE role = 'teacher' AND publish = 'no'`;
+
+    db.all(query, (err, rows) => {
+        if (err) {
+            console.error(err.message);
+            return res.status(500).json({ error: 'Failed to retrieve teachers' });
+        }
+
+        res.status(200).json(rows);
+    });
+};
+
+
+// Оновлення статусу публікації вчителя
+exports.updateTeacherStatus = (req, res) => {
+    const { teacherId, publish } = req.body;
+
+    // Перевірка коректності значення publish
+    if (!['yes', 'no', 'canceled'].includes(publish)) {
+        return res.status(400).json({ error: 'Invalid publish status' });
+    }
+
+    const query = `UPDATE users SET publish = ? WHERE id = ? AND role = 'teacher'`;
+
+    db.run(query, [publish, teacherId], function (err) {
+        if (err) {
+            console.error(err.message);
+            return res.status(500).json({ error: 'Failed to update teacher status' });
+        }
+
+        res.status(200).json({ message: 'Teacher status updated successfully', rowsAffected: this.changes });
     });
 };

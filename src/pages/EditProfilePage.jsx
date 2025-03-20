@@ -17,6 +17,10 @@ const EditProfilePage = () => {
     name: Yup.string().required("Meno je povinné"),
     email: Yup.string().email("Nesprávny formát e-mailu").required("Email обов'язковий"),
     password: Yup.string().min(6, "Heslo musí mať aspoň 6 znakov"),
+    publish: Yup.string().when('role', {
+      is: 'teacher',
+      then: Yup.string().oneOf(['yes', 'no', 'canceled'], 'Neplatný status'),
+    }),
   });
 
   // Завантаження профілю (свого або іншого користувача)
@@ -57,7 +61,7 @@ const EditProfilePage = () => {
         throw new Error("Помилка оновлення профілю");
       }
 
-      navigate("/profile");
+      window.location.href = "/profile";
     } catch (error) {
       console.error("Помилка оновлення профілю:", error);
     }
@@ -81,6 +85,7 @@ const EditProfilePage = () => {
             name: profile.name,
             email: profile.email,
             password: "",
+            publish: profile.role === 'teacher' ? profile.publish : '',
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -95,6 +100,20 @@ const EditProfilePage = () => {
 
               <Field name="password" type="password" placeholder="Новий пароль" className={touched.password && errors.password ? "input error" : "input"} />
               {touched.password && errors.password && <div className="error-text">{errors.password}</div>}
+
+              {isAdmin && profile.role === 'teacher' && (
+                <Field
+                  name="publish"
+                  as="select"
+                  className={touched.publish && errors.publish ? "input error" : "input"}
+                >
+                  <option value="">Vyberte status</option>
+                  <option value="yes">Aktívny</option>
+                  <option value="no">Neaktívny</option>
+                  <option value="canceled">Zrušený</option>
+                </Field>
+              )}
+              {touched.publish && errors.publish && <div className="error-text">{errors.publish}</div>}
 
               <div className="buttons">
                 <button type="submit" className="btn save">Uložiť</button>

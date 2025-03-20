@@ -2,9 +2,9 @@ import { useState, lazy, Suspense } from "react";
 import Loading from "../Loading";
 import { useAuth } from "../../../context/AuthContext";
 
-const Users = lazy(() => import("./Users"));
-const Courses = lazy(() => import("./Courses"));
-const Messages = lazy(() => import("./Messages"));
+const Používatelia = lazy(() => import("./Users"));
+const Témy = lazy(() => import("./Courses"));
+const Správy = lazy(() => import("./Messages"));
 
 export default function AdminDashboard() {
   const [tab, setTab] = useState(0);
@@ -22,9 +22,8 @@ export default function AdminDashboard() {
 
   return (
     <div className="dashboard-container">
-      <h2 className="dashboard-title">Admin Dashboard</h2>
       <div className="tabs">
-        {['Users', 'Courses', 'Messages'].map((label, index) => (
+        {['Používatelia', 'Témy', 'Správy'].map((label, index) => (
           <button
             key={index}
             className={`tab-button ${tab === index ? "active" : ""}`}
@@ -39,13 +38,12 @@ export default function AdminDashboard() {
           <Loading />
         ) : (
           <Suspense fallback={<Loading />}>
-            {tab === 0 && <Users user={user} />}
-            {tab === 1 && <Courses user={user} />}
-            {tab === 2 && <Messages user={user} />}
+            {tab === 0 && <Používatelia user={user} />}
+            {tab === 1 && <Témy user={user} />}
+            {tab === 2 && <Správy user={user} />}
           </Suspense>
         )}
       </div>
     </div>
   );
 }
-

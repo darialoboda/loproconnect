@@ -4,6 +4,24 @@ export async function getData(url) {
     return data;
 }
 
+export async function postData(url, data) {
+    const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+        throw new Error('Failed to send data');
+    }
+
+    const responseData = await res.json();
+    return responseData;
+}
+
+
 export const apiUrl = {
     courses: 'http://localhost:5600/courses',
     courseById: 'http://localhost:5600/courses/',
@@ -18,6 +36,7 @@ export const apiUrl = {
     usersAnswers: 'http://localhost:5600/users/answers/',
     usersTeacherStudents: 'http://localhost:5600/users/teacher/students/',
     teacherAnalytics: 'http://localhost:5600/users/teacher/analytics/',
+    adminTeachersUnpublish: 'http://localhost:5600/users/admin/teachers',
 }
 
 

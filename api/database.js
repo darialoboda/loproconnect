@@ -10,6 +10,7 @@ db.serialize(() => {
         name VARCHAR NOT NULL,
         email VARCHAR UNIQUE NOT NULL,
         password VARCHAR NOT NULL,
+        publish VARCHAR DEFAULT 'yes' CHECK(publish IN ('yes', 'no', 'canceled')),
         role VARCHAR NOT NULL CHECK(role IN ('user', 'teacher', 'admin')),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         token VARCHAR

@@ -13,6 +13,18 @@ export default function Users({ user }) {
     getUsers();
   }, []);
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'yes':
+        return 'Published';
+      case 'no':
+        return 'Unpublished';
+      case 'canceled':
+        return 'Canceled';
+      default:
+        return '-';
+    }
+  };
 
   return (
     <div className="users-container">
@@ -39,9 +51,16 @@ export default function Users({ user }) {
                       <span className="user-text">{userData.name}</span>
                     </div>
                   </td>
-                  <td>{userData.email}</td>
+                  <td>
+                    {userData.email}
+                    {userData.role === 'teacher' && (
+                      <small className={`user-status status-${userData.publish}`}>
+                        {getStatusColor(userData.publish)}
+                      </small>
+                    )}
+                  </td>
                   <td>{userData.role}</td>
-                  <td><small>{userData.created_at}</small></td>
+                  <td>{userData.created_at.slice(0, 10)}</td>
                   <td className="actions-cell">
                     <div className="actions-buttons">
                       <Link to={`/edit-profile/${userData.id}`} className="edit-btn">Upraviť</Link>

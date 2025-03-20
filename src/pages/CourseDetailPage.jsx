@@ -188,7 +188,7 @@ export default function CourseDetailPage() {
         </p>
       </div>
 
-      {test?.id && (
+      {test?.id && user?.role === "user" && (
         <div className="course-tests">
           <button onClick={handleTestClick} className="btn-test">
             Otestovat sa

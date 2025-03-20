@@ -22,9 +22,6 @@ export default function Students({ user }) {
             <tr>
               <th>Meno</th>
               <th>Email</th>
-              <th>Rola</th>
-              <th>Dátum registrácie</th>
-              <th>Akcie</th>
             </tr>
           </thead>
           <tbody>
@@ -36,13 +33,6 @@ export default function Students({ user }) {
                   </div>
                 </td>
                 <td>{user.email}</td>
-                <td>{user.role}</td>
-                <td><small>{user.created_at}</small></td>
-                <td className="actions-cell">
-                  <div className="actions-buttons">
-                    <button className="edit-btn">Upraviť</button>
-                  </div>
-                </td>
               </tr>
             ))}
           </tbody>
