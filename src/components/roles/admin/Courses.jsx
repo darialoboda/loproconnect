@@ -36,10 +36,10 @@ export default function Courses({ user }) {
         setTopics((prevTopics) => prevTopics.filter((topic) => topic.id !== selectedTopic.id));
         toast.success('Kurz bol úspešne odstránený.');
       } else {
-        toast.error('Nepodarilo sa odstrániť kurz.');
+        toast.error('Nepodarilo sa odstrániť tému.');
       }
     } catch (error) {
-      toast.error('Chyba pri odstraňovaní kurzu.');
+      toast.error('Chyba pri odstraňovaní témy.');
     } finally {
       handleCloseModal();
     }
@@ -49,7 +49,7 @@ export default function Courses({ user }) {
     <section className="tab-courses">
       {
         topics.length === 0
-          ? <h2 className='text-center'>Nemate ziadne kurzy</h2>
+          ? <h2 className='text-center mt-40'>Nemáte žiadne vytvorené témy.</h2>
           : <div className="topics-grid">
             {
               topics.map((topic) => (
@@ -59,7 +59,7 @@ export default function Courses({ user }) {
           </div>
       }
 
-      <Link to={"/add-course"} className='cta-primary btn-add-course'>
+      <Link to={"/add-course"} className='btn btn-round mt-20'>
         <Tooltip title="Pridať kurz">
           <Add />
         </Tooltip>
@@ -72,29 +72,17 @@ export default function Courses({ user }) {
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            boxShadow: 24,
-            p: 4,
-            borderRadius: 2,
-          }}
-        >
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 2,}}>
           <Typography id="modal-title" variant="h6" component="h2">
             Ste si istí, že chcete odstrániť kurz "{selectedTopic?.title}"?
           </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-            <IconButton onClick={handleCloseModal} sx={{ mr: 1, width: 'auto' }}>
+          <Box className="d-flex flex-center mt-20 gap-20">
+            <button className='btn btn-gray' onClick={handleCloseModal}>
               Zrušiť
-            </IconButton>
-            <IconButton variant="contained" color="error" onClick={handleDelete} sx={{ width: 'auto' }}>
+            </button>
+            <button className='btn btn-red' onClick={handleDelete}>
               Odstrániť
-            </IconButton>
+            </button>
           </Box>
         </Box>
       </Modal>

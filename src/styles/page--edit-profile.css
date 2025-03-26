@@ -39,14 +39,14 @@
   font-size: 18px;
   padding: 12px;
 }
-
+/* 
 .profile-edit .input {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
   width: 100%;
-}
+} */
 
 .profile-edit .input.error {
   border-color: red;
@@ -56,30 +56,6 @@
   color: red;
   font-size: 14px;
   text-align: left;
-}
-
-.buttons {
-  display: flex;
-  margin-top: 20px;
-}
-
-.btn {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 18px;
-  cursor: pointer;
-  width: 48%;
-}
-
-.btn.save {
-  background-color: #ffcc00;
-  color: black;
-}
-
-.btn.cancel {
-  background-color: #4a148c;
-  color: white;
 }
 
 .dashboard-title {

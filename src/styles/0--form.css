@@ -1,6 +1,52 @@
 .form-group {
     margin-bottom: 20px;
 }
+
 .form-group:last-child {
     margin-bottom: 0;
+}
+
+
+/* Input Fields */
+.input-group {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: var(--base-radius);
+    font-size: var(--base-fz);
+    outline: none;
+    background-color: #f3f3f4;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    height: var(--base-height);
+}
+
+.input:hover,
+.input:focus {
+    border-color: rgb(109 76 234 / 40%);
+    box-shadow: 0 0 0 4px rgb(137 76 234 / 10%);
+    background-color: #fff;
+}
+
+.input::placeholder {
+    color: #9e9ea7;
+}
+
+.icon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: var(--color-primary);
+    font-size: 16px;
+}
+
+.icon ~ .input {
+    padding-left: 40px;
 }

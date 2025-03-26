@@ -48,7 +48,7 @@ export default function LoginPage() {
                 <div className="content-hold">
                     <div className="login-container">
                         <div className="login-box">
-                            <h2>Prihlásiť sa</h2>
+                            <h2 className="text-white">Prihlásiť sa</h2>
                             <form onSubmit={handleSubmit}>
                                 <div className="input-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center', marginBottom: '10px' }}>
                                     <div className="icon"><FaUserAlt /></div>
@@ -77,28 +77,14 @@ export default function LoginPage() {
 
                                 {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
 
-                                <button
-                                    type="submit"
-                                    style={{
-                                        width: '150px',
-                                        margin: '20px auto',
-                                        display: 'block',
-                                        backgroundColor: '#ebcd09',
-                                        color: 'white',
-                                        padding: '10px',
-                                        border: 'none',
-                                        borderRadius: '5px',
-                                        cursor: 'pointer',
-                                    }}
-                                >
+                                <button type="submit" className="btn w-100 mt-20">
                                     Prihlásiť sa
                                 </button>
                             </form>
-                            <p style={{ textAlign: 'center', marginTop: '15px' }}>
+                            <p className="mt-20 text-center text-white">
                                 Nemáš účet?{" "}
                                 <a
                                     href="/register"
-                                    style={{ color: '#007BFF', cursor: 'pointer', textDecoration: 'underline' }}
                                 >
                                     Vytvor si ho!
                                 </a>

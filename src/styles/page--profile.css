@@ -57,9 +57,12 @@
     font-size: 1.8rem;
     color: #333;
 }
-.page-profile .user-status {
+.page-profile small.user-status {
     margin-left: 10px;
     font-size: 10px;
+}
+.page-profile span.user-status {
+    margin-left: 10px;
 }
 
 .card-content {

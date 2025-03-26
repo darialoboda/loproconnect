@@ -94,19 +94,7 @@
     color: white;
 }
 
-.theme-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: rgb(27, 107, 227); 
-}
 
-.theme-toggle:hover,
-.theme-toggle:focus {
-    background: none;
-    outline: none;
-}
 .course-tests {
     display: flex;
     justify-content: center;  /* Центрування по горизонталі */

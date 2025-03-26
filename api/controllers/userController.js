@@ -237,6 +237,7 @@ exports.loginUser = (req, res) => {
                         name: user.name,
                         email: user.email,
                         role: user.role,
+                        publish: user.publish,
                     },
                     token,
                 });
@@ -270,6 +271,7 @@ exports.authUser = (req, res) => {
                     name: user.name,
                     email: user.email,
                     role: user.role,
+                    publish: user.publish,
                 },
             });
         });

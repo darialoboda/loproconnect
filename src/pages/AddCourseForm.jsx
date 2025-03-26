@@ -19,7 +19,9 @@ export default function AddCourseForm() {
   const navigate = useNavigate();
 
   const { user, canRender } = useAuth();
-  const isTeacherActive = user?.role === "teacher" && user?.status === "yes"; // Перевірка на активного вчителя
+  const isTeacherActive = user?.role === "teacher" && user?.publish === "yes"; // Перевірка на активного вчителя
+  console.log("user: ", user);
+  console.log("isTeacherActive: ", isTeacherActive);
 
   const CourseSchema = Yup.object().shape({
     title: Yup.string().required("Názov kurzu je povinný").max(100, "Názov kurzu môže mať maximálne 100 znakov"),
@@ -33,7 +35,7 @@ export default function AddCourseForm() {
 
   useEffect(() => {
     if (!isTeacherActive) {
-      toast.error("Your account is not active or is blocked. You cannot add courses.");
+      toast.error("Váš účet nie je aktívny alebo je zablokovaný. Nemôžete pridávať kurzy.");
       setTimeout(() => {
         navigate("/profile");
       }, 3000);
@@ -61,18 +63,18 @@ export default function AddCourseForm() {
     })
       .then((response) => {
         if (response.ok) {
-          toast.success("Kurz bol úspešne pridaný");
+          toast.success("Nová téma bola úspešne pridaná.");
           resetForm();
           setTimeout(() => {
             navigate('/courses');
           }, 2000);
         } else {
-          toast.error("Nepodarilo sa pridať kurz");
+          toast.error("Nepodarilo sa pridať tému");
         }
       })
       .catch((error) => {
-        console.error("Chyba pri pridávaní kurzu:", error);
-        toast.error("Chyba pri pridávaní kurzu");
+        console.error("Chyba pri pridávaní témy:", error);
+        toast.error("Chyba pri pridávaní témy");
       });
   }
 
@@ -111,7 +113,7 @@ export default function AddCourseForm() {
                     <Field
                       name="title"
                       as={TextField}
-                      label="Názov kurzu"
+                      label="Názov témy"
                       fullWidth
                       error={touched.title && !!errors.title}
                       helperText={<ErrorMessage name="title" />}
@@ -130,8 +132,8 @@ export default function AddCourseForm() {
                       error={touched.publish && Boolean(errors.publish)}
                       helperText={touched.publish && errors.publish}
                     >
-                      <MenuItem value="no">No</MenuItem>
-                      <MenuItem value="yes">Yes</MenuItem>
+                      <MenuItem value="no">Nie</MenuItem>
+                      <MenuItem value="yes">Ano</MenuItem>
                     </TextField>
                   </div>
 
@@ -150,7 +152,7 @@ export default function AddCourseForm() {
                     <Field
                       name="description"
                       as={TextField}
-                      label="Popis kurzu"
+                      label="Popis témy"
                       multiline
                       rows={4}
                       fullWidth
@@ -177,7 +179,7 @@ export default function AddCourseForm() {
                   </div>
 
                   <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <Typography variant="body1">Súbory kurzu (voliteľné):</Typography>
+                    <Typography variant="body1">Súbory (voliteľné):</Typography>
                     <IconButton color="primary" component="label">
                       <AttachFile />
                       <input
@@ -213,9 +215,9 @@ export default function AddCourseForm() {
                   </div>
 
                   <div className="form-group">
-                    <Button type="submit" variant="contained" color="primary" disabled={!isTeacherActive}>
+                    <button type="submit" className="btn" disabled={!isTeacherActive}>
                       Pridať tému
-                    </Button>
+                    </button>
                   </div>
                 </Form>
               )}

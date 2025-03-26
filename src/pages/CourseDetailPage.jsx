@@ -81,11 +81,10 @@ export default function CourseDetailPage() {
   return (
     <div className={`course-detail ${darkMode ? "dark-mode" : "light-mode"}`}>
 
-      <div className="navigation-buttons" style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+      <div className="navigation-buttons d-flex gap-20 flex-items-center">
         <button
           onClick={() => navigate(-1)}
-          className="btn-back"
-          style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#007BFF" }}
+          className="btn btn-ghost flex-stretch btn-back"
           title=" Späť"
         >
           <AiOutlineArrowLeft />
@@ -96,8 +95,7 @@ export default function CourseDetailPage() {
           <>
             <button
               onClick={() => navigate(`/edit-course/${id}`)}
-              className="btn-edit"
-              style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#28a745" }}
+              className="btn btn-ghost flex-stretch btn-edit"
               title="Upraviť temu "
             >
               <AiOutlineEdit />
@@ -105,15 +103,15 @@ export default function CourseDetailPage() {
         
             <button
               onClick={() => navigate((test?.id) ? `/edit-test/${test.id}` : `/test-form`)}
-              className="btn-edit"
-              style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#28a745" }}
+              className="btn btn-ghost flex-stretch btn-edit"
+              // style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: "#28a745" }}
               title="Upraviť test"
             >
               <AiOutlineAppstoreAdd />
             </button>
           </>
         }
-        <button onClick={toggleTheme} className="theme-toggle" title="Zmeniť tému">
+        <button onClick={toggleTheme} className="btn btn-ghost flex-stretch theme-toggle" title="Zmeniť tému">
           {darkMode ? <FaSun /> : <FaMoon />}
         </button>
 
@@ -182,9 +180,6 @@ export default function CourseDetailPage() {
         <p>
           <strong>Vytvorené: </strong>{" "}
           {new Date(course.created_at).toLocaleDateString()}
-        </p>
-        <p>
-          <strong>Autor:</strong> Користувач #{course.created_by}
         </p>
       </div>
 

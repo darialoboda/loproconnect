@@ -67,17 +67,17 @@ export default function EditCourse() {
     })
       .then((response) => {
         if (response.ok) {
-          toast.success("Kurz bol úspešne aktualizovaný");
+          toast.success("Téma bola úspešne aktualizovaná");
           setTimeout(() => {
             navigate(`/course/${id}`);
           }, 2000);
         } else {
-          toast.error("Nepodarilo sa aktualizovať kurz");
+          toast.error("Nepodarilo sa aktualizovať tému");
         }
       })
       .catch((error) => {
         console.error("Chyba pri aktualizácii kurzu:", error);
-        toast.error("Chyba pri aktualizácii kurzu");
+        toast.error("Chyba pri aktualizácii témy");
       });
   };
 
@@ -88,7 +88,7 @@ export default function EditCourse() {
   );
 
   if (!initialValues) {
-    return <p>Načítavanie údajov kurzu...</p>;
+    return <p>Načítavanie údajov témy...</p>;
   }
 
   return (
@@ -140,8 +140,8 @@ export default function EditCourse() {
                       error={touched.publish && Boolean(errors.publish)}
                       helperText={touched.publish && errors.publish}
                     >
-                      <MenuItem value="no">No</MenuItem>
-                      <MenuItem value="yes">Yes</MenuItem>
+                      <MenuItem value="no">nie</MenuItem>
+                      <MenuItem value="yes">áno</MenuItem>
                     </TextField>
                   </div>
 
@@ -149,7 +149,7 @@ export default function EditCourse() {
                     <Field
                       name="videoLink"
                       as={TextField}
-                      label="Odkaz na video (voliteľné)"
+                      label="Odkáz na video (voliteľné)"
                       fullWidth
                       error={touched.videoLink && !!errors.videoLink}
                       helperText={<ErrorMessage name="videoLink" />}
@@ -160,7 +160,7 @@ export default function EditCourse() {
                     <Field
                       name="description"
                       as={TextField}
-                      label="Popis kurzu"
+                      label="Popis témy"
                       multiline
                       rows={4}
                       fullWidth
@@ -171,7 +171,7 @@ export default function EditCourse() {
 
                   
                   <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <Typography variant="body1">Obrázok kurzu:</Typography>
+                    <Typography variant="body1">Obrázok témy:</Typography>
                     <IconButton
                       color="primary"
                       aria-label="upload picture"
@@ -188,7 +188,7 @@ export default function EditCourse() {
                   </div>
 
                   <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <Typography variant="body1">Súbory kurzu (voliteľné):</Typography>
+                    <Typography variant="body1">Súbory(voliteľné):</Typography>
                     <IconButton
                       color="primary"
                       aria-label="upload files"
@@ -212,9 +212,9 @@ export default function EditCourse() {
                       controls={[
                         ['bold', 'italic', 'underline', 'strike', 'clean'],
                         ['h3', 'h4'],
-                        ['unorderedList', 'orderedList'], // Списки
+                        ['unorderedList', 'orderedList'], 
                         ['link'],
-                        // ['link', 'image'],
+                        
                       ]}
                     />
                     <Typography variant="body2" color="textSecondary" style={{ marginTop: "10px" }}>
@@ -225,9 +225,9 @@ export default function EditCourse() {
 
 
                   <div className="form-group">
-                    <Button type="submit" variant="contained" color="primary">
+                    <button type="submit" className="btn">
                     Uložiť zmeny 
-                    </Button>
+                    </button>
                   </div>
                 </Form>
               )}

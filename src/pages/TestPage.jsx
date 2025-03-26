@@ -159,54 +159,22 @@ const TestPage = () => {
             </Form>
           )}
         </Formik>
-        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 3 }}>
-          <Button
-            variant="outlined"
-            color="secondary"
+        <Box className="d-flex flex-center gap-20 mt-40">
+          <button
+            className='btn btn-ghost'
             onClick={() => navigate(-1)}
-            sx={{
-              fontSize: '0.75rem',
-              padding: '4px 10px',  // Зменшені відступи
-              borderRadius: '20px', // Закруглені кути
-              border: '1px solid #333',
-              color: '#333',
-              backgroundColor: 'transparent',
-              textTransform: 'none',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                color: '#fff',
-                backgroundColor: '#333',
-                borderColor: '#333',
-              },
-            }}
           >
             Späť na kurz
-          </Button>
+          </button>
 
           {
             canRender(course.created_by) &&
-              <Button
-                variant="outlined"
-                color="primary"
+              <button
+                className='btn'
                 onClick={() => navigate(`/edit-test/${test.id}`)}
-                sx={{
-                  fontSize: '0.75rem', // Зменшений розмір тексту
-                  padding: '4px 10px', // Менші відступи
-                  borderRadius: '20px', // Закруглені кути
-                  border: '1px solid #333', // Тонка сіра рамка
-                  color: '#333', // Темно-сірий текст
-                  backgroundColor: 'transparent',
-                  textTransform: 'none', // Вимкнути великі букви
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    color: '#fff',
-                    backgroundColor: '#333',
-                    borderColor: '#333',
-                  },
-                }}
               >
                 Upraviť test
-              </Button>
+              </button>
           }
 
         </Box>

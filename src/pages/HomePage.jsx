@@ -47,9 +47,10 @@ export default function HomePage() {
         <Container>
           <div className="banner-hold">
             <h1>Objavte svet technológií <br />s nízkou spotrebou energie</h1>
-            <a href="#courses" className="cta-primary">
+            <a href="#courses" className="btn mt-40">
               Zistiť viac
             </a>
+
           </div>
         </Container>
       </section>
@@ -58,6 +59,7 @@ export default function HomePage() {
         <Container>
           <div className="courses-hold">
             <h2>Prečo práve tento kurz?</h2>
+
             <div className="course-cards">
               <div className="card">
                 <FontAwesomeIcon icon={faTools} className="card-icon" />

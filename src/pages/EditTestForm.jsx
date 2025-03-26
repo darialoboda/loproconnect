@@ -114,37 +114,32 @@ const EditTestForm = () => {
                             </Box>
                           ))}
                         </RadioGroup>
-                        {/* <Button type="button" variant="outlined" color="secondary" onClick={() => remove(index)} sx={{ mt: 2 }}>
-                          Odstrániť otázku
-                        </Button> */}
                       </Box>
                     ))}
-                    <Button
-                      type="button"
-                      variant="contained"
-                      color="primary"
-                      onClick={() =>
-                        push({
-                          questionText: "",
-                          options: ["", "", "", ""],
-                          correctAnswerIndex: 0,
-                        })
-                      }
-                      sx={{ mt: 2 }}
-                    >
-                      Pridať otázku
-                    </Button>
+                    <div className="d-flex flex-items-center gap-10 mt-20">
+                      <button
+                        type="button"
+                        className="btn"
+                        onClick={() =>
+                          push({
+                            questionText: "",
+                            options: ["", "", "", ""],
+                            correctAnswerIndex: 0,
+                          })
+                        }
+                      >
+                        Pridať otázku
+                      </button>
+                      <button type="submit" className="btn">
+                        Uložiť zmeny
+                      </button>
+                      <IconButton color="error" onClick={() => setOpenModal(true)}>
+                        <AiOutlineDelete size={24} />
+                      </IconButton>
+                    </div>
                   </>
                 )}
               </FieldArray>
-              <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
-                <Button type="submit" variant="contained" color="primary">
-                  Uložiť zmeny
-                </Button>
-              </Box>
-              <IconButton color="error" onClick={() => setOpenModal(true)}>
-                  <AiOutlineDelete size={24} />
-                </IconButton>
             </Form>
           )}
         </Formik>
@@ -152,16 +147,16 @@ const EditTestForm = () => {
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover draggable />
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
         <Box sx={{ p: 4, backgroundColor: "white", margin: "10% auto", width: "300px", borderRadius: "8px" }}>
-          <Typography variant="h6" component="h2">
+          <Typography variant="h6" component="h2" className="text-center">
             Ste si istí, že chcete odstrániť tento test?
           </Typography>
-          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
-            <Button onClick={() => setOpenModal(false)} sx={{ mr: 1 }}>
+          <Box className="mt-20 d-flex flex-center gap-20">
+            <button onClick={() => setOpenModal(false)} className="btn btn-gray btn-sm">
               Zrušiť
-            </Button>
-            <Button variant="contained" color="error" onClick={deleteTest}>
+            </button>
+            <button className="btn btn-red btn-sm" onClick={deleteTest}>
               Odstrániť
-            </Button>
+            </button>
           </Box>
         </Box>
       </Modal>

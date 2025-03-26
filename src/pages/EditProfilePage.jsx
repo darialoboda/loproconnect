@@ -23,7 +23,7 @@ const EditProfilePage = () => {
     }),
   });
 
-  // Завантаження профілю (свого або іншого користувача)
+ 
   useEffect(() => {
     if (!user) {
       navigate("/login");
@@ -67,10 +67,10 @@ const EditProfilePage = () => {
     }
   };
 
-  // Показуємо завантаження, якщо дані ще не прийшли
+
   if (!profile) return <p>Завантаження...</p>;
 
-  // Захист: не адміністратор намагається редагувати чужий профіль
+ 
   if (id && !isAdmin) {
     navigate("/profile");
     return null;
@@ -115,9 +115,9 @@ const EditProfilePage = () => {
               )}
               {touched.publish && errors.publish && <div className="error-text">{errors.publish}</div>}
 
-              <div className="buttons">
-                <button type="submit" className="btn save">Uložiť</button>
-                <button type="button" className="btn cancel" onClick={() => navigate("/profile")}>Zrušiť</button>
+              <div className="buttons mt-20 d-flex">
+                <button type="submit" className="btn flex-stretch"> Uložiť</button>
+                <button type="button" className="btn flex-stretch btn-gray" onClick={() => navigate("/profile")}>Zrušiť</button>
               </div>
             </Form>
           )}

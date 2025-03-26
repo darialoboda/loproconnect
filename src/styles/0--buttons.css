@@ -1,4 +1,91 @@
-/* v1 */
+.btn {
+	--color: var(--color-white);
+	--bg: var(--color-primary);
+	--border-size: 1px;
+	--border-color: var(--bg);
+	--border-radius: var(--base-radius);
+	--width: 40px;
+	--height: var(--base-height);
+	--font-weight: 500;
+	--font-size: var(--base-fz);
+	--padding: 0 24px;
+	--gap: 8px;
+
+	--hover-color: var(--color-white);
+	--hover-bg: var(--color-primary-hover);
+	--hover-border-color: var(--hover-bg);
+
+
+	border: var(--border-size) solid var(--border-color);
+	border-radius: var(--border-radius);
+	min-width: var(--width);
+	height: var(--height);
+	font-weight: var(--font-weight);
+	font-size: var(--font-size);
+	padding: var(--padding);
+	gap: var(--gap);
+	background-color: var(--bg);
+	color: var(--color);
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	transition: 0.3s;
+	cursor: pointer;
+	outline: none;
+	font-family: inherit;
+	position: relative;
+}
+
+.btn:hover {
+	color: var(--hover-color);
+	background-color: var(--hover-bg);
+	border-color: var(--hover-border-color);
+}
+
+.btn:disabled {
+	opacity: 0.4;
+}
+
+.btn-sm {
+    --font-size: var(--sm-base-fz);
+	--border-radius: var(--sm-base-radius);
+	--height: var(--sm-base-height);
+	--padding: 0 14px;
+}
+
+.btn-icon {
+	--width: var(--height);
+	--padding: 0;
+}
+
+.btn-round {
+	--border-radius: 100px;
+}
+
+.btn-red {
+	--bg: #e74c3c;
+	--hover-bg: #c0392b;
+}
+
+.btn-gray {
+	--bg: #ecf0f1;
+	--color: var(--color-black);
+	--hover-bg: #bdc3c7;
+}
+
+.btn-ghost {
+	--bg: transparent;
+	--color: var(--color-primary);
+	--hover-bg: var(--color-primary);
+	--hover-color: var(--color-white)
+}
+
+.btn-edit {
+	--color: #28a745;
+}
+
+
+/* 
 .cta-button {
     background-color: #ffd700;
     padding: 10px 15px;
@@ -13,7 +100,6 @@
 }
 
 
-/* v2 */
 .cta-primary {
     background-color: #ffd700;
     color: #020d16;
@@ -32,7 +118,6 @@
 }
 
 
-/* v3 */
 button {
     background-color: #333;
     color: #fff;
@@ -50,8 +135,6 @@ button:hover {
     transform: translateY(-3px);
 }
 
-
-/* v4 */
 .learn-more-button {
     background-color: #333;
     color: #fff;
@@ -69,4 +152,4 @@ button:hover {
     align-items: center;
     justify-content: center;
     border-radius: 8px !important;
-}
+} */

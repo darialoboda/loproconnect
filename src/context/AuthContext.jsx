@@ -85,13 +85,12 @@ export const AuthProvider = ({ children }) => {
                     const updatedUser = { ...user, ...userData };
                     setUser(updatedUser);
                     localStorage.setItem('user', JSON.stringify(updatedUser));
-                    toast.success("Профіль оновлено!");
+                    toast.success("Profil bol aktualizovaný!");
                 } else {
-                    toast.error(data.error || "Не вдалося оновити профіль!");
+                    toast.error(data.error || "Nepodarilo sa aktualizovať profil!офіль!");
                 }
             } catch (error) {
-                console.error('Error updating user:', error);
-                toast.error("Сталася помилка при оновленні профілю.");
+                toast.error("Pri aktualizácii profilu sa vyskytla chyba.");
             }
         }
     };

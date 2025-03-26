@@ -93,7 +93,7 @@ const AddTestForm = () => {
           {({ values, errors, touched, setFieldValue }) => (
             <Form>
               <FormControl fullWidth margin="normal" error={touched.course_id && !!errors.course_id}>
-                <InputLabel>Course</InputLabel>
+                <InputLabel>Kurz</InputLabel>
                 <Field name="course_id" as={Select} label="Course">
                   {courses.map((course) => (
                       <MenuItem key={course.id} value={course.id}>

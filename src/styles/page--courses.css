@@ -26,19 +26,9 @@
 }
 
 .search-bar input {
-  padding: 12px;
-  width: 50%;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
+  max-width: 50%;
 }
 
-.search-bar input:focus {
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
-  outline: none;
-}
 
 .search-icon {
   font-size: 1.5rem;
@@ -249,24 +239,6 @@
   color: #666;
 }
 
-.btn-back,
-.btn-test {
-  display: block;
-  margin: 15px auto;
-  padding: 12px 25px;
-  font-size: 1rem;
-  font-weight: bold;
-  text-align: center;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+.navigation-buttons .btn {
+  --font-size: 1.5rem; 
 }
-
-.btn-back:hover,
-.btn-test:hover {
-  background-color: #0056b3;
-}
-

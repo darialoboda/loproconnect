@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { apiUrl, getData } from "../../../utils/utils";
+import { apiUrl, getData, getStatusColor } from "../../../utils/utils";
 import { Link } from "react-router-dom";
 
 export default function Users({ user }) {
@@ -12,19 +12,6 @@ export default function Users({ user }) {
     }
     getUsers();
   }, []);
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'yes':
-        return 'Published';
-      case 'no':
-        return 'Unpublished';
-      case 'canceled':
-        return 'Canceled';
-      default:
-        return '-';
-    }
-  };
 
   return (
     <div className="users-container">

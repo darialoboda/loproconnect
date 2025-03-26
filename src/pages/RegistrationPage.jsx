@@ -45,6 +45,8 @@ export default function RegistrationPage() {
 
             if (response.ok) {
                 toast.success("Registrácia bola úspešná!"); // Показуємо успішне повідомлення
+                if (userRole === "teacher") {
+                    toast.info("Počkajte, kým admin schváli váš účet.");
                 setUsername(""); // Очищаємо форму
                 setEmail("");
                 setPassword("");
@@ -55,7 +57,7 @@ export default function RegistrationPage() {
             } else {
                 toast.error("Registrácia zlyhala. Skúste to znova."); // Показуємо помилку
             }
-        } catch (error) {
+        }} catch (error) {
             console.error("Error:", error);
             toast.error("Niečo sa pokazilo. Skúste to znova."); // Показуємо помилку
         }
@@ -103,7 +105,7 @@ export default function RegistrationPage() {
                                     />
                                 </div>
                                 <div className="role-selection" style={{ textAlign: 'center' }}>
-                                    <p>Vyber svoju rolu:</p>
+                                    <p>Vyber si svoju rolu:</p>
                                     <div className="role-options" style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
                                         <label className={`role-option ${userRole === "user" ? "selected" : ""}`} style={{ cursor: 'pointer' }}>
                                             <input
@@ -142,8 +144,6 @@ export default function RegistrationPage() {
                     </div>
                 </div>
             </Container>
-
-            {/* Додаємо ToastContainer для відображення повідомлень */}
             <ToastContainer />
         </div>
     );

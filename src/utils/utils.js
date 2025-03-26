@@ -44,4 +44,17 @@ export function extractYouTubeVideoId(url) {
     const match = url.match(/(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/);
     return match ? match[1] : null;
 }
-  
+
+
+export function getStatusColor (status) {
+    switch (status) {
+      case 'yes':
+        return 'Publikované';
+      case 'no':
+        return 'Nezverejnené';
+      case 'canceled':
+        return 'Zrušené';
+      default:
+        return '-';
+    }
+  };

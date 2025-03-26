@@ -8,7 +8,7 @@ const EditProfileForm = ({ initialValues, onSubmit, onCancel }) => {
     validationSchema: Yup.object({
       name: Yup.string().required("Meno je povinné"),
       email: Yup.string().email("Nesprávny email").required("Email je povinný"),
-      // role: Yup.string().required("Rola je povinná"),
+     
       password: Yup.string()
         .min(8, "Heslo musí mať aspoň 8 znakov")
         .matches(/^(?=.*[A-Z])(?=.*\d)/, "Heslo musí obsahovať aspoň jedno veľké písmeno a číslo"),
@@ -97,25 +97,6 @@ const EditProfileForm = ({ initialValues, onSubmit, onCancel }) => {
                 },
               }}
             />
-            {/* <TextField
-              fullWidth
-              label="Rola"
-              name="role"
-              value={formik.values.role}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.role && Boolean(formik.errors.role)}
-              helperText={formik.touched.role && formik.errors.role}
-              InputLabelProps={{
-                style: { color: "#fff", fontWeight: "bold" },
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  backgroundColor: "rgba(255, 255, 255, 0.7)",
-                  borderRadius: 2,
-                },
-              }}
-            /> */}
             <TextField
               fullWidth
               label="Nové heslo (voliteľné)"

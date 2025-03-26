@@ -6,6 +6,7 @@ import UserRole from "../components/roles/user/UserRole";
 import TeacherRole from "../components/roles/teacher/TeacherRole";
 import AdminRole from "../components/roles/admin/AdminRole";
 import { FaSun, FaMoon } from "react-icons/fa"; // Іконки для теми
+import { getStatusColor } from "../utils/utils";
 
 const UserProfilePage = () => {
   const { user, logout } = useAuth();
@@ -58,11 +59,20 @@ const UserProfilePage = () => {
           <h2 className="user-name">{user?.name || "Neznámy používateľ"}</h2>
           <p className="user-info">{user?.email || "Žiadny e-mail"}</p>
           <p className="user-info">Rola: {user?.role || "Neznáma"}</p>
+          {
+            user?.role === 'teacher' && 
+              <p className="user-info">
+                Status:
+                <span className={`user-status status-${user.publish}`}>
+                  {getStatusColor(user.publish)}
+                </span>
+              </p>
+          }
           <div className="buttons">
-            <Link className="button edit-btn" to="/edit-profile">
+            <Link className="btn btn-sm" to="/edit-profile">
               Upraviť
             </Link>
-            <button className="button logout-btn" onClick={handleLogout}>
+            <button className="btn btn-red btn-sm" onClick={handleLogout}>
               Odhlásiť sa
             </button>
           </div>
