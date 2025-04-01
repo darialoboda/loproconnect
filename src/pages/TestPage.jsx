@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 import { Button, Container, Paper, Typography, Radio, FormControlLabel, RadioGroup, Box, Modal } from '@mui/material';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import { useParams, useNavigate } from 'react-router-dom';
 import { apiUrl, getData } from '../utils/utils';
 import { useAuth } from '../context/AuthContext';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TestPage = () => {
   const { id } = useParams();
@@ -14,13 +15,10 @@ const TestPage = () => {
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
   const [open, setOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
   const [userAnswers, setUserAnswers] = useState([]);
   
   const { user, canRender } = useAuth();
-  
   const navigate = useNavigate();
-
 
   useEffect(() => {
     async function fetchTestData() {
@@ -37,15 +35,8 @@ const TestPage = () => {
     fetchTestData();
   }, [id]);
 
-  const validationSchema = Yup.object().shape({
-    answers: Yup.array()
-      .of(Yup.string().required("Musíte vybrať odpoveď"))
-      .required("Musíte odpovedať na všetky otázky"),
-  });
-
   const handleSubmit = async (values) => {
     let correctCount = 0;
-
     const answersWithStatus = test.questions.map((question, index) => {
       const userAnswer = values.answers[index];
       const isCorrect = userAnswer === question.options[question.correctAnswerIndex];
@@ -82,7 +73,6 @@ const TestPage = () => {
 
   if (!test) return <Typography variant="h5" align="center">Načítava sa test...</Typography>;
 
-  // Для модалки
   const data = [
     { name: 'Správne odpovede', value: Number(score) },
     { name: 'Nesprávne odpovede', value: 100 - Number(score) }
@@ -91,12 +81,18 @@ const TestPage = () => {
 
   return (
     <Container component="main" maxWidth="md">
+      <ToastContainer />
       <Paper elevation={2} sx={{ mt: 8, p: 4, borderRadius: '12px' }}>
         <Typography variant="h4" align="center" gutterBottom>{test.title}</Typography>
         <Formik
           initialValues={{ answers: Array(test.questions.length).fill("") }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
+          onSubmit={(values) => {
+            if (values.answers.some(answer => answer === "")) {
+              toast.error("Musíte odpovedať na všetky otázky pred odoslaním!");
+              return;
+            }
+            handleSubmit(values);
+          }}
         >
           {({ values }) => (
             <Form>
@@ -113,7 +109,6 @@ const TestPage = () => {
                           const isCorrect = submitted && question.correctAnswerIndex === optionIndex;
                           const isWrong = submitted && isSelected && !isCorrect;
                           return (
-
                             <FormControlLabel
                               key={optionIndex}
                               value={option}
@@ -131,53 +126,18 @@ const TestPage = () => {
                 </Box>
               ))}
               {!submitted && user?.role === "user" && (
-                <Button
-                  type="submit"
-                  variant="outlined"
-                  color="primary"
-                  sx={{
-                    mt: 3,
-                    fontSize: '0.75rem',  // Зменшений розмір тексту
-                    padding: '4px 10px',   // Менші відступи
-                    borderRadius: '20px',  // Закруглені кути
-                    border: '1px solid #333',  // Тонка сіра рамка
-                    color: '#333',  // Темно-сірий текст
-                    backgroundColor: 'transparent',
-                    textTransform: 'none',  // Вимкнути великі букви
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      color: '#fff',
-                      backgroundColor: '#333',
-                      borderColor: '#333',
-                    },
-                  }}
-                >
-                  Potvrdiť odoslanie
-                </Button>
-
+                <div>
+                  <button 
+                    type="submit"
+                    className="btn mt-40"
+                  >
+                    Potvrdiť odoslanie
+                  </button>
+                </div>
               )}
             </Form>
           )}
         </Formik>
-        <Box className="d-flex flex-center gap-20 mt-40">
-          <button
-            className='btn btn-ghost'
-            onClick={() => navigate(-1)}
-          >
-            Späť na kurz
-          </button>
-
-          {
-            canRender(course.created_by) &&
-              <button
-                className='btn'
-                onClick={() => navigate(`/edit-test/${test.id}`)}
-              >
-                Upraviť test
-              </button>
-          }
-
-        </Box>
       </Paper>
 
       <Modal open={open} onClose={() => setOpen(false)}>
@@ -191,7 +151,7 @@ const TestPage = () => {
             </Pie>
             <Tooltip />
           </PieChart>
-          <Button variant="contained" sx={{ mt: 2, fontSize: '0.875rem', padding: '6px 12px' }} onClick={() => setOpen(false)}>
+          <Button variant="contained" sx={{ mt: 2 }} onClick={() => setOpen(false)}>
             Zatvoriť
           </Button>
         </Paper>

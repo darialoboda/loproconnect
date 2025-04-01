@@ -4,8 +4,8 @@ import Container from "../components/Container";
 import { apiUrl } from "../utils/utils";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify"; // Імпортуємо ToastContainer
-import "react-toastify/dist/ReactToastify.css"; // Імпортуємо стилі Toastify
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function RegistrationPage() {
     const navigate = useNavigate();
@@ -15,17 +15,41 @@ export default function RegistrationPage() {
         navigate('/profile');
     }
 
-    const [userRole, setUserRole] = useState(""); // State для ролі користувача
-    const [username, setUsername] = useState(""); // State для імені
-    const [email, setEmail] = useState(""); // State для email
-    const [password, setPassword] = useState(""); // State для пароля
+    const [userRole, setUserRole] = useState("");
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleRoleChange = (event) => {
         setUserRole(event.target.value);
     };
 
+    const validatePassword = (password) => {
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const isLongEnough = password.length > 6;
+
+        if (!hasUpperCase) {
+            toast.error("Heslo musí obsahovať aspoň jedno veľké písmeno.");
+            return false;
+        }
+        if (!hasNumber) {
+            toast.error("Heslo musí obsahovať aspoň jedno číslo.");
+            return false;
+        }
+        if (!isLongEnough) {
+            toast.error("Heslo musí mať dĺžku aspoň 7 znakov.");
+            return false;
+        }
+        return true;
+    };
+
     const handleSubmit = async (event) => {
-        event.preventDefault(); // Запобігаємо перезавантаженню сторінки
+        event.preventDefault();
+
+        if (!validatePassword(password)) {
+            return;
+        }
 
         const newUser = {
             name: username,
@@ -44,22 +68,23 @@ export default function RegistrationPage() {
             });
 
             if (response.ok) {
-                toast.success("Registrácia bola úspešná!"); // Показуємо успішне повідомлення
+                toast.success("Registrácia bola úspešná!");
                 if (userRole === "teacher") {
                     toast.info("Počkajte, kým admin schváli váš účet.");
-                setUsername(""); // Очищаємо форму
+                }
+                setUsername("");
                 setEmail("");
                 setPassword("");
-                setUserRole(""); // Очищаємо вибір ролі
+                setUserRole("");
                 setTimeout(() => {
-                    navigate("/login"); // Перенаправляємо на сторінку входу
+                    navigate("/login");
                 }, 2000);
             } else {
-                toast.error("Registrácia zlyhala. Skúste to znova."); // Показуємо помилку
+                toast.error("Registrácia zlyhala. Skúste to znova.");
             }
-        }} catch (error) {
+        } catch (error) {
             console.error("Error:", error);
-            toast.error("Niečo sa pokazilo. Skúste to znova."); // Показуємо помилку
+            toast.error("Niečo sa pokazilo. Skúste to znova.");
         }
     };
 
@@ -135,7 +160,6 @@ export default function RegistrationPage() {
                                         </label>
                                     </div>
                                 </div>
-
                                 <button type="submit" style={{ width: '150px', margin: '20px auto', display: 'block', backgroundColor: '#ebcd09', color: 'white', padding: '10px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
                                     Zaregistrovať sa
                                 </button>

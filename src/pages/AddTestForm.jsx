@@ -93,7 +93,7 @@ const AddTestForm = () => {
           {({ values, errors, touched, setFieldValue }) => (
             <Form>
               <FormControl fullWidth margin="normal" error={touched.course_id && !!errors.course_id}>
-                <InputLabel>Kurz</InputLabel>
+                <InputLabel>Téma</InputLabel>
                 <Field name="course_id" as={Select} label="Course">
                   {courses.map((course) => (
                       <MenuItem key={course.id} value={course.id}>
@@ -107,12 +107,12 @@ const AddTestForm = () => {
                   <>
                     {values.questions.map((question, index) => (
                       <Box key={index} sx={{ mt: 2, p: 2, border: "1px solid #ccc" }}>
-                        <Typography variant="h6">Question {index + 1}</Typography>
+                        <Typography variant="h6">Otázka {index + 1}</Typography>
                         <Field name={`questions.${index}.questionText`}>
                           {({ field }) => (
                             <TextField
                               {...field}
-                              label="Question Text"
+                              label="Text otázky"
                               fullWidth
                               margin="normal"
                               error={
@@ -142,7 +142,7 @@ const AddTestForm = () => {
                                 {({ field }) => (
                                   <TextField
                                     {...field}
-                                    label={`Option ${optionIndex + 1}`}
+                                    label={`Možnosť ${optionIndex + 1}`}
                                     fullWidth
                                     margin="normal"
                                     error={
@@ -159,38 +159,24 @@ const AddTestForm = () => {
                             </Box>
                           ))}
                         </RadioGroup>
-                        <Button
-                          type="button"
-                          variant="outlined"
-                          color="secondary"
-                          onClick={() => remove(index)}
-                          sx={{ mt: 2 }}
+                        <button className="btn btn-sm" onClick={() => remove(index)}
                         >
-                          Odstrániť otázku
-                        </Button>
+                          Odstrániť otázku</button>
                       </Box>
                     ))}
-                    <Button
-                      type="button"
-                      variant="contained"
-                      color="primary"
-                      onClick={() =>
+                    <button className="btn btn-sm mr-20" onClick={() =>
                         push({
                           questionText: "",
                           options: ["", "", "", ""],
                           correctAnswerIndex: 0,
                         })
                       }
-                      sx={{ mt: 2 }}
-                    >
-                      Pridať otázku
-                    </Button>
+                    > Pridať otázku
+                      </button>
                   </>
                 )}
               </FieldArray>
-              <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
-              Odoslať
-              </Button>
+              <button className="btn btn-ghost flex-stretch btn-back-sm" > Odoslať </button>
             </Form>
           )}
         </Formik>

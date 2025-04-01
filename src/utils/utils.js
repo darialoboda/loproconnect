@@ -49,11 +49,11 @@ export function extractYouTubeVideoId(url) {
 export function getStatusColor (status) {
     switch (status) {
       case 'yes':
-        return 'Publikované';
+        return 'schválené';
       case 'no':
-        return 'Nezverejnené';
+        return 'čaká na schválenie';
       case 'canceled':
-        return 'Zrušené';
+        return 'zrušené';
       default:
         return '-';
     }

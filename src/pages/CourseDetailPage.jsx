@@ -183,14 +183,25 @@ export default function CourseDetailPage() {
         </p>
       </div>
 
-      {test?.id && user?.role === "user" && (
-        <div className="course-tests">
-          <button onClick={handleTestClick} className="btn-test">
-            Otestovat sa
-          </button>
+      {test?.id ? (
+        user?.role === "user" ? (
+          <div className="course-tests">
+            <button onClick={handleTestClick} className="btn btn-sm">
+              Otestovať sa
+            </button>
+          </div>
+        ) : (
+          <div className="course-tests">
+            <p>
+              Otestovať sa môže iba prihlásený používateľ.{' '}
+              <a href="/login" className="text-blue-500 underline">
+                Prihlásiť sa
+              </a>
+            </p>
+          </div>
+        )
+      ) : null}
 
-        </div>
-      )}
     </div>
   );
 }

@@ -46,10 +46,10 @@ export default function Messages() {
                 <td><small>{teacher.created_at.slice(0, 10)}</small></td>
                 <td className="actions-cell">
                   <div className="actions-buttons">
-                    <button className="activate-btn" onClick={() => handleStatusChange(teacher.id, "yes")}>
+                    <button className="btn btn-sm" onClick={() => handleStatusChange(teacher.id, "yes")}>
                       Aktivovať
                     </button>
-                    <button className="reject-btn" onClick={() => handleStatusChange(teacher.id, "canceled")}>
+                    <button className="btn btn-sm" onClick={() => handleStatusChange(teacher.id, "canceled")}>
                       Odmietnuť
                     </button>
                   </div>
